@@ -1,8 +1,11 @@
 node_modules/
+coverage/
+.nyc_output/
+tmp/
 *.tgz
 *.log
 .*
 
+test/
 package-lock.json
 yarn.lock
-

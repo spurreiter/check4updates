@@ -1,0 +1,16 @@
+{
+  "name": "test-file",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Unlicense",
+  "dependencies": {
+    "@test/debug": "file:test-debug-2.1.0.tgz",
+    "mydebug": "file:debug/mydebug-1.0.0.tgz"
+  }
+}
