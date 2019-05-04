@@ -4,12 +4,15 @@ const get = require('lodash.get')
 
 const mode = 'npm'
 
-const prepare = () => spawn('npm', ['config', 'list', '--json'])
-  .then(out => {
-    const opts = JSON.parse(out)
-    const { registry, cache } = opts
-    return { registry, cache }
-  })
+const prepare = () => {
+  const cmd = process.platform === 'win32' ? 'npm.cmd' : 'npm'
+  return spawn(cmd, ['config', 'list', '--json'])
+    .then(out => {
+      const opts = JSON.parse(out)
+      const { registry, cache } = opts
+      return { registry, cache }
+    })
+}
 
 /**
  * @param {string} pckg - package name

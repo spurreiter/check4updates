@@ -67,9 +67,7 @@ function check ({
   progressBar
 } = {}) {
   dirname = dirname || process.cwd()
-  const pckg = new PckgJson({
-    dirname
-  })
+  const pckg = new PckgJson({ dirname })
   return pckg.read({ prod, dev, peer })
     .then(packages => incexc({ packages, include, exclude }))
     .then(queryVersions(progressBar, dirname))
