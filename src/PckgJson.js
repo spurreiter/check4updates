@@ -65,7 +65,7 @@ class PckgJson {
 
   write (packages = {}) {
     this.content = this._merge(this.content, packages)
-    const str = JSON.stringify(this.content, null, 2)
+    const str = JSON.stringify(this.content, null, 2) + '\n'
     return fsWriteFile(this.filename, str, 'utf8')
   }
 }
