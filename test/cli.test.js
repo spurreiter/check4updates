@@ -20,14 +20,14 @@ describe('cli', function () {
     [['one', 'two', 'three'], { include: ['one', 'two', 'three'] }],
     [['--peer'], { peer: true }],
     [['--dev'], { dev: true }],
-    [['--dep'], { dep: true }],
-    [['--minor', '--dep', '-d', '/test', '--exclude', 'one'], {
+    [['--prod'], { prod: true }],
+    [['--minor', '--prod', '-d', '/test', '--exclude', 'one'], {
       dirname: '/test',
       exclude: ['one'],
       major: false,
       minor: true,
       patch: false,
-      dep: true
+      prod: true
     }]
   ]
   tests.forEach(test => {

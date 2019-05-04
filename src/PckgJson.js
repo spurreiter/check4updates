@@ -18,7 +18,7 @@ class PckgJson {
     const fields = []
     if (opts.peer) fields.push('peerDependencies')
     if (opts.dev) fields.push('devDependencies')
-    if (opts.dep) fields.push('dependencies')
+    if (opts.prod) fields.push('dependencies')
     return fields
   }
 
@@ -51,8 +51,8 @@ class PckgJson {
   }
 
   read (opts = {}) {
-    if (!opts.dep && !opts.dev && !opts.peer) {
-      opts = { dep: true, dev: true, peer: true }
+    if (!opts.prod && !opts.dev && !opts.peer) {
+      opts = { prod: true, dev: true, peer: true }
     }
     return fsReadFile(this.filename, 'utf8')
       .then(str => JSON.parse(str))

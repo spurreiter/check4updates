@@ -57,7 +57,7 @@ function check ({
   update,
   include,
   exclude,
-  dep,
+  prod,
   dev,
   peer,
   patch,
@@ -70,7 +70,7 @@ function check ({
   const pckg = new PckgJson({
     dirname
   })
-  return pckg.read({ dep, dev, peer })
+  return pckg.read({ prod, dev, peer })
     .then(packages => incexc({ packages, include, exclude }))
     .then(queryVersions(progressBar, dirname))
     .then(calcVersions)

@@ -29,7 +29,7 @@ describe('#PckgJson', function () {
     const pckg = new PckgJson({
       dirname: `${__dirname}/fixtures/test`
     })
-    return pckg.read({ dep: true }).then(packages => {
+    return pckg.read({ prod: true }).then(packages => {
       log(packages)
       assert.deepStrictEqual(packages, {
         debug: '^3.0.0',

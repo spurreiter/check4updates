@@ -31,7 +31,7 @@ function help () {
     --major               update by major version
     --minor               update by minor version
     --patch               update by patch version
-    --dep                 only dependencies
+    --prod                only dependencies
     --dev                 only devDependencies
     --peer                only peerDependencies
 

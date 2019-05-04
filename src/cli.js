@@ -60,8 +60,8 @@ function cli (argv = process.argv.slice(2)) {
         o.dev = true
         break
       }
-      case '--dep': {
-        o.dep = true
+      case '--prod': {
+        o.prod = true
         break
       }
       case '-u':
