@@ -6,7 +6,7 @@ Yet another dependency checker / updater...
 
 This one supports:
 
-- public npm repository
+- public / private npm repository
 - local tgz packages
 - taged git versions on github/ gitlab/ bitbucket (thank you [uWebSockets.js][])
 

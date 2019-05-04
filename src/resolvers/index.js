@@ -16,21 +16,27 @@ const {
 } = require('./git')
 
 const {
+  prepare: npmPrepare,
   versions: npmVersions,
   range: npmRange
 } = require('./npm')
 
-const factory = (pckg, range, { dirname }) => {
+const resolverPrepare = () => {
+  return npmPrepare()
+    .then(npmOpts => ({ npmOpts }))
+}
+
+const resolver = (pckg, range, { dirname, npmOpts }) => {
   if (fileTest(range)) {
     return fileVersions(pckg, range, { dirname })
   } else if (gitTest(range)) {
     return gitVersions(pckg, range)
   } else {
-    return npmVersions(pckg, range)
+    return npmVersions(pckg, range, npmOpts)
   }
 }
 
-const factoryRange = (aVersionsO, type) => {
+const resolverRange = (aVersionsO, type) => {
   const packages = aVersionsO.reduce((o, versionO) => {
     if (!versionO.error) {
       const { package: pckg, mode } = versionO
@@ -53,6 +59,7 @@ const factoryRange = (aVersionsO, type) => {
 }
 
 module.exports = {
-  factory,
-  factoryRange
+  resolverPrepare,
+  resolver,
+  resolverRange
 }

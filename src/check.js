@@ -1,20 +1,24 @@
 const { eachLimit } = require('asyncc-promise')
 const { PckgJson } = require('./PckgJson')
-const { factory, factoryRange } = require('./resolvers')
+const { resolverPrepare, resolver, resolverRange } = require('./resolvers')
 const { maxSatisfying } = require('./semver')
 const { incexc } = require('./incexc')
 const log = require('debug')('check4updates:check')
 
 const queryVersions = (progressBar, dirname) => packages => {
-  log(packages)
-  const total = Object.keys(packages).length
-  const progress = total && progressBar && progressBar(total)
-  const limit = Math.min(10, total / 2 | 0)
+  return resolverPrepare()
+    .then(({ npmOpts }) => {
+      log(npmOpts)
+      log(packages)
+      const total = Object.keys(packages).length
+      const progress = total && progressBar && progressBar(total)
+      const limit = Math.min(10, total / 2 | 0)
 
-  return eachLimit(limit, Object.entries(packages), ([pckg, range]) => {
-    progress && progress.tick()
-    return factory(pckg, range, { dirname })
-  })
+      return eachLimit(limit, Object.entries(packages), ([pckg, range]) => {
+        progress && progress.tick()
+        return resolver(pckg, range, { dirname, npmOpts })
+      })
+    })
 }
 
 const calcVersions = results => {
@@ -33,7 +37,7 @@ const calcRange = (patch, minor, major) => results => {
       : major
         ? 'major'
         : 'max'
-  const packages = factoryRange(results, type)
+  const packages = resolverRange(results, type)
   log('packages', packages)
   return { results, packages, type }
 }

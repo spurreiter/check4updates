@@ -58,10 +58,10 @@ const ttyout = ({ update } = {}) => ({ results, type = 'max' }) => {
     return !r.error && pass
   }).sort(byPackageName)
 
-  if (!filtered.length) {
+  if (!filtered.length && !errors.length) {
     return cr + spacer + `All dependencies match the package versions...` + cr
   } else {
-    const pckgInfo = filtered.map(r => {
+    const pckgInfo = !filtered.length ? '' : filtered.map(r => {
       const _pckg = r.package.padEnd(max.pckg)
       const _range = r.range.replace(/\s/g, '').padStart(max.range)
       const _version = (!r.wildcard ? ' ' : '') + colorVersion(r[type], r.range, r.wildcard)
@@ -72,7 +72,7 @@ const ttyout = ({ update } = {}) => ({ results, type = 'max' }) => {
       ? ''
       : errors.sort(byPackageName).map(r => {
         const _pckg = r.package.padEnd(max.pckg)
-        return spacer + `${_pckg}  \u{2192}  ${chalk.red(r.error.message.substr(0, 40))}`
+        return spacer + `${_pckg}  \u{2192}  ${chalk.red('ERROR: ' + r.error.message)}`
       }).join(cr) + cr + cr
 
     const updateInfo = spacer + (

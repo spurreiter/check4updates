@@ -1,13 +1,21 @@
+const spawn = require('spawn-please')
 const { packument } = require('pacote')
 const get = require('lodash.get')
 
 const mode = 'npm'
 
+const prepare = () => spawn('npm', ['config', 'list', '--json'])
+  .then(out => {
+    const opts = JSON.parse(out)
+    const { registry, cache } = opts
+    return { registry, cache }
+  })
+
 /**
  * @param {string} pckg - package name
  * @returns {Promise<Versions>}
  */
-const versions = (pckg, range) => packument(pckg)
+const versions = (pckg, range, opts) => packument(pckg, opts)
   .then(data => ({
     mode,
     package: pckg,
@@ -34,6 +42,7 @@ const range = (versionO, type) => {
 }
 
 module.exports = {
+  prepare,
   versions,
   range
 }
