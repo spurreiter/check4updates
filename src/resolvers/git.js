@@ -22,8 +22,11 @@ const getSemver = val => (RE_VERSION.exec(val) || [])[1]
 
 const gitRemoteTags = range => {
   const url = hostedUrl(range)
+  const sshurl = url.replace(/^https?:\/\//, 'ssh://git@')
   log(url)
-  return spawn('git', ['ls-remote', '--tags', url])
+  // try first ssh-url then with the https url
+  return spawn('git', ['ls-remote', '--tags', sshurl])
+    .catch(() => spawn('git', ['ls-remote', '--tags', url]))
 }
 
 /**
