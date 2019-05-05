@@ -30,11 +30,11 @@ c4u [options] [package ...]
   --major               update by major version
   --minor               update by minor version
   --patch               update by patch version
-  --dep                 only dependencies
+  --prod                only dependencies
   --dev                 only devDependencies
   --peer                only peerDependencies
 
-  package               package name to include/ exclude
+  package               package name to include / exclude
 
 examples:
 
@@ -50,7 +50,7 @@ examples:
 
 ## api
 
-See `src/check.js` for
+See `src/check.js` for usage.
 
 
 ## license
