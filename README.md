@@ -12,6 +12,7 @@ This one supports:
 
 For other similar tools see:
 
+- `npm outdated`
 - [npm-check][]
 - [npm-check-updates][]
 
