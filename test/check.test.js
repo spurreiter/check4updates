@@ -43,7 +43,7 @@ describe('check', function () {
           patch: '3.2.6',
           package: 'debug'
         }, {
-          final: 'github:npm/hosted-git-info#2.7.1',
+          final: 'github:npm/hosted-git-info#v2.7.1',
           patch: '2.7.1',
           package: 'hosted-git-info'
         }, {
@@ -55,12 +55,12 @@ describe('check', function () {
           patch: '5.2.0',
           package: 'mocha'
         }, {
-          final: 'file:../file/debug/mydebug-1.0.0.tgz',
-          patch: '1.0.0',
+          final: 'file:../file/debug/mydebug-1.1.0-rc.3.tgz',
+          patch: '1.1.0-rc.3',
           package: 'mydebug'
         }, {
-          final: '^2.0.0',
-          patch: '2.0.0',
+          final: '^2.7.38',
+          patch: '2.7.38',
           package: 'pacote'
         }, {
           final: '^5.7.0',
