@@ -5,12 +5,24 @@ const log = require('debug')('test:git')
 
 describe('#git', function () {
   const ranges = [
-    ['git@github.com:npm/hosted-git-info.git#v1.0.0', true, 'https://github.com/npm/hosted-git-info.git'],
-    ['github:npm/hosted-git-info', true, 'https://github.com/npm/hosted-git-info.git'],
-    ['git+https://github.com/npm/hosted-git-info.git', true, 'https://github.com/npm/hosted-git-info.git'],
-    ['git+ssh://git@github.com/npm/hosted-git-info.git', true, 'https://github.com/npm/hosted-git-info.git'],
-    ['git@github.com:npm/hosted-git-info.git', true, 'https://github.com/npm/hosted-git-info.git'],
-    ['https://github.com/npm/hosted-git-info/archive/v1.2.0.tar.gz', false, undefined]
+    ['git@github.com:npm/hosted-git-info.git#v1.0.0',
+      true,
+      'git+ssh://git@github.com/npm/hosted-git-info.git'],
+    ['github:npm/hosted-git-info',
+      true,
+      'https://github.com/npm/hosted-git-info.git'],
+    ['git+https://github.com/npm/hosted-git-info.git',
+      true,
+      'https://github.com/npm/hosted-git-info.git'],
+    ['git+ssh://git@github.com/npm/hosted-git-info.git',
+      true,
+      'git+ssh://git@github.com/npm/hosted-git-info.git'],
+    ['git@github.com:npm/hosted-git-info.git',
+      true,
+      'git+ssh://git@github.com/npm/hosted-git-info.git'],
+    ['https://github.com/npm/hosted-git-info/archive/v1.2.0.tar.gz',
+      false,
+      undefined]
   ]
 
   describe('hostedUrl', function () {

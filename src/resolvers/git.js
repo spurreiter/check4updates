@@ -12,21 +12,28 @@ const RE_VERSION = /([0-9]+\.[0-9]+\.[0-9]+(?:-.*|))/
  * @private
  */
 const hostedUrl = range => {
-  const o = fromUrl(range)
-  return o && o.https()
-    .replace(/^git\+/, '')
-    .replace(/#[^/]*$/, '')
+  let url
+  const hgi = fromUrl(range)
+  if (hgi) {
+    if (hgi.default === 'sshurl') {
+      // git+ssh://git@github.com/account/repo.git#v6.1.0
+      url = hgi.sshurl()
+    } else {
+      // github:account/repo.git#v6.1.0
+      // https://github.com/account/repo.git#v6.1.0
+      url = hgi.https().replace(/^git\+/, '')
+    }
+    url = url.replace(/#[^/]*$/, '')
+  }
+  return url
 }
 
 const getSemver = val => (RE_VERSION.exec(val) || [])[1]
 
 const gitRemoteTags = range => {
   const url = hostedUrl(range)
-  const sshurl = url.replace(/^https?:\/\//, 'ssh://git@')
   log(url)
-  // try first ssh-url then with the https url
-  return spawn('git', ['ls-remote', '--tags', sshurl])
-    .catch(() => spawn('git', ['ls-remote', '--tags', url]))
+  return spawn('git', ['ls-remote', '--tags', url])
 }
 
 /**
