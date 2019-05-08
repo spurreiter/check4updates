@@ -1,5 +1,7 @@
 # check4updates
 
+[![NPM version](https://badge.fury.io/js/check4updates.svg)](https://www.npmjs.com/package/check4updates/)
+
 > Check and update package dependencies.
 
 Yet another dependency checker / updater...
