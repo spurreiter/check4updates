@@ -6,7 +6,7 @@ const log = require('debug')('check4updates:resolvers:git')
 
 const mode = 'git'
 
-const RE_VERSION = /([0-9]+\.[0-9]+\.[0-9]+(?:-.*|))/
+const RE_VERSION = /([0-9]+\.[0-9]+\.[0-9]+(?:-[^{}^]*|))/
 
 /**
  * @private
@@ -105,5 +105,6 @@ module.exports = {
   test,
   versions,
   range,
-  hostedUrl
+  hostedUrl,
+  getSemver
 }

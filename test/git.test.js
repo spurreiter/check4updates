@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { hostedUrl, test, versions, range } = require('../src/resolvers/git')
+const { hostedUrl, test, versions, range, getSemver } = require('../src/resolvers/git')
 
 const log = require('debug')('test:git')
 
@@ -37,6 +37,19 @@ describe('#git', function () {
     ranges.forEach(([range, exp]) => {
       it(range, function () {
         assert.strictEqual(test(range), exp)
+      })
+    })
+  })
+
+  describe('getSemver', function () {
+    const tests = [
+      ['1.0.0-1^{}', '1.0.0-1'],
+      ['0.1.0-beta1^{}', '0.1.0-beta1'],
+      ['0.1.0-rc.1-01^{}', '0.1.0-rc.1-01']
+    ]
+    tests.forEach(([tag, exp]) => {
+      it(`shall extract semver from ${tag}`, function () {
+        assert.strictEqual(getSemver(tag), exp)
       })
     })
   })
