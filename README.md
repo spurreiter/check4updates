@@ -42,12 +42,24 @@ examples:
 
   c4u
                         show packages to update by max possible version
-  c4u -u debug
-                        update package "debug"
+  c4u -u debug npm
+                        update package "debug" and "npm"
   c4u -u -x debug semver
                         update all packages excluding "debug" and "semver"
   c4u --minor --dev
                         show minor version updates in devDependencies
+
+supported URLs in dependencies:
+
+  git+ssh://git@github.com:npm/cli#semver:^5.0
+  git+https://user@github.com/npm/cli.git#semver:^5.0
+  git+ssh://git@github.com:npm/cli.git#semver:1.0.27
+  git://github.com/npm/cli.git#semver:~1.0.27
+  github:npm/cli#semver:~1.0.27
+  https://github.com/npm/cli/archive/v1.0.27.tar.gz
+
+  file:test/my-debug-1.0.0.tgz
+
 ```
 
 ## api
