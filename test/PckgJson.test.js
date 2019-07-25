@@ -21,7 +21,7 @@ describe('#PckgJson', function () {
         mocha: '^5',
         superagent: '^3.0.0',
         mydebug: 'file:../file/debug/mydebug-1.1.0-4.tgz',
-        'hosted-git-info': 'github:npm/hosted-git-info#v2.1.0'
+        'hosted-git-info': 'github:npm/hosted-git-info#semver:^2.1.0'
       })
     })
   })
@@ -37,7 +37,7 @@ describe('#PckgJson', function () {
         'lodash.get': '^3.6.9',
         pacote: '^2.1.2',
         semver: '^5.0',
-        'hosted-git-info': 'github:npm/hosted-git-info#v2.1.0'
+        'hosted-git-info': 'github:npm/hosted-git-info#semver:^2.1.0'
       })
     })
   })
@@ -60,6 +60,7 @@ describe('#PckgJson', function () {
     return pckg.read({ peer: true }).then(packages => {
       log(packages)
       assert.deepStrictEqual(packages, {
+        'hosted-git-info': 'github:npm/hosted-git-info#v2.1.0',
         superagent: '^3.0.0'
       })
     })

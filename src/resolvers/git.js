@@ -7,6 +7,7 @@ const log = require('debug')('check4updates:resolvers:git')
 const mode = 'git'
 
 const RE_VERSION = /([0-9]+\.[0-9]+\.[0-9]+(?:-[^{}^]*|))/
+const RE_SEMVER_RANGE = /#semver:([~^]|)([0-9]+\.[0-9]+\.[0-9]+(?:-[^{}^]*|))/
 
 /**
  * @private
@@ -29,6 +30,8 @@ const hostedUrl = range => {
 }
 
 const getSemver = val => (RE_VERSION.exec(val) || [])[1]
+
+const getSemverRange = val => (RE_SEMVER_RANGE.exec(val) || []).slice(1)
 
 const gitRemoteTags = range => {
   const url = hostedUrl(range)
@@ -59,18 +62,19 @@ const versions = (pckg, range) => {
   const _range = range // store org value
   // create semver range
   range = getSemver(_range)
-  range = range ? '^' + range : '*'
+  const svRange = getSemverRange(_range)[0] || '^'
+  range = range ? svRange + range : '*'
 
   return gitRemoteTags(_range)
     .then(tags => {
       const _versions = tags.split(/[\r\n]/)
         .map(t => {
-          const [ _0, ref ] = t.split(/\s+/) // eslint-disable-line no-unused-vars
+          const [_0, ref] = t.split(/\s+/) // eslint-disable-line no-unused-vars
           return getSemver(ref)
         })
         .filter(Boolean)
       const versions = Array.from(new Set(_versions))
-      log(versions)
+      log('%j', { pckg, versions })
 
       return {
         mode,

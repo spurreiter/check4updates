@@ -5,8 +5,8 @@ const { maxSatisfying } = require('./semver')
 const { incexc } = require('./incexc')
 const log = require('debug')('check4updates:check')
 
-const queryVersions = (progressBar, dirname) => packages => {
-  return resolverPrepare()
+const queryVersions = (progressBar, dirname, npmOpts) => packages => {
+  return resolverPrepare(npmOpts)
     .then(({ npmOpts }) => {
       log(npmOpts)
       log(packages)
@@ -24,19 +24,25 @@ const queryVersions = (progressBar, dirname) => packages => {
 const calcVersions = results => {
   return results.map(pckg => {
     log('package "%s"', pckg.package)
-    const res = Object.assign({}, pckg, maxSatisfying(pckg.versions, pckg.range))
+    const res = Object.assign(
+      {},
+      pckg,
+      maxSatisfying(pckg.versions, pckg.range, pckg.latest)
+    )
     return res
   })
 }
 
-const calcRange = (patch, minor, major) => results => {
+const calcRange = ({ patch, minor, major, max }) => results => {
   const type = patch
     ? 'patch'
     : minor
       ? 'minor'
       : major
         ? 'major'
-        : 'max'
+        : max
+          ? 'max'
+          : 'latest'
   const packages = resolverRange(results, type)
   log('packages', packages)
   return { results, packages, type }
@@ -63,16 +69,19 @@ function check ({
   patch,
   minor,
   major,
+  latest,
+  max,
   cli,
   progressBar
 } = {}) {
   dirname = dirname || process.cwd()
   const pckg = new PckgJson({ dirname })
+  const npmOpts = {} // future use
   return pckg.read({ prod, dev, peer })
     .then(packages => incexc({ packages, include, exclude }))
-    .then(queryVersions(progressBar, dirname))
+    .then(queryVersions(progressBar, dirname, npmOpts))
     .then(calcVersions)
-    .then(calcRange(patch, minor, major))
+    .then(calcRange({ patch, minor, major, max }))
     .then(updatePckg(update, pckg))
 }
 

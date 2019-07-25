@@ -25,15 +25,16 @@ const colorVersion = (version, range, wildcard = '') => {
   if (!semver.satisfies(version, range)) {
     return chalk.red(wildcard + version)
   } else if ((r = parse(range))) {
-    let v = parse(version)
+    const v = parse(version)
     let i = 0
     for (; i < 3; i++) {
       if (v[i] !== r[i]) break
     }
+    const color = i === 1 ? 'cyan' : 'green'
     return wildcard +
       v.slice(0, i).join('.') +
       (i < 3 ? '.' : '') +
-      chalk.green(v.slice(i, 3).join('.')) +
+      chalk[color](v.slice(i, 3).join('.')) +
       v[3]
   } else {
     return wildcard + version

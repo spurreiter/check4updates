@@ -8,7 +8,13 @@ describe('#git', function () {
     ['git@github.com:npm/hosted-git-info.git#v1.0.0',
       true,
       'git+ssh://git@github.com/npm/hosted-git-info.git'],
+    ['git@github.com:npm/hosted-git-info.git#semver:~1.0.0',
+      true,
+      'git+ssh://git@github.com/npm/hosted-git-info.git'],
     ['github:npm/hosted-git-info',
+      true,
+      'https://github.com/npm/hosted-git-info.git'],
+    ['git+https://github.com/npm/hosted-git-info.git#semver:^1.0.0',
       true,
       'https://github.com/npm/hosted-git-info.git'],
     ['git+https://github.com/npm/hosted-git-info.git',
@@ -64,6 +70,16 @@ describe('#git', function () {
           assert.ok(versions.includes('2.7.0'), 'shall include v2.7.0')
         })
     })
+    it('shall get semver versions from remote git', function () {
+      return versions('hosted-git-info', 'github:npm/hosted-git-info#semver:~1.5.1')
+        .then(({ versions, range }) => {
+          log(versions, range)
+          assert.ok(Array.isArray(versions), 'shall be an Array')
+          assert.ok(versions.includes('1.1.0'), 'shall include v1.1.0')
+          assert.ok(versions.includes('2.7.0'), 'shall include v2.7.0')
+          assert.strictEqual(range, '~1.5.1')
+        })
+    })
     it('shall return an error if module not found', function () {
       return versions('hosted-git-info', 'github:test/test/test')
         .then(res => {
@@ -88,6 +104,22 @@ describe('#git', function () {
       }
       const res = range(versionO, 'major')
       assert.strictEqual(res, 'github:npm/hosted-git-info#v1.5.3')
+    })
+
+    it('shall return semver range', function () {
+      const versionO = {
+        package: 'hosted-git-info',
+        range: '^1.2.0',
+        _range: 'github:npm/hosted-git-info#semver:~1.2.0',
+        versions: [],
+        type: '^',
+        max: '2.7.0',
+        major: '1.5.3',
+        minor: '1.2.0',
+        patch: '1.2.0'
+      }
+      const res = range(versionO, 'major')
+      assert.strictEqual(res, 'github:npm/hosted-git-info#semver:~1.5.3')
     })
 
     it('shall use original range', function () {

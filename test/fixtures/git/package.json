@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v15.10.0",
-    "sinon": "git+ssh://git@github.com/sinonjs/sinon.git#v6.1.0"
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#semver:^15.10.0",
+    "sinon": "git+ssh://git@github.com/sinonjs/sinon.git#v6.1.0",
+    "hosted-git-info": "https://github.com/npm/hosted-git-info/archive/v1.5.0.tar.gz#semver:^1.0.0"
   }
 }

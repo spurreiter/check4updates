@@ -1,6 +1,8 @@
 const semver = require('semver')
 const log = require('debug')('check4updates:semver')
 
+const isPreVersion = version => /^\d+\.\d+\.\d+-/.test(version)
+
 const rangeWildcard = range => {
   if (/^~|\d+\.\d+\.x$/.test(range)) {
     return '~'
@@ -32,6 +34,12 @@ const findNext = (versions, range) => {
   return null
 }
 
+const findLatestNonPre = (sorted) => {
+  for (const v of sorted) {
+    if (!isPreVersion(v)) return v
+  }
+}
+
 const _sortVersions = (a, b) => {
   if (semver.gt(a, b)) return -1
   if (a === b) return 0
@@ -42,6 +50,7 @@ const _sortVersions = (a, b) => {
  * @typedef {Object} FoundVersions
  * @property {string} type - version range char `^`, '~'
  * @property {string} max - max available version
+ * @property {string} latest - latest available version
  * @property {string} major - matching major version
  * @property {string} minor - matching minor version
  * @property {string} patch - matching patch version
@@ -50,26 +59,44 @@ const _sortVersions = (a, b) => {
 /**
  * @param {string[]} versions - list of semver versions
  * @param {string} range - semver range
+ * @param {string} latest - latest package version
  * @returns {FoundVersions}
  */
-const maxSatisfying = (versions = [], range) => {
+const maxSatisfying = (versions = [], range, latest) => {
   const _range = semver.validRange(range)
   log('range %j', _range)
-  if (!_range) return null
+  if (!_range) {
+    return null
+  }
   const wildcard = rangeWildcard(range)
   const sorted = versions.sort(_sortVersions)
   const max = sorted[0]
+
   const satisfies = sorted.filter(v => semver.satisfies(v, _range))
   log('satisfies %j', satisfies)
-  const patch = satisfies.length
+
+  const _min = satisfies.length
+    ? satisfies[satisfies.length - 1]
+    : findNext(sorted, range)
+  const _max = satisfies.length
     ? satisfies[0]
     : findNext(sorted, range)
-  if (!patch) return null
-  const minor = semver.maxSatisfying(versions, '~' + patch)
-  const major = semver.maxSatisfying(versions, '^' + patch)
+  if (!_max) {
+    return null
+  }
+
+  const patch = semver.maxSatisfying(versions, `~${_min}`)
+  const minor = semver.maxSatisfying(versions, `^${_max}`)
+  const major = latest && semver.gt(latest, _max)
+    ? semver.maxSatisfying(versions, `<=${latest} >=${_max}`)
+    : semver.maxSatisfying(versions, `>=${_max}`)
+
+  latest = latest || findLatestNonPre(sorted) || max
+
   log('%j', {
     wildcard,
     max,
+    latest,
     major,
     minor,
     patch
@@ -77,6 +104,7 @@ const maxSatisfying = (versions = [], range) => {
   return {
     wildcard,
     max,
+    latest,
     major,
     minor,
     patch

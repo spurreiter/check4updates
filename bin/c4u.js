@@ -28,6 +28,8 @@ function help () {
     --update|-u           update package.json
     --exclude|-x          exclude packages
     --dir|-d <dirname>    use different dirname instead of cwd
+    --max                 update by max version
+    --latest              update by latest version (default)
     --major               update by major version
     --minor               update by minor version
     --patch               update by patch version

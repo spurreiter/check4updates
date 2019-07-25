@@ -1,6 +1,7 @@
 const spawn = require('spawn-please')
 const { packument } = require('pacote')
 const get = require('lodash.get')
+const log = require('debug')('check4updates:resolvers:npm')
 
 const mode = 'npm'
 
@@ -19,12 +20,18 @@ const prepare = () => {
  * @returns {Promise<Versions>}
  */
 const versions = (pckg, range, opts) => packument(pckg, opts)
-  .then(data => ({
-    mode,
-    package: pckg,
-    range,
-    versions: Object.keys(get(data, 'versions', {}))
-  }))
+  .then(data => {
+    const versions = Object.keys(get(data, 'versions', {}))
+    const latest = get(data, 'dist-tags.latest')
+    log('%j', { pckg, latest, versions })
+    return {
+      mode,
+      package: pckg,
+      range,
+      latest,
+      versions
+    }
+  })
   .catch(error => ({
     mode,
     package: pckg,

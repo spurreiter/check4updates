@@ -37,14 +37,13 @@ const versions = (pckg, range, { dirname }) => {
 
   return promisify(fs.readdir)(_dirname)
     .then(files => {
-      log(files)
+      log('files', files)
       const reFile = new RegExp(`^${toFile(pckg)}-` + RE_VERSION.source + RE_EXT.source)
-      log(files, reFile)
       const versions = files.filter(f => reFile.test(f)).map(f => {
         const a = reFile.exec(f)
         return a[1]
       })
-      log(versions)
+      log('%j', { pckg, versions })
       return {
         mode,
         package: pckg,

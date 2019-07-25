@@ -6,8 +6,9 @@ const log = require('debug')('test:npm')
 describe('#npm', function () {
   describe('versions', function () {
     it('shall get versions from npm', function () {
-      return versions('debug').then(({ versions }) => {
+      return versions('debug', '^1.0.1').then(({ versions, ...other }) => {
         log(versions)
+        log(other)
         assert.ok(Array.isArray(versions), 'shall be an Array')
         assert.ok(versions.includes('0.0.1'), 'shall include version 0.0.1')
         assert.ok(versions.includes('3.2.6'), 'shall include version 3.2.6')

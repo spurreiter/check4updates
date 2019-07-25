@@ -21,9 +21,9 @@ const {
   range: npmRange
 } = require('./npm')
 
-const resolverPrepare = () => {
+const resolverPrepare = (npmOpts = {}) => {
   return npmPrepare()
-    .then(npmOpts => ({ npmOpts }))
+    .then(_npmOpts => ({ npmOpts: Object.assign(_npmOpts, npmOpts) }))
 }
 
 const resolver = (pckg, range, { dirname, npmOpts }) => {

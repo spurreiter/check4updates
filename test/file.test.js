@@ -23,7 +23,7 @@ describe('#file', function () {
         .then(({ versions }) => {
           log(versions)
           assert.ok(Array.isArray(versions), 'shall be an Array')
-          assert.deepStrictEqual(versions, [ '1.0.0', '1.1.0-4', '1.1.0-rc.3', '1.1.0-rc' ])
+          assert.deepStrictEqual(versions, ['1.0.0', '1.1.0-4', '1.1.0-rc.3', '1.1.0-rc'])
         })
     })
     it('shall get scoped versions from file', function () {
@@ -31,7 +31,7 @@ describe('#file', function () {
         .then(({ versions }) => {
           log(versions)
           assert.ok(Array.isArray(versions), 'shall be an Array')
-          assert.deepStrictEqual(versions, [ '2.1.0' ])
+          assert.deepStrictEqual(versions, ['2.1.0'])
         })
     })
     it('shall return an error if module not found', function () {

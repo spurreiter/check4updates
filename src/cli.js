@@ -2,7 +2,7 @@ const { resolve } = require('path')
 const { progressBar, ttyout } = require('./ttyout')
 
 const radioVersion = (o, field) => {
-  ;['major', 'minor', 'patch'].forEach(field => { o[field] = false })
+  ;['max', 'latest', 'major', 'minor', 'patch'].forEach(field => { o[field] = false })
   o[field] = true
 }
 
@@ -40,28 +40,18 @@ function cli (argv = process.argv.slice(2)) {
         o.dirname = resolve(process.cwd(), arg)
         break
       }
-      case '--major': {
-        radioVersion(o, 'major')
-        break
-      }
-      case '--minor': {
-        radioVersion(o, 'minor')
-        break
-      }
+      case '--max':
+      case '--latest':
+      case '--major':
+      case '--minor':
       case '--patch': {
-        radioVersion(o, 'patch')
+        radioVersion(o, arg.substring(2))
         break
       }
-      case '--peer': {
-        o.peer = true
-        break
-      }
-      case '--dev': {
-        o.dev = true
-        break
-      }
+      case '--peer':
+      case '--dev':
       case '--prod': {
-        o.prod = true
+        o[arg.substring(2)] = true
         break
       }
       case '-u':
