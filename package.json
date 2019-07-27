@@ -1,6 +1,6 @@
 {
   "name": "check4updates",
-  "version": "1.0.0-3",
+  "version": "1.0.0-4",
   "description": "Check and update package dependencies.",
   "keywords": [],
   "homepage": "https://github.com/spurreiter/check4updates",
