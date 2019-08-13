@@ -84,7 +84,7 @@ describe('#git', function () {
       return versions('hosted-git-info', 'github:test/test/test')
         .then(res => {
           log('%s', res.error)
-          assert.ok(/fatal: unable to access/.test(res.error), 'fatal: unable to access')
+          assert.ok(/fatal: unable to access|fatal: repository/.test(res.error), 'fatal: unable to access')
         })
     })
   })
