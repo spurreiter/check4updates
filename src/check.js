@@ -12,11 +12,14 @@ const queryVersions = (progressBar, dirname, npmOpts) => packages => {
       log(packages)
       const total = Object.keys(packages).length
       const progress = total && progressBar && progressBar(total)
-      const limit = Math.min(10, total / 2 | 0)
+      const limit = Math.min(50, total)
 
       return eachLimit(limit, Object.entries(packages), ([pckg, range]) => {
-        progress && progress.tick()
         return resolver(pckg, range, { dirname, npmOpts })
+          .then(data => {
+            progress && progress.tick()
+            return data
+          })
       })
     })
 }

@@ -3,7 +3,7 @@ const semver = require('semver')
 const ProgressBar = require('progress')
 
 const progressBar = (total) => {
-  const bar = new ProgressBar('[:bar] :current/:total :percent', { total, width: 20, clear: true })
+  const bar = new ProgressBar('[:bar] :current/:total :percent', { total, width: 20, renderThrottle: 0, clear: true })
   bar.render()
   return bar
 }
