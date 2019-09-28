@@ -29,6 +29,8 @@ c4u [options] [package ...]
   --update|-u           update package.json
   --exclude|-x          exclude packages
   --dir|-d <dirname>    use different dirname instead of cwd
+  --max                 update by max version
+  --latest              update by latest version (default)
   --major               update by major version
   --minor               update by minor version
   --patch               update by patch version
@@ -36,7 +38,7 @@ c4u [options] [package ...]
   --dev                 only devDependencies
   --peer                only peerDependencies
 
-  package               package name to include / exclude
+  package               package name to include/ exclude
 
 examples:
 
@@ -59,7 +61,6 @@ supported URLs in dependencies:
   https://github.com/npm/cli/archive/v1.0.27.tar.gz
 
   file:test/my-debug-1.0.0.tgz
-
 ```
 
 ## api
