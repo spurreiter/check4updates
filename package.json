@@ -2,11 +2,27 @@
   "name": "check4updates",
   "version": "1.0.2",
   "description": "Check and update package dependencies.",
-  "keywords": [],
+  "keywords": [
+    "c4u",
+    "check",
+    "dependencies",
+    "dependency",
+    "find",
+    "management",
+    "npm",
+    "package",
+    "package.json",
+    "update",
+    "upgrade",
+    "version"
+  ],
   "homepage": "https://github.com/spurreiter/check4updates",
+  "bugs": {
+    "url": "https://github.com/spurreiter/check4updates/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/spurreiter/check4updates.git"
+    "url": "git+https://github.com/spurreiter/check4updates.git"
   },
   "license": "MIT",
   "author": "spurreiter",
@@ -50,10 +66,7 @@
     "rimraf": "^3.0.0",
     "shelljs": "^0.8.3"
   },
-  "bundledDependencies": [
+  "bundleDependencies": [
     "hosted-git-info"
-  ],
-  "bugs": {
-    "url": "https://github.com/spurreiter/check4updates/issues"
-  }
+  ]
 }
