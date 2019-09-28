@@ -15,7 +15,10 @@ if (cmd.version) {
     .then(results => {
       if (cmd.ttyout) console.log(cmd.ttyout(cmd)(results))
     })
-    .catch(e => console.error(e.message))
+    .catch(e => {
+      console.error(e.message)
+      process.exit(1)
+    })
 }
 
 function help () {

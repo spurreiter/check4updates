@@ -74,7 +74,6 @@ function check ({
   major,
   latest,
   max,
-  cli,
   progressBar
 } = {}) {
   dirname = dirname || process.cwd()
