@@ -253,5 +253,31 @@ describe('#semver', function () {
         patch: '4.4.2'
       })
     })
+    it('shall select max version if latest not available', function () {
+      const versions = ['1.0.0', '1.0.1-0']
+      const res = maxSatisfying(versions, '^1.0.1-0')
+      log(res)
+      assert.deepStrictEqual(res, {
+        wildcard: '^',
+        max: '1.0.1-0',
+        latest: '1.0.1-0',
+        major: '1.0.1-0',
+        minor: '1.0.1-0',
+        patch: '1.0.1-0'
+      })
+    })
+    it('shall select latestStable version if max is not in range', function () {
+      const versions = ['1.0.0', '1.0.1-0']
+      const res = maxSatisfying(versions, '^1.0.0')
+      log(res)
+      assert.deepStrictEqual(res, {
+        wildcard: '^',
+        max: '1.0.1-0',
+        latest: '1.0.0',
+        major: '1.0.0',
+        minor: '1.0.0',
+        patch: '1.0.0'
+      })
+    })
   })
 })

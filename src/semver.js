@@ -34,7 +34,7 @@ const findNext = (versions, range) => {
   return null
 }
 
-const findLatestNonPre = (sorted) => {
+const findLatestStable = (sorted) => {
   for (const v of sorted) {
     if (!isPreVersion(v)) return v
   }
@@ -91,7 +91,8 @@ const maxSatisfying = (versions = [], range, latest) => {
     ? semver.maxSatisfying(versions, `<=${latest} >=${_max}`)
     : semver.maxSatisfying(versions, `>=${_max}`)
 
-  latest = latest || findLatestNonPre(sorted) || max
+  const latestStable = findLatestStable(sorted)
+  latest = latest || (semver.satisfies(max, _range) ? max : latestStable)
 
   log('%j', {
     wildcard,
