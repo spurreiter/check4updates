@@ -50,6 +50,9 @@
     "rimraf": "^3.0.0",
     "shelljs": "^0.8.3"
   },
+  "bundledDependencies": [
+    "hosted-git-info"
+  ],
   "bugs": {
     "url": "https://github.com/spurreiter/check4updates/issues"
   }
