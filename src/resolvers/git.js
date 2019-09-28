@@ -14,7 +14,7 @@ const RE_SEMVER_RANGE = /#semver:([~^]|)([0-9]+\.[0-9]+\.[0-9]+(?:-[^{}^]*|))/
  */
 const hostedUrl = range => {
   let url
-  const hgi = fromUrl(range)
+  const hgi = fromUrl(range, { allowOtherHosts: true })
   if (hgi) {
     if (hgi.default === 'sshurl') {
       // git+ssh://git@github.com/account/repo.git#v6.1.0
