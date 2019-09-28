@@ -66,6 +66,7 @@ function check ({
   update,
   include,
   exclude,
+  filter,
   prod,
   dev,
   peer,
@@ -80,7 +81,7 @@ function check ({
   const pckg = new PckgJson({ dirname })
   const npmOpts = {} // future use
   return pckg.read({ prod, dev, peer })
-    .then(packages => incexc({ packages, include, exclude }))
+    .then(packages => incexc({ packages, include, exclude, filter }))
     .then(queryVersions(progressBar, dirname, npmOpts))
     .then(calcVersions)
     .then(calcRange({ patch, minor, major, max }))

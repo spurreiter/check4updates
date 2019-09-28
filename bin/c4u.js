@@ -9,6 +9,9 @@ if (cmd.version) {
   console.log(cmd.version)
 } else if (cmd.help) {
   help()
+} else if (cmd.error) {
+  console.error(cmd.error)
+  process.exit(1)
 } else {
   cmd.cli = true
   check(cmd)
@@ -30,6 +33,7 @@ function help () {
     --quiet|-q            quiet mode; no console.log
     --update|-u           update package.json
     --exclude|-x          exclude packages
+    --filter|-f <regex>   filter packages by regular expression
     --dir|-d <dirname>    use different dirname instead of cwd
     --max                 update by max version
     --latest              update by latest version (default)

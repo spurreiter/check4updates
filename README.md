@@ -28,6 +28,7 @@ c4u [options] [package ...]
   --quiet|-q            quiet mode; no console.log
   --update|-u           update package.json
   --exclude|-x          exclude packages
+  --filter|-f <regex>   filter packages by regular expression
   --dir|-d <dirname>    use different dirname instead of cwd
   --max                 update by max version
   --latest              update by latest version (default)

@@ -6,6 +6,13 @@ const radioVersion = (o, field) => {
   o[field] = true
 }
 
+const startsWithDash = (str) => str && str[0] === '-'
+
+const error = (o, msg) => {
+  o.error = msg
+  return o
+}
+
 function cli (argv = process.argv.slice(2)) {
   const o = {
     _packages: []
@@ -32,12 +39,11 @@ function cli (argv = process.argv.slice(2)) {
       }
       case '-d':
       case '--dir': {
-        const arg = argv.shift()
-        if (!arg || arg[0] === '-') {
-          console.error('--dir needs dirname')
-          process.exit(1)
+        const arg1 = argv.shift()
+        if (!arg1 || startsWithDash(arg1)) {
+          return error(o, `option "${arg}" needs dirname`)
         }
-        o.dirname = resolve(process.cwd(), arg)
+        o.dirname = resolve(process.cwd(), arg1)
         break
       }
       case '--max':
@@ -64,7 +70,19 @@ function cli (argv = process.argv.slice(2)) {
         o._exclude = true
         break
       }
+      case '-f':
+      case '--filter': {
+        const arg1 = argv.shift()
+        if (!arg1 || startsWithDash(arg1)) {
+          return error(o, `option "${arg}" needs filter`)
+        }
+        o.filter = new RegExp(arg1, 'i')
+        break
+      }
       default: {
+        if (startsWithDash(arg)) {
+          return error(o, `unknown option "${arg}"`)
+        }
         o._packages.push(arg)
         break
       }

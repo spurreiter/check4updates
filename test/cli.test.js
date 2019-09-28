@@ -32,6 +32,9 @@ describe('cli', function () {
       minor: true,
       patch: false,
       prod: true
+    }],
+    [['--filter', 'chalk|debug'], {
+      filter: /chalk|debug/i
     }]
   ]
   tests.forEach(test => {
@@ -42,5 +45,17 @@ describe('cli', function () {
         .forEach(key => delete res[key])
       assert.deepStrictEqual(res, exp)
     })
+  })
+  it('shall set error if no dirname provided', function () {
+    const res = cli(['--dir', '-error'])
+    assert.strictEqual(res.error, 'option "--dir" needs dirname')
+  })
+  it('shall set error if no filter provided', function () {
+    const res = cli(['-f'])
+    assert.strictEqual(res.error, 'option "-f" needs filter')
+  })
+  it('shall set error on unknown command', function () {
+    const res = cli(['--unknown'])
+    assert.strictEqual(res.error, 'unknown option "--unknown"')
   })
 })

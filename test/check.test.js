@@ -121,4 +121,32 @@ describe('check', function () {
         }])
     })
   })
+
+  it('shall get filtered packages', function () {
+    this.timeout(7000)
+    return check({
+      dirname: `${__dirname}/fixtures/tmp`,
+      minor: true,
+      filter: /chalk|^debug/i
+    }).then(({ type, results }) => {
+      log(type, results)
+
+      const minorV = results.map(r => ({
+        // minor: r.minor,
+        package: r.package,
+        final: r.final
+      })).sort((a, b) => a.package.localeCompare(b.package))
+
+      log(minorV)
+
+      assert.deepStrictEqual(minorV, [
+        {
+          final: '~2.4.2',
+          package: 'chalk'
+        }, {
+          final: '^3.2.6',
+          package: 'debug'
+        }])
+    })
+  })
 })
