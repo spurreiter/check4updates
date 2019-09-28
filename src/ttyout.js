@@ -60,7 +60,7 @@ const ttyout = ({ update } = {}) => ({ results, type = 'max' }) => {
   }).sort(byPackageName)
 
   if (!filtered.length && !errors.length) {
-    return cr + spacer + `All dependencies match the package versions...` + cr
+    return cr + spacer + 'All dependencies match the package versions...' + cr
   } else {
     const pckgInfo = !filtered.length ? '' : filtered.map(r => {
       const _pckg = r.package.padEnd(max.pckg)
@@ -78,8 +78,8 @@ const ttyout = ({ update } = {}) => ({ results, type = 'max' }) => {
 
     const updateInfo = spacer + (
       update
-        ? `Run ${chalk.cyan(`npm i`)}`
-        : `Run ${chalk.cyan(`c4u -u`)} to upgrade package.json`
+        ? `Run ${chalk.cyan('npm i')}`
+        : `Run ${chalk.cyan('c4u -u')} to upgrade package.json`
     ) + cr
 
     return cr + pckgInfo + errorInfo + updateInfo
