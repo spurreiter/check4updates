@@ -35,6 +35,9 @@ describe('cli', function () {
     }],
     [['--filter', 'chalk|debug'], {
       filter: /chalk|debug/i
+    }],
+    [['--Filter', 'chalk|debug'], {
+      filterInv: /chalk|debug/i
     }]
   ]
   tests.forEach(test => {

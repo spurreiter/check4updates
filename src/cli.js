@@ -79,6 +79,15 @@ function cli (argv = process.argv.slice(2)) {
         o.filter = new RegExp(arg1, 'i')
         break
       }
+      case '-F':
+      case '--Filter': {
+        const arg1 = argv.shift()
+        if (!arg1 || startsWithDash(arg1)) {
+          return error(o, `option "${arg}" needs filter`)
+        }
+        o.filterInv = new RegExp(arg1, 'i')
+        break
+      }
       default: {
         if (startsWithDash(arg)) {
           return error(o, `unknown option "${arg}"`)

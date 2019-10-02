@@ -29,6 +29,7 @@ c4u [options] [package ...]
   --update|-u           update package.json
   --exclude|-x          exclude packages
   --filter|-f <regex>   filter packages by regular expression
+  --Filter|-F <regex>   inverse filter packages by regular expression
   --dir|-d <dirname>    use different dirname instead of cwd
   --max                 update by max version
   --latest              update by latest version (default)

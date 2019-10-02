@@ -58,4 +58,37 @@ describe('incexc', function () {
       b: '2'
     })
   })
+  it('shall filter', function () {
+    const res = incexc({
+      packages,
+      filter: /b|c/i
+    })
+    log(res)
+    assert.deepStrictEqual(res, {
+      b: '2',
+      c: '3'
+    })
+  })
+  it('shall filter inverse', function () {
+    const res = incexc({
+      packages,
+      filterInv: /b|c/i
+    })
+    log(res)
+    assert.deepStrictEqual(res, {
+      a: '1',
+      d: '4'
+    })
+  })
+  it('shall filter combined', function () {
+    const res = incexc({
+      packages,
+      filter: /a|b/i,
+      filterInv: /b|c/i
+    })
+    log(res)
+    assert.deepStrictEqual(res, {
+      a: '1'
+    })
+  })
 })
