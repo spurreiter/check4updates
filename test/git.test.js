@@ -80,6 +80,16 @@ describe('#git', function () {
           assert.strictEqual(range, '~1.5.1')
         })
     })
+    it('shall get semver versions from remote git using short semver', function () {
+      return versions('hosted-git-info', 'github:npm/hosted-git-info#semver:^1')
+        .then(({ versions, range }) => {
+          log(versions, range)
+          assert.ok(Array.isArray(versions), 'shall be an Array')
+          assert.ok(versions.includes('1.1.0'), 'shall include v1.1.0')
+          assert.ok(versions.includes('2.7.0'), 'shall include v2.7.0')
+          assert.strictEqual(range, '^1')
+        })
+    })
     it('shall return an error if module not found', function () {
       return versions('hosted-git-info', 'github:test/test/test')
         .then(res => {
