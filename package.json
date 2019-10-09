@@ -45,7 +45,7 @@
     "asyncc-promise": "^1.1.0",
     "chalk": "^2.4.2",
     "debug": "^4.1.1",
-    "hosted-git-info": "git+https://github.com/spurreiter/hosted-git-info.git#semver:3.1.0-0",
+    "hosted-git-info": "git+https://github.com/spurreiter/hosted-git-info.git#semver:3.1.0-1",
     "lodash.get": "^4.4.2",
     "pacote": "^9.5.8",
     "progress": "^2.0.3",
