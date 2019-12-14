@@ -1,4 +1,4 @@
-const spawn = require('spawn-please')
+const spawn = require('./spawn.js')
 
 const { fromUrl } = require('hosted-git-info')
 
@@ -29,7 +29,11 @@ const hostedUrl = range => {
   return url
 }
 
-const getSemver = val => (RE_VERSION.exec(val) || [])[1]
+const getSemver = val => {
+  const sv = RE_SEMVER_RANGE.exec(val)
+  if (sv && sv[2]) return sv[2]
+  return (RE_VERSION.exec(val) || [])[1]
+}
 
 const getSemverRange = val => (RE_SEMVER_RANGE.exec(val) || []).slice(1)
 
@@ -49,11 +53,9 @@ const test = range => {
 }
 
 /**
- * get versions from path obtained by dirname and range
+ * get versions from git obtained by range
  * @param {string} pckg - package name
  * @param {string} range - range value - needs to match `file: ... .tgz`
- * @param {object} param2
- * @param {object} param2.dirname - actual dirname of package.json
  * @returns {Promise<Versions>}
  */
 const versions = (pckg, range) => {

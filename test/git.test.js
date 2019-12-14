@@ -97,6 +97,15 @@ describe('#git', function () {
           assert.ok(/fatal: unable to access|fatal: repository/.test(res.error), 'fatal: unable to access')
         })
     })
+    it('shall not get semver from package name', function () {
+      return versions('next-i18next', 'https://github.com/isaachinman/next-i18next#semver:^2.1')
+        .then(({ versions, _range, range }) => {
+          assert.ok(Array.isArray(versions), 'shall be an Array')
+          assert.ok(versions.includes('1.1.0'), 'shall include v1.1.0')
+          assert.ok(versions.includes('2.1.0'), 'shall include v2.1.0')
+          assert.strictEqual(range, '^2.1')
+        })
+    })
   })
 
   describe('range', function () {

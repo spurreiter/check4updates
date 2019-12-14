@@ -1,4 +1,4 @@
-const spawn = require('spawn-please')
+const spawn = require('./spawn.js')
 const { packument } = require('pacote')
 const get = require('lodash.get')
 const log = require('debug')('check4updates:resolvers:npm')
