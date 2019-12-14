@@ -39,7 +39,8 @@
     "coverage": "nyc -r text npm test",
     "lint": "eslint bin src test",
     "prepublishOnly": "npm run all",
-    "test": "mocha"
+    "test": "mocha",
+    "changelog": "echo \"$(changelog)\\n$(cat CHANGELOG.md)\" > CHANGELOG.md"
   },
   "dependencies": {
     "asyncc-promise": "^1.1.1",
