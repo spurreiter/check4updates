@@ -3,6 +3,7 @@ const { colorVersion, ttyout } = require('../src/ttyout')
 
 describe('#ttyout', function () {
   describe('colorVersion', function () {
+    chalk.default = chalk
     ;[
       { color: 'red', range: '^1.0.0', version: '4.0.0', wildcard: '~' },
       { color: 'red', range: '^1.0.0', version: '1.2.3-beta.0', wildcard: '^' },
