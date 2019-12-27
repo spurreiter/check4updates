@@ -61,6 +61,8 @@ describe('#git', function () {
   })
 
   describe('versions', function () {
+    this.timeout(6000)
+
     it('shall get versions from remote git', function () {
       return versions('hosted-git-info', 'github:npm/hosted-git-info#v1.2.0')
         .then(({ versions }) => {
