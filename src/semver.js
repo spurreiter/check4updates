@@ -91,7 +91,7 @@ const maxSatisfying = (versions = [], range, latest) => {
     ? semver.maxSatisfying(versions, `<=${latest} >=${_max}`)
     : semver.maxSatisfying(versions, `>=${_max}`)
 
-  const latestStable = findLatestStable(sorted)
+  const latestStable = findLatestStable(sorted) || major
   latest = latest || (semver.satisfies(max, _range) ? max : latestStable)
 
   log('%j', {
