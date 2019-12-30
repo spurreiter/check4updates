@@ -1,8 +1,12 @@
 
+## v1.2.5 (2019-12-30)
+
+- fix: file resolver may not show latest [459f077]
+
 ## v1.2.4 (2019-12-25)
 
 - chore: bump deps [53f8943]
-- fix(git): use semver instead of package name [b7d0eba]
+- fix(git): use semver instead of package name [769f0da]
 
 ## v1.2.3 (2019-11-02)
 
