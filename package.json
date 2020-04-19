@@ -1,6 +1,6 @@
 {
   "name": "check4updates",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Check and update package dependencies.",
   "keywords": [
     "c4u",
