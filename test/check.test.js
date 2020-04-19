@@ -98,7 +98,7 @@ describe('check', function () {
           final: '^3.2.6',
           package: 'debug'
         }, {
-          final: 'github:npm/hosted-git-info#semver:^2.8.5',
+          final: 'github:npm/hosted-git-info#semver:^2.8.8',
           package: 'hosted-git-info'
         }, {
           final: '^3.7.0',
