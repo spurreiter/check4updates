@@ -95,10 +95,10 @@ describe('check', function () {
           final: '~2.4.2',
           package: 'chalk'
         }, {
-          final: '^3.2.6',
+          final: '^3.2.7',
           package: 'debug'
         }, {
-          final: 'github:npm/hosted-git-info#semver:^2.8.8',
+          final: 'github:npm/hosted-git-info#semver:^2.8.9',
           package: 'hosted-git-info'
         }, {
           final: '^3.7.0',
@@ -144,7 +144,7 @@ describe('check', function () {
           final: '~2.4.2',
           package: 'chalk'
         }, {
-          final: '^3.2.6',
+          final: '^3.2.7',
           package: 'debug'
         }])
     })
