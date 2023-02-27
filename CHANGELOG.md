@@ -1,3 +1,16 @@
+## [1.2.9](https://github.com/spurreiter/check4updates/compare/v1.2.8...v1.2.9) (2023-02-27)
+
+
+### chore
+
+* regenerate changelog ([4b90649](https://github.com/spurreiter/check4updates/commit/4b9064937495c92b0566f82f28fc325662ecd140))
+
+### fix
+
+* pass on all npm options ([aecd1a5](https://github.com/spurreiter/check4updates/commit/aecd1a5499fca503cdfa93c223ebd481e5a58e3c))
+
+
+
 ## [1.2.8](https://github.com/spurreiter/check4updates/compare/v1.2.7...v1.2.8) (2022-11-12)
 
 
