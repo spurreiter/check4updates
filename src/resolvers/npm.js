@@ -10,8 +10,10 @@ const prepare = () => {
   return spawn(cmd, ['config', 'list', '--json'])
     .then(out => {
       const opts = JSON.parse(out)
-      const { registry, cache } = opts
-      return { registry, cache }
+      // @see https://docs.npmjs.com/cli/v9/using-npm/config#strict-ssl
+      //
+      opts.strictSSL = !!opts['strict-ssl']
+      return opts
     })
 }
 

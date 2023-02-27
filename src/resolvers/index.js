@@ -23,7 +23,7 @@ const {
 
 const resolverPrepare = (npmOpts = {}) => {
   return npmPrepare()
-    .then(_npmOpts => ({ npmOpts: Object.assign(_npmOpts, npmOpts) }))
+    .then(_npmOpts => ({ npmOpts: Object.assign({}, _npmOpts, npmOpts) }))
 }
 
 const resolver = (pckg, range, { dirname, npmOpts }) => {
