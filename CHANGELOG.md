@@ -1,3 +1,12 @@
+## [1.2.10](https://github.com/spurreiter/check4updates/compare/v1.2.9...v1.2.10) (2023-02-27)
+
+
+### chore
+
+* bump hosted-git-info with lru-cache@7 ([ce607e0](https://github.com/spurreiter/check4updates/commit/ce607e08b20f1b02b8e8f7228639b028601291d8))
+
+
+
 ## [1.2.9](https://github.com/spurreiter/check4updates/compare/v1.2.8...v1.2.9) (2023-02-27)
 
 
