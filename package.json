@@ -30,16 +30,16 @@
   "bin": {
     "c4u": "./bin/c4u.js"
   },
+  "directories": {
+    "test": "test"
+  },
   "files": [
     "bin",
     "src"
   ],
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "all": "npm-run-all clean lint test",
-    "changelog": "echo \"$(changelog)\\n$(cat CHANGELOG.md)\" > CHANGELOG.md",
+    "changelog": "conventional-changelog -p eslint -i CHANGELOG.md -s -r1",
     "clean": "rimraf coverage .nyc_output",
     "coverage": "c8 -r text npm test",
     "lint": "eslint --ext .js bin src test",
