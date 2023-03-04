@@ -1,4 +1,5 @@
 const { eachLimit } = require('asyncc-promise')
+const semver = require('semver')
 const { PckgJson } = require('./PckgJson')
 const { resolverPrepare, resolver, resolverRange } = require('./resolvers')
 const { maxSatisfying } = require('./semver')
@@ -36,7 +37,23 @@ const calcVersions = results => {
   })
 }
 
-const calcRange = ({ patch, minor, major, max }) => results => {
+const setIgnoredFlag = ({ results, ignored, type }) => {
+  if (!ignored) {
+    return
+  }
+  results.forEach(res => {
+    const range = ignored[res.package]
+    if (range) {
+      const selectedVersion = res[type]
+      const satisfies = semver.satisfies(selectedVersion, range)
+      if (!satisfies) {
+        res.ignore = true
+      }
+    }
+  })
+}
+
+const calcRange = ({ pckg, patch, minor, major, max }) => results => {
   const type = patch
     ? 'patch'
     : minor
@@ -46,6 +63,10 @@ const calcRange = ({ patch, minor, major, max }) => results => {
         : max
           ? 'max'
           : 'latest'
+
+  const ignored = pckg.getIgnored()
+  setIgnoredFlag({ results, ignored, type })
+
   const packages = resolverRange(results, type)
   log('packages', packages)
   return { results, packages, type }
@@ -85,7 +106,7 @@ function check ({
     .then(packages => incexc({ packages, include, exclude, filter, filterInv }))
     .then(queryVersions(progressBar, dirname, npmOpts))
     .then(calcVersions)
-    .then(calcRange({ patch, minor, major, max }))
+    .then(calcRange({ pckg, patch, minor, major, max }))
     .then(updatePckg(update, pckg))
 }
 

@@ -38,7 +38,7 @@ const resolver = (pckg, range, { dirname, npmOpts }) => {
 
 const resolverRange = (aVersionsO, type) => {
   const packages = aVersionsO.reduce((o, versionO) => {
-    if (!versionO.error) {
+    if (!versionO.error && !versionO.ignore) {
       const { package: pckg, mode } = versionO
       let final
       switch (mode) {

@@ -70,6 +70,6 @@
     "shelljs": "^0.8.5"
   },
   "c4uIgnore": {
-    "chalk": "^4"
+    "chalk": "^4 // version >=5 uses ESM"
   }
 }
