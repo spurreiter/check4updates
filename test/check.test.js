@@ -128,7 +128,7 @@ describe('check', function () {
           ignore: undefined
         },
         { package: 'pacote', final: '^2.7.38', ignore: undefined },
-        { package: 'semver', final: '^5.7.1', ignore: undefined },
+        { package: 'semver', final: '^5.7.2', ignore: undefined },
         { package: 'shelljs', final: undefined, ignore: true },
         { package: 'superagent', final: '^3.8.3', ignore: undefined }
       ])
