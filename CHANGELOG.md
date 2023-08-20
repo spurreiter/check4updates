@@ -1,3 +1,20 @@
+# [1.3.0](https://github.com/spurreiter/check4updates/compare/v1.2.10...v1.3.0) (2023-08-20)
+
+
+### chore
+
+* bump dependencies ([2dee0e7](https://github.com/spurreiter/check4updates/commit/2dee0e7a44c82b26b24bf818840bf2f895b61903))
+
+### feat
+
+* c4uIgnore ([6c4536d](https://github.com/spurreiter/check4updates/commit/6c4536dbbb578566fbc824b95a0117d70513a91e))
+
+### fix
+
+* use hosted-git-info from npm ([bcfe817](https://github.com/spurreiter/check4updates/commit/bcfe817615bd193878cb9cc986dcf1ddc55e74be))
+
+
+
 ## [1.2.10](https://github.com/spurreiter/check4updates/compare/v1.2.9...v1.2.10) (2023-02-27)
 
 
