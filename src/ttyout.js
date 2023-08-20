@@ -20,11 +20,15 @@ const parse = version => {
   return simple
 }
 
-const colorVersion = (version, range, wildcard = '') => {
+const colorVersion = (version, range, wildcard = '', ignore) => {
   let r
+  if (ignore) {
+    return chalk.gray(wildcard + version + ' (ignored)')
+  }
   if (!semver.satisfies(version, range)) {
     return chalk.red(wildcard + version)
-  } else if ((r = parse(range))) {
+  }
+  if ((r = parse(range))) {
     const v = parse(version)
     let i = 0
     for (; i < 3; i++) {
@@ -36,9 +40,9 @@ const colorVersion = (version, range, wildcard = '') => {
       (i < 3 ? '.' : '') +
       chalk[color](v.slice(i, 3).join('.')) +
       v[3]
-  } else {
-    return wildcard + version
   }
+
+  return wildcard + version
 }
 
 const byPackageName = (a, b) => a.package.localeCompare(b.package)
@@ -62,12 +66,14 @@ const ttyout = ({ update } = {}) => ({ results, type = 'max' }) => {
   if (!filtered.length && !errors.length) {
     return cr + spacer + 'All dependencies match the package versions...' + cr
   } else {
+    let needsUpdateCnt = 0
     const pckgInfo = !filtered.length
       ? ''
       : filtered.map(r => {
+        if (!r.ignore) needsUpdateCnt++
         const _pckg = r.package.padEnd(max.pckg)
         const _range = r.range.replace(/\s/g, '').padStart(max.range)
-        const _version = (!r.wildcard ? ' ' : '') + colorVersion(r[type], r.range, r.wildcard)
+        const _version = (!r.wildcard ? ' ' : '') + colorVersion(r[type], r.range, r.wildcard, r.ignore)
         return spacer + `${_pckg}  ${_range}  \u{2192}  ${_version}`
       }).join(cr) + cr + cr
 
@@ -78,11 +84,13 @@ const ttyout = ({ update } = {}) => ({ results, type = 'max' }) => {
         return spacer + `${_pckg}  \u{2192}  ${chalk.red('ERROR: ' + r.error.message)}`
       }).join(cr) + cr + cr
 
-    const updateInfo = spacer + (
-      update
-        ? `Run ${chalk.cyan('npm i')}`
-        : `Run ${chalk.cyan('c4u -u')} to upgrade package.json`
-    ) + cr
+    const updateInfo = needsUpdateCnt
+      ? spacer + (
+        update
+          ? `Run ${chalk.cyan('npm i')}`
+          : `Run ${chalk.cyan('c4u -u')} to upgrade package.json`
+      ) + cr
+      : spacer + 'All dependencies match the desired package versions...' + cr
 
     return cr + pckgInfo + errorInfo + updateInfo
   }

@@ -1,6 +1,6 @@
 # check4updates
 
-[![NPM version](https://badge.fury.io/js/check4updates.svg)](https://www.npmjs.com/package/check4updates/)
+[![npm version][npm-version-badge]][npm-version-badge-link]
 
 > Check and update package dependencies.
 
@@ -10,13 +10,39 @@ This one supports:
 
 - public / private npm repository
 - local tgz packages
-- taged git versions on github/ gitlab/ bitbucket (thank you [uWebSockets.js][])
+- tagged git versions on github/ gitlab/ bitbucket (e.g. [uWebSockets.js][])
+- ignore updates using `c4uIgnore` in `package.json`
 
 For other similar tools see:
 
 - `npm outdated`
 - [npm-check][]
 - [npm-check-updates][]
+
+## ignore updates in package.json
+
+add a `c4uIgnore` field in the `package.json` file, like:
+
+```
+{ ...
+  "c4uIgnore": {
+    "<package-name>": "<allowed-range>[ // optional comment]"
+  }
+}
+```
+
+e.g.
+```json
+{
+  "name": "my-package",
+  "dependecies": {
+    "chalk": "^4.0.0"
+  },
+  "c4uIgnore": {
+    "chalk": "^4 // do not upgrade; ^5 is ESM only support"
+  }
+}
+```
 
 ## cli
 
@@ -77,3 +103,6 @@ MIT licensed
 [npm-check]: https://npmjs.com/package/npm-check
 [npm-check-updates]: https://www.npmjs.com/package/npm-check-updates
 [uWebSockets.js]: https://github.com/uNetworking/uWebSockets.js
+
+[npm-version-badge]: https://badge.fury.io/js/check4updates.svg
+[npm-version-badge-link]: https://www.npmjs.com/package/check4updates

@@ -28,7 +28,8 @@ describe('check', function () {
       const patchV = results.map(r => ({
         patch: r.patch,
         package: r.package,
-        final: r.final
+        final: r.final,
+        ignore: r.ignore
       })).sort((a, b) => a.package.localeCompare(b.package))
 
       log(patchV)
@@ -37,39 +38,58 @@ describe('check', function () {
         {
           final: '~2.1.0',
           patch: '2.1.0',
-          package: 'chalk'
+          package: 'chalk',
+          ignore: undefined
         }, {
           final: '^3.0.1',
           patch: '3.0.1',
-          package: 'debug'
+          package: 'debug',
+          ignore: undefined
+        }, {
+          final: '^3.0.8',
+          package: 'handlebars',
+          patch: '3.0.8',
+          ignore: undefined // patch version can be updated!
         }, {
           final: 'github:npm/hosted-git-info#semver:^2.1.5',
           patch: '2.1.5',
-          package: 'hosted-git-info'
+          package: 'hosted-git-info',
+          ignore: undefined
         }, {
           final: '^3.7.0',
           patch: '3.7.0',
-          package: 'lodash.get'
+          package: 'lodash.get',
+          ignore: undefined
         }, {
           final: '^5.0.5',
           patch: '5.0.5',
-          package: 'mocha'
+          package: 'mocha',
+          ignore: undefined
         }, {
           final: 'file:../file/debug/mydebug-1.1.0-rc.3.tgz',
           patch: '1.1.0-rc.3',
-          package: 'mydebug'
+          package: 'mydebug',
+          ignore: undefined
         }, {
           final: '^2.1.2',
           patch: '2.1.2',
-          package: 'pacote'
+          package: 'pacote',
+          ignore: undefined
         }, {
           final: '^5.0.3',
           patch: '5.0.3',
-          package: 'semver'
+          package: 'semver',
+          ignore: undefined
+        }, {
+          final: undefined,
+          package: 'shelljs',
+          patch: '0.8.5',
+          ignore: true
         }, {
           final: '^3.0.0',
           patch: '3.0.0',
-          package: 'superagent'
+          package: 'superagent',
+          ignore: undefined
         }])
     })
   })
@@ -85,40 +105,74 @@ describe('check', function () {
       const minorV = results.map(r => ({
         // minor: r.minor,
         package: r.package,
-        final: r.final
+        final: r.final,
+        ignore: r.ignore
       })).sort((a, b) => a.package.localeCompare(b.package))
 
       log(minorV)
 
       assert.deepStrictEqual(minorV, [
+        { package: 'chalk', final: '~2.4.2', ignore: undefined },
+        { package: 'debug', final: '^3.2.7', ignore: undefined },
+        { package: 'handlebars', final: '^3.0.8', ignore: undefined },
         {
-          final: '~2.4.2',
-          package: 'chalk'
-        }, {
-          final: '^3.2.7',
-          package: 'debug'
-        }, {
+          package: 'hosted-git-info',
           final: 'github:npm/hosted-git-info#semver:^2.8.9',
-          package: 'hosted-git-info'
-        }, {
-          final: '^3.7.0',
-          package: 'lodash.get'
-        }, {
-          final: '^5.2.0',
-          package: 'mocha'
-        }, {
+          ignore: undefined
+        },
+        { package: 'lodash.get', final: '^3.7.0', ignore: undefined },
+        { package: 'mocha', final: '^5.2.0', ignore: undefined },
+        {
+          package: 'mydebug',
           final: 'file:../file/debug/mydebug-1.1.0-rc.3.tgz',
-          package: 'mydebug'
-        }, {
-          final: '^2.7.38',
-          package: 'pacote'
-        }, {
-          final: '^5.7.1',
-          package: 'semver'
-        }, {
-          final: '^3.8.3',
-          package: 'superagent'
-        }])
+          ignore: undefined
+        },
+        { package: 'pacote', final: '^2.7.38', ignore: undefined },
+        { package: 'semver', final: '^5.7.2', ignore: undefined },
+        { package: 'shelljs', final: undefined, ignore: true },
+        { package: 'superagent', final: '^3.8.3', ignore: undefined }
+      ])
+    })
+  })
+
+  // needs constant updates!
+  it.skip('shall get major versions', function () {
+    this.timeout(5000)
+    return check({
+      dirname: `${__dirname}/fixtures/tmp`,
+      major: true
+    }).then(({ type, results }) => {
+      log(type, results)
+
+      const majorV = results.map(r => ({
+        package: r.package,
+        final: r.final,
+        ignore: r.ignore
+      })).sort((a, b) => a.package.localeCompare(b.package))
+
+      console.log(majorV)
+
+      assert.deepStrictEqual(majorV, [
+        { package: 'chalk', final: '~5.2.0', ignore: undefined },
+        { package: 'debug', final: '^4.3.4', ignore: undefined },
+        { package: 'handlebars', final: undefined, ignore: true },
+        {
+          package: 'hosted-git-info',
+          final: 'github:npm/hosted-git-info#semver:^6.1.1',
+          ignore: undefined
+        },
+        { package: 'lodash.get', final: '^4.4.2', ignore: undefined },
+        { package: 'mocha', final: '^10.2.0', ignore: undefined },
+        {
+          package: 'mydebug',
+          final: 'file:../file/debug/mydebug-1.1.0-rc.3.tgz',
+          ignore: undefined
+        },
+        { package: 'pacote', final: '^15.1.1', ignore: undefined },
+        { package: 'semver', final: '^7.3.8', ignore: undefined },
+        { package: 'shelljs', final: undefined, ignore: true },
+        { package: 'superagent', final: '^8.0.9', ignore: undefined }
+      ])
     })
   })
 
