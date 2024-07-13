@@ -16,13 +16,15 @@ describe('#npm', function () {
     })
     it('shall return an error if module not found', function () {
       this.timeout(10000)
-      return versions('@spurreiter/not-there')
-        .then(res => {
-          log('%s', res.error)
-          assert.ok(/404 Not Found - GET/.test(res.error), '404 Not Found - GET ' +
+      return versions('@spurreiter/not-there').then((res) => {
+        log('%s', res.error)
+        assert.ok(
+          /404 Not Found - GET/.test(res.error),
+          '404 Not Found - GET ' +
             'https://registry.npmjs.org/@spurreiter%2fnot-there ' +
-            '- Not found')
-        })
+            '- Not found'
+        )
+      })
     })
   })
 

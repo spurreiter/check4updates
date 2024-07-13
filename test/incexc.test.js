@@ -1,7 +1,5 @@
 const assert = require('assert')
-const {
-  incexc
-} = require('../src/incexc')
+const { incexc } = require('../src/incexc')
 
 const log = require('debug')('test:incexc')
 

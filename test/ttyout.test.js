@@ -35,7 +35,8 @@ describe('#ttyout', function () {
         major: '1.0.0',
         minor: '1.0.0',
         patch: '1.0.0'
-      }, {
+      },
+      {
         package: 'a-awesome-package',
         range: '^1.0.0',
         wildcard: '^',
@@ -43,7 +44,8 @@ describe('#ttyout', function () {
         major: '1.9.0',
         minor: '1.0.5',
         patch: '1.0.5'
-      }, {
+      },
+      {
         package: '@a-large-scope-with/a-large-package-name',
         range: '^1.0.0',
         wildcard: '^',
@@ -51,7 +53,8 @@ describe('#ttyout', function () {
         major: '1.5.0',
         minor: '1.0.5',
         patch: '1.0.5'
-      }, {
+      },
+      {
         package: 'strange-ranges',
         range: '>1.0.3 <2.1.0 || >=5.0.0 <7.0.0',
         wildcard: '^',
@@ -59,19 +62,26 @@ describe('#ttyout', function () {
         major: '1.5.0',
         minor: '1.0.5',
         patch: '1.0.5'
-      }, {
+      },
+      {
         package: '@test/test',
         range: '^1.2.0',
-        error: new Error('fatal: unable to access ' +
-        '\'https://github.com/test/test%2Ftest.git/\'' +
-        ': The requested URL returned error: 400')
-      }, {
+        error: new Error(
+          'fatal: unable to access ' +
+            "'https://github.com/test/test%2Ftest.git/'" +
+            ': The requested URL returned error: 400'
+        )
+      },
+      {
         package: '@spurreiter/not-there',
         range: '>1.0.3 <2.1.0',
-        error: new Error('404 Not Found - GET ' +
-        'https://registry.npmjs.org/@spurreiter%2fnot-there ' +
-        '- Not found')
-      }]
+        error: new Error(
+          '404 Not Found - GET ' +
+            'https://registry.npmjs.org/@spurreiter%2fnot-there ' +
+            '- Not found'
+        )
+      }
+    ]
     // just visual tests
     it('shall return "max" results', function () {
       console.log(ttyout()({ results, type: 'max' }))

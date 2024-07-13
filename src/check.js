@@ -6,27 +6,25 @@ const { maxSatisfying } = require('./semver')
 const { incexc } = require('./incexc')
 const log = require('debug')('check4updates:check')
 
-const queryVersions = (progressBar, dirname, npmOpts) => packages => {
-  return resolverPrepare(npmOpts)
-    .then(({ npmOpts }) => {
-      log(npmOpts)
-      log(packages)
-      const total = Object.keys(packages).length
-      const progress = total && progressBar && progressBar(total)
-      const limit = Math.min(50, total)
+const queryVersions = (progressBar, dirname, npmOpts) => (packages) => {
+  return resolverPrepare(npmOpts).then(({ npmOpts }) => {
+    log(npmOpts)
+    log(packages)
+    const total = Object.keys(packages).length
+    const progress = total && progressBar && progressBar(total)
+    const limit = Math.min(50, total)
 
-      return eachLimit(limit, Object.entries(packages), ([pckg, range]) => {
-        return resolver(pckg, range, { dirname, npmOpts })
-          .then(data => {
-            progress && progress.tick()
-            return data
-          })
+    return eachLimit(limit, Object.entries(packages), ([pckg, range]) => {
+      return resolver(pckg, range, { dirname, npmOpts }).then((data) => {
+        progress && progress.tick()
+        return data
       })
     })
+  })
 }
 
-const calcVersions = results => {
-  return results.map(pckg => {
+const calcVersions = (results) => {
+  return results.map((pckg) => {
     log('package "%s"', pckg.package)
     const res = Object.assign(
       {},
@@ -41,7 +39,7 @@ const setIgnoredFlag = ({ results, ignored, type }) => {
   if (!ignored) {
     return
   }
-  results.forEach(res => {
+  results.forEach((res) => {
     const range = ignored[res.package]
     if (range) {
       const selectedVersion = res[type]
@@ -53,36 +51,40 @@ const setIgnoredFlag = ({ results, ignored, type }) => {
   })
 }
 
-const calcRange = ({ pckg, patch, minor, major, max }) => results => {
-  const type = patch
-    ? 'patch'
-    : minor
-      ? 'minor'
-      : major
-        ? 'major'
-        : max
-          ? 'max'
-          : 'latest'
+const calcRange =
+  ({ pckg, patch, minor, major, max }) =>
+  (results) => {
+    const type = patch
+      ? 'patch'
+      : minor
+        ? 'minor'
+        : major
+          ? 'major'
+          : max
+            ? 'max'
+            : 'latest'
 
-  const ignored = pckg.getIgnored()
-  setIgnoredFlag({ results, ignored, type })
+    const ignored = pckg.getIgnored()
+    setIgnoredFlag({ results, ignored, type })
 
-  const packages = resolverRange(results, type)
-  log('packages', packages)
-  return { results, packages, type }
-}
-
-const updatePckg = (update, pckg) => ({ results, packages, type }) => {
-  if (update) {
-    return pckg.write(packages).then(() => ({ results, type }))
+    const packages = resolverRange(results, type)
+    log('packages', packages)
+    return { results, packages, type }
   }
-  return { results, type }
-}
+
+const updatePckg =
+  (update, pckg) =>
+  ({ results, packages, type }) => {
+    if (update) {
+      return pckg.write(packages).then(() => ({ results, type }))
+    }
+    return { results, type }
+  }
 
 /**
  * @returns {Promise} `{ results: object, type: string }`
  */
-function check ({
+function check({
   dirname,
   update,
   include,
@@ -95,15 +97,18 @@ function check ({
   patch,
   minor,
   major,
-  latest,
+  // latest,
   max,
   progressBar
 } = {}) {
   dirname = dirname || process.cwd()
   const pckg = new PckgJson({ dirname })
   const npmOpts = {} // future use
-  return pckg.read({ prod, dev, peer })
-    .then(packages => incexc({ packages, include, exclude, filter, filterInv }))
+  return pckg
+    .read({ prod, dev, peer })
+    .then((packages) =>
+      incexc({ packages, include, exclude, filter, filterInv })
+    )
     .then(queryVersions(progressBar, dirname, npmOpts))
     .then(calcVersions)
     .then(calcRange({ pckg, patch, minor, major, max }))

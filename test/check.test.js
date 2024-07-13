@@ -1,12 +1,6 @@
 const assert = require('assert')
-const {
-  cp,
-  mkdir,
-  test
-} = require('shelljs')
-const {
-  check
-} = require('..')
+const { cp, mkdir, test } = require('shelljs')
+const { check } = require('..')
 
 const log = require('debug')('test:check')
 
@@ -25,12 +19,14 @@ describe('check', function () {
     }).then(({ type, results }) => {
       log(type, results)
 
-      const patchV = results.map(r => ({
-        patch: r.patch,
-        package: r.package,
-        final: r.final,
-        ignore: r.ignore
-      })).sort((a, b) => a.package.localeCompare(b.package))
+      const patchV = results
+        .map((r) => ({
+          patch: r.patch,
+          package: r.package,
+          final: r.final,
+          ignore: r.ignore
+        }))
+        .sort((a, b) => a.package.localeCompare(b.package))
 
       log(patchV)
 
@@ -40,57 +36,68 @@ describe('check', function () {
           patch: '2.1.0',
           package: 'chalk',
           ignore: undefined
-        }, {
+        },
+        {
           final: '^3.0.1',
           patch: '3.0.1',
           package: 'debug',
           ignore: undefined
-        }, {
+        },
+        {
           final: '^3.0.8',
           package: 'handlebars',
           patch: '3.0.8',
           ignore: undefined // patch version can be updated!
-        }, {
+        },
+        {
           final: 'github:npm/hosted-git-info#semver:^2.1.5',
           patch: '2.1.5',
           package: 'hosted-git-info',
           ignore: undefined
-        }, {
+        },
+        {
           final: '^3.7.0',
           patch: '3.7.0',
           package: 'lodash.get',
           ignore: undefined
-        }, {
+        },
+        {
           final: '^5.0.5',
           patch: '5.0.5',
           package: 'mocha',
           ignore: undefined
-        }, {
+        },
+        {
           final: 'file:../file/debug/mydebug-1.1.0-rc.3.tgz',
           patch: '1.1.0-rc.3',
           package: 'mydebug',
           ignore: undefined
-        }, {
+        },
+        {
           final: '^2.1.2',
           patch: '2.1.2',
           package: 'pacote',
           ignore: undefined
-        }, {
+        },
+        {
           final: '^5.0.3',
           patch: '5.0.3',
           package: 'semver',
           ignore: undefined
-        }, {
+        },
+        {
           final: undefined,
           package: 'shelljs',
           patch: '0.8.5',
           ignore: true
-        }, {
+        },
+        {
           final: '^3.0.0',
           patch: '3.0.0',
           package: 'superagent',
           ignore: undefined
-        }])
+        }
+      ])
     })
   })
 
@@ -102,12 +109,14 @@ describe('check', function () {
     }).then(({ type, results }) => {
       log(type, results)
 
-      const minorV = results.map(r => ({
-        // minor: r.minor,
-        package: r.package,
-        final: r.final,
-        ignore: r.ignore
-      })).sort((a, b) => a.package.localeCompare(b.package))
+      const minorV = results
+        .map((r) => ({
+          // minor: r.minor,
+          package: r.package,
+          final: r.final,
+          ignore: r.ignore
+        }))
+        .sort((a, b) => a.package.localeCompare(b.package))
 
       log(minorV)
 
@@ -144,11 +153,13 @@ describe('check', function () {
     }).then(({ type, results }) => {
       log(type, results)
 
-      const majorV = results.map(r => ({
-        package: r.package,
-        final: r.final,
-        ignore: r.ignore
-      })).sort((a, b) => a.package.localeCompare(b.package))
+      const majorV = results
+        .map((r) => ({
+          package: r.package,
+          final: r.final,
+          ignore: r.ignore
+        }))
+        .sort((a, b) => a.package.localeCompare(b.package))
 
       console.log(majorV)
 
@@ -185,11 +196,13 @@ describe('check', function () {
     }).then(({ type, results }) => {
       log(type, results)
 
-      const minorV = results.map(r => ({
-        // minor: r.minor,
-        package: r.package,
-        final: r.final
-      })).sort((a, b) => a.package.localeCompare(b.package))
+      const minorV = results
+        .map((r) => ({
+          // minor: r.minor,
+          package: r.package,
+          final: r.final
+        }))
+        .sort((a, b) => a.package.localeCompare(b.package))
 
       log(minorV)
 
@@ -197,10 +210,12 @@ describe('check', function () {
         {
           final: '~2.4.2',
           package: 'chalk'
-        }, {
+        },
+        {
           final: '^3.2.7',
           package: 'debug'
-        }])
+        }
+      ])
     })
   })
 })

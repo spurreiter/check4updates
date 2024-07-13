@@ -7,7 +7,7 @@ const fsReadFile = promisify(fs.readFile)
 const fsWriteFile = promisify(fs.writeFile)
 
 class PckgJson {
-  constructor ({ dirname, filename = 'package.json' } = {}) {
+  constructor({ dirname, filename = 'package.json' } = {}) {
     this.dirname = dirname || process.cwd()
     this.filename = resolve(dirname, filename)
     this.content = undefined
@@ -16,7 +16,7 @@ class PckgJson {
   /**
    * @private
    */
-  _setFields (opts) {
+  _setFields(opts) {
     const fields = []
     if (opts.peer) fields.push('peerDependencies')
     if (opts.dev) fields.push('devDependencies')
@@ -27,9 +27,9 @@ class PckgJson {
   /**
    * @private
    */
-  _extract (content) {
+  _extract(_content) {
     const packages = {}
-    this.fields.forEach(dep => {
+    this.fields.forEach((dep) => {
       Object.entries(this.content[dep] || {}).forEach(([pckg, version]) => {
         packages[pckg] = version
       })
@@ -40,9 +40,9 @@ class PckgJson {
   /**
    * @private
    */
-  _merge (content, packages) {
-    this.fields.forEach(dep => {
-      Object.entries(this.content[dep] || {}).forEach(([pckg, version]) => {
+  _merge(content, packages) {
+    this.fields.forEach((dep) => {
+      Object.entries(this.content[dep] || {}).forEach(([pckg, _version]) => {
         const nextVersion = packages[pckg]
         if (nextVersion) {
           content[dep][pckg] = nextVersion
@@ -56,19 +56,23 @@ class PckgJson {
    * get all files under c4uIgnore
    * @returns {Record<string,string>|undefined}
    */
-  getIgnored () {
+  getIgnored() {
     const c4uIgnore = this.content?.c4uIgnore
     if (c4uIgnore && typeof c4uIgnore === 'object') {
-      const rangesOnly = Object.entries(c4uIgnore)
-        .reduce((curr, [pckg, rangeComment]) => {
+      const rangesOnly = Object.entries(c4uIgnore).reduce(
+        (curr, [pckg, rangeComment]) => {
           const [range] = String(rangeComment).split(/\s*\/\/\s*/)
           if (semver.validRange(range)) {
             curr[pckg] = range.trim()
           } else {
-            throw new Error(`c4uIgnore: package "${pckg}" does not contain a valid range "${range}"`)
+            throw new Error(
+              `c4uIgnore: package "${pckg}" does not contain a valid range "${range}"`
+            )
           }
           return curr
-        }, {})
+        },
+        {}
+      )
       return rangesOnly
     }
   }
@@ -81,13 +85,13 @@ class PckgJson {
    * }} opts
    * @returns {Promise<Record<string,string>}
    */
-  read (opts = {}) {
+  read(opts = {}) {
     if (!opts.prod && !opts.dev && !opts.peer) {
       opts = { prod: true, dev: true, peer: true }
     }
     return fsReadFile(this.filename, 'utf8')
-      .then(str => JSON.parse(str))
-      .then(content => {
+      .then((str) => JSON.parse(str))
+      .then((content) => {
         this.fields = this._setFields(opts)
         this.content = content
         return this._extract(content)
@@ -98,7 +102,7 @@ class PckgJson {
    * @param {Record<string,string>} packages
    * @returns {Promise<void>}
    */
-  write (packages = {}) {
+  write(packages = {}) {
     this.content = this._merge(this.content, packages)
     const str = JSON.stringify(this.content, null, 2) + '\n'
     return fsWriteFile(this.filename, str, 'utf8')

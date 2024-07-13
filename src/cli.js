@@ -2,7 +2,9 @@ const { resolve } = require('path')
 const { progressBar, ttyout } = require('./ttyout')
 
 const radioVersion = (o, field) => {
-  ;['max', 'latest', 'major', 'minor', 'patch'].forEach(field => { o[field] = false })
+  ;['max', 'latest', 'major', 'minor', 'patch'].forEach((field) => {
+    o[field] = false
+  })
   o[field] = true
 }
 
@@ -13,7 +15,7 @@ const error = (o, msg) => {
   return o
 }
 
-function cli (argv = process.argv.slice(2)) {
+function cli(argv = process.argv.slice(2)) {
   const o = {
     _packages: []
   }

@@ -1,7 +1,5 @@
 const assert = require('assert')
-const {
-  maxSatisfying
-} = require('../src/semver')
+const { maxSatisfying } = require('../src/semver')
 const versions = require('./fixtures/versions')
 
 const log = require('debug')('test:semver')
@@ -213,12 +211,18 @@ describe('#semver', function () {
     })
     it('shall select next possible version if outside range', function () {
       const versions = [
-        '4.4.2', '4.4.1',
-        '4.4.0', '4.3.0',
-        '4.2.1', '4.2.0',
-        '4.1.2', '4.1.1',
-        '4.1.0', '4.0.2',
-        '4.0.1', '4.0.0',
+        '4.4.2',
+        '4.4.1',
+        '4.4.0',
+        '4.3.0',
+        '4.2.1',
+        '4.2.0',
+        '4.1.2',
+        '4.1.1',
+        '4.1.0',
+        '4.0.2',
+        '4.0.1',
+        '4.0.0',
         '3.7.0'
       ]
       const res = maxSatisfying(versions, '^2.4.2')
@@ -234,12 +238,18 @@ describe('#semver', function () {
     })
     it('shall select max version if version not found', function () {
       const versions = [
-        '4.4.2', '4.4.1',
-        '4.4.0', '4.3.0',
-        '4.2.1', '4.2.0',
-        '4.1.2', '4.1.1',
-        '4.1.0', '4.0.2',
-        '4.0.1', '4.0.0',
+        '4.4.2',
+        '4.4.1',
+        '4.4.0',
+        '4.3.0',
+        '4.2.1',
+        '4.2.0',
+        '4.1.2',
+        '4.1.1',
+        '4.1.0',
+        '4.0.2',
+        '4.0.1',
+        '4.0.0',
         '3.7.0'
       ]
       const res = maxSatisfying(versions, '^5.0.2', '4.4.1')

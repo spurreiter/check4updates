@@ -8,7 +8,7 @@ describe('#PckgJson', function () {
     const pckg = new PckgJson({
       dirname: `${__dirname}/fixtures/test`
     })
-    return pckg.read().then(packages => {
+    return pckg.read().then((packages) => {
       log(packages)
       assert.deepStrictEqual(packages, {
         debug: '^3.0.0',
@@ -30,7 +30,7 @@ describe('#PckgJson', function () {
     const pckg = new PckgJson({
       dirname: `${__dirname}/fixtures/test`
     })
-    return pckg.read({ prod: true }).then(packages => {
+    return pckg.read({ prod: true }).then((packages) => {
       log(packages)
       assert.deepStrictEqual(packages, {
         debug: '^3.0.0',
@@ -48,7 +48,7 @@ describe('#PckgJson', function () {
     const pckg = new PckgJson({
       dirname: `${__dirname}/fixtures/test`
     })
-    return pckg.read({ dev: true }).then(packages => {
+    return pckg.read({ dev: true }).then((packages) => {
       log(packages)
       assert.deepStrictEqual(packages, {
         mocha: '^5',
@@ -62,7 +62,7 @@ describe('#PckgJson', function () {
     const pckg = new PckgJson({
       dirname: `${__dirname}/fixtures/test`
     })
-    return pckg.read({ peer: true }).then(packages => {
+    return pckg.read({ peer: true }).then((packages) => {
       log(packages)
       assert.deepStrictEqual(packages, {
         'hosted-git-info': 'github:npm/hosted-git-info#v2.1.0',
@@ -77,12 +77,11 @@ describe('#PckgJson', function () {
     const pckg = new PckgJson({
       dirname: `${__dirname}/fixtures/test`
     })
-    return pckg.read({ dep: true })
-      .then(packages => {
-        packages.chalk = newChalkVersion
-        pckg._merge(pckg.content, packages)
-        assert.strictEqual(pckg.content.dependencies.chalk, newChalkVersion)
-      })
+    return pckg.read({ dep: true }).then((packages) => {
+      packages.chalk = newChalkVersion
+      pckg._merge(pckg.content, packages)
+      assert.strictEqual(pckg.content.dependencies.chalk, newChalkVersion)
+    })
   })
 
   it('shall get ignored packages with their range', function () {
@@ -113,10 +112,16 @@ describe('#PckgJson', function () {
         throws: 'not a valid range'
       }
     }
-    assert.throws(() => {
-      pckg.getIgnored()
-    }, (err) => {
-      return err.message === 'c4uIgnore: package "throws" does not contain a valid range "not a valid range"'
-    })
+    assert.throws(
+      () => {
+        pckg.getIgnored()
+      },
+      (err) => {
+        return (
+          err.message ===
+          'c4uIgnore: package "throws" does not contain a valid range "not a valid range"'
+        )
+      }
+    )
   })
 })

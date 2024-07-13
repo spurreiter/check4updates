@@ -19,27 +19,40 @@ describe('#file', function () {
   describe('versions', function () {
     const dirname = `${__dirname}/fixtures/file`
     it('shall get versions from file', function () {
-      return versions('mydebug', 'file:debug/mydebug-1.0.0.tgz', { dirname })
-        .then(({ versions }) => {
-          log(versions)
-          assert.ok(Array.isArray(versions), 'shall be an Array')
-          assert.deepStrictEqual(versions, ['1.0.0', '1.1.0-4', '1.1.0-rc.3', '1.1.0-rc'])
-        })
+      return versions('mydebug', 'file:debug/mydebug-1.0.0.tgz', {
+        dirname
+      }).then(({ versions }) => {
+        log(versions)
+        assert.ok(Array.isArray(versions), 'shall be an Array')
+        assert.deepStrictEqual(versions, [
+          '1.0.0',
+          '1.1.0-4',
+          '1.1.0-rc.3',
+          '1.1.0-rc'
+        ])
+      })
     })
     it('shall get scoped versions from file', function () {
-      return versions('@test/debug', 'file:test-debug-2.1.0.tgz', { dirname })
-        .then(({ versions }) => {
-          log(versions)
-          assert.ok(Array.isArray(versions), 'shall be an Array')
-          assert.deepStrictEqual(versions, ['2.1.0'])
-        })
+      return versions('@test/debug', 'file:test-debug-2.1.0.tgz', {
+        dirname
+      }).then(({ versions }) => {
+        log(versions)
+        assert.ok(Array.isArray(versions), 'shall be an Array')
+        assert.deepStrictEqual(versions, ['2.1.0'])
+      })
     })
     it('shall return an error if module not found', function () {
-      return versions('@spurreiter/not-there', 'file:not-there/spurreiter-not-there-1.0.0.tgz', { dirname })
-        .then(res => {
-          log('%s', res.error)
-          assert.ok(/ENOENT: no such file or directory/.test(res.error.message), 'ENOENT: no such file or directory')
-        })
+      return versions(
+        '@spurreiter/not-there',
+        'file:not-there/spurreiter-not-there-1.0.0.tgz',
+        { dirname }
+      ).then((res) => {
+        log('%s', res.error)
+        assert.ok(
+          /ENOENT: no such file or directory/.test(res.error.message),
+          'ENOENT: no such file or directory'
+        )
+      })
     })
   })
 

@@ -13,39 +13,64 @@ describe('cli', function () {
     [['-q'], { quiet: true }],
     [['--update'], { update: true }],
     [['-u'], { update: true }],
-    [['--max'], { latest: false, max: true, major: false, minor: false, patch: false }],
-    [['--latest'], { latest: true, max: false, major: false, minor: false, patch: false }],
-    [['--major'], { latest: false, max: false, major: true, minor: false, patch: false }],
-    [['--minor'], { latest: false, max: false, major: false, minor: true, patch: false }],
-    [['--patch'], { latest: false, max: false, major: false, minor: false, patch: true }],
+    [
+      ['--max'],
+      { latest: false, max: true, major: false, minor: false, patch: false }
+    ],
+    [
+      ['--latest'],
+      { latest: true, max: false, major: false, minor: false, patch: false }
+    ],
+    [
+      ['--major'],
+      { latest: false, max: false, major: true, minor: false, patch: false }
+    ],
+    [
+      ['--minor'],
+      { latest: false, max: false, major: false, minor: true, patch: false }
+    ],
+    [
+      ['--patch'],
+      { latest: false, max: false, major: false, minor: false, patch: true }
+    ],
     [['-x', 'one', 'two', 'three'], { exclude: ['one', 'two', 'three'] }],
     [['one', 'two', 'three'], { include: ['one', 'two', 'three'] }],
     [['--peer'], { peer: true }],
     [['--dev'], { dev: true }],
     [['--prod'], { prod: true }],
-    [['--minor', '--prod', '-d', '/test', '--exclude', 'one'], {
-      dirname: '/test',
-      exclude: ['one'],
-      latest: false,
-      max: false,
-      major: false,
-      minor: true,
-      patch: false,
-      prod: true
-    }],
-    [['--filter', 'chalk|debug'], {
-      filter: /chalk|debug/i
-    }],
-    [['--Filter', 'chalk|debug'], {
-      filterInv: /chalk|debug/i
-    }]
+    [
+      ['--minor', '--prod', '-d', '/test', '--exclude', 'one'],
+      {
+        dirname: '/test',
+        exclude: ['one'],
+        latest: false,
+        max: false,
+        major: false,
+        minor: true,
+        patch: false,
+        prod: true
+      }
+    ],
+    [
+      ['--filter', 'chalk|debug'],
+      {
+        filter: /chalk|debug/i
+      }
+    ],
+    [
+      ['--Filter', 'chalk|debug'],
+      {
+        filterInv: /chalk|debug/i
+      }
+    ]
   ]
-  tests.forEach(test => {
+  tests.forEach((test) => {
     const [argv, exp] = test
     it(argv.join(' '), function () {
       const res = cli(argv)
-      '_packages _exclude _include progressBar ttyout'.split(' ')
-        .forEach(key => delete res[key])
+      '_packages _exclude _include progressBar ttyout'
+        .split(' ')
+        .forEach((key) => delete res[key])
       assert.deepStrictEqual(res, exp)
     })
   })
