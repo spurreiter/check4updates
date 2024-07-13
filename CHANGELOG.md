@@ -1,3 +1,22 @@
+## [1.3.2](https://github.com/spurreiter/check4updates/compare/v1.3.1...v1.3.2) (2024-07-13)
+
+
+### chore
+
+* bump dependencies ([93e2201](https://github.com/spurreiter/check4updates/commit/93e2201427b2f37861634ae31c3e953ba1108173))
+
+
+
+## [1.3.1](https://github.com/spurreiter/check4updates/compare/v1.3.0...v1.3.1) (2024-03-21)
+
+
+### chore
+
+* bump dependencies ([c7672b7](https://github.com/spurreiter/check4updates/commit/c7672b7b78999e5f86eb025c4e972fec0b50ae55))
+* bump dependencies ([837b4f6](https://github.com/spurreiter/check4updates/commit/837b4f6e6109925bb23c6ad1e671d90566d13fb7))
+
+
+
 # [1.3.0](https://github.com/spurreiter/check4updates/compare/v1.2.10...v1.3.0) (2023-08-20)
 
 
