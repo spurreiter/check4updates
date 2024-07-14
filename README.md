@@ -19,6 +19,12 @@ For other similar tools see:
 - [npm-check][]
 - [npm-check-updates][]
 
+## install 
+
+```sh
+npm install --global check4updates
+```
+
 ## ignore updates in package.json
 
 add a `c4uIgnore` field in the `package.json` file, like:

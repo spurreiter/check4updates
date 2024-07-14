@@ -62,11 +62,11 @@
   "devDependencies": {
     "@eslint/js": "^9.7.0",
     "c8": "^10.1.2",
-    "eslint": "9.x",
+    "eslint": "^9.7.0",
     "globals": "^15.8.0",
     "mocha": "^10.6.0",
     "npm-run-all2": "^6.2.2",
-    "prettier": "^3.3.2",
+    "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
     "shelljs": "^0.8.5"
   },

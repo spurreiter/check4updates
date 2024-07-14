@@ -69,5 +69,13 @@ function help () {
 
     file:test/my-debug-1.0.0.tgz
 
+  ignore updates in package.json:
+
+    { ...
+      "c4uIgnore": {
+        "<package-name>": "<allowed-range>[ // optional comment]"
+      }
+    }
+
   `)
 }
