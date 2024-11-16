@@ -1,5 +1,4 @@
-const { promisify } = require('util')
-const fs = require('fs')
+const fsp = require('fs/promises')
 const path = require('path')
 const log = require('debug')('check4updates:resolvers:file')
 
@@ -35,7 +34,7 @@ const versions = (pckg, range, { dirname }) => {
   const filename = path.resolve(dirname, _range.replace(RE_FILE, '$2$3$4'))
   const _dirname = path.dirname(filename)
 
-  return promisify(fs.readdir)(_dirname)
+  return fsp.readdir(_dirname)
     .then(files => {
       log('files', files)
       const reFile = new RegExp(`^${toFile(pckg)}-` + RE_VERSION.source + RE_EXT.source)

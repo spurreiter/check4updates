@@ -1,10 +1,6 @@
-const fs = require('fs')
-const { promisify } = require('util')
+const fsp = require('fs/promises')
 const { resolve } = require('path')
 const semver = require('semver')
-
-const fsReadFile = promisify(fs.readFile)
-const fsWriteFile = promisify(fs.writeFile)
 
 class PckgJson {
   constructor({ dirname, filename = 'package.json' } = {}) {
@@ -89,7 +85,8 @@ class PckgJson {
     if (!opts.prod && !opts.dev && !opts.peer) {
       opts = { prod: true, dev: true, peer: true }
     }
-    return fsReadFile(this.filename, 'utf8')
+    return fsp
+      .readFile(this.filename, 'utf8')
       .then((str) => JSON.parse(str))
       .then((content) => {
         this.fields = this._setFields(opts)
@@ -105,7 +102,7 @@ class PckgJson {
   write(packages = {}) {
     this.content = this._merge(this.content, packages)
     const str = JSON.stringify(this.content, null, 2) + '\n'
-    return fsWriteFile(this.filename, str, 'utf8')
+    return fsp.writeFile(this.filename, str, 'utf8')
   }
 }
 
