@@ -1,13 +1,14 @@
 const assert = require('assert')
 const { maxSatisfying } = require('../src/semver.js')
-const versions = require('./fixtures/versions.js')
+const fixtureVersions = require('./fixtures/versions.js')
+const fixtureExpress = require('./fixtures/express-versions.js')
 
 const log = require('debug')('test:semver')
 
 describe('#semver', function () {
   describe('maxSatisfying', function () {
     it('any version', function () {
-      const res = maxSatisfying(versions, '*')
+      const res = maxSatisfying(fixtureVersions, '*')
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '^',
@@ -18,13 +19,26 @@ describe('#semver', function () {
         patch: '1.0.14'
       })
     })
+    it('latest express version', function () {
+      const {versions, range, latest} = fixtureExpress
+      // latest is from latest dist-tag
+      const res = maxSatisfying(versions, range, latest)
+      assert.deepStrictEqual(res, {
+        wildcard: '^',
+        max: '5.0.1',
+        latest: '4.21.1',
+        major: '5.0.1',
+        minor: '4.21.1',
+        patch: '4.21.1'
+      })
+    })
     it('bad version', function () {
-      const res = maxSatisfying(versions, 'bad')
+      const res = maxSatisfying(fixtureVersions, 'bad')
       log(res)
       assert.strictEqual(res, null)
     })
     it('fix version', function () {
-      const res = maxSatisfying(versions, '2.0.1')
+      const res = maxSatisfying(fixtureVersions, '2.0.1')
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '',
@@ -36,7 +50,7 @@ describe('#semver', function () {
       })
     })
     it('pre version', function () {
-      const res = maxSatisfying(versions, '~2.0.0-alpha')
+      const res = maxSatisfying(fixtureVersions, '~2.0.0-alpha')
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '~',
@@ -61,7 +75,7 @@ describe('#semver', function () {
       })
     })
     it('minor', function () {
-      const res = maxSatisfying(versions, '~2.1.0', '6.0.0')
+      const res = maxSatisfying(fixtureVersions, '~2.1.0', '6.0.0')
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '~',
@@ -73,7 +87,7 @@ describe('#semver', function () {
       })
     })
     it('minor using .x', function () {
-      const res = maxSatisfying(versions, '2.1.x', '6.0.0')
+      const res = maxSatisfying(fixtureVersions, '2.1.x', '6.0.0')
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '~',
@@ -85,7 +99,7 @@ describe('#semver', function () {
       })
     })
     it('major', function () {
-      const res = maxSatisfying(versions, '^2.1.0')
+      const res = maxSatisfying(fixtureVersions, '^2.1.0')
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '^',
@@ -97,7 +111,7 @@ describe('#semver', function () {
       })
     })
     it('major using .x.x', function () {
-      const res = maxSatisfying(versions, '2.x.x')
+      const res = maxSatisfying(fixtureVersions, '2.x.x')
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '^',
@@ -109,7 +123,7 @@ describe('#semver', function () {
       })
     })
     it('major using .x', function () {
-      const res = maxSatisfying(versions, '2.x', '6.0.0')
+      const res = maxSatisfying(fixtureVersions, '2.x', '6.0.0')
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '^',
@@ -121,7 +135,7 @@ describe('#semver', function () {
       })
     })
     it('greater', function () {
-      const res = maxSatisfying(versions, '>=2.0.0')
+      const res = maxSatisfying(fixtureVersions, '>=2.0.0')
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '^',
@@ -133,7 +147,7 @@ describe('#semver', function () {
       })
     })
     it('lesser', function () {
-      const res = maxSatisfying(versions, '<=2.2.3')
+      const res = maxSatisfying(fixtureVersions, '<=2.2.3')
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '^',
@@ -145,12 +159,12 @@ describe('#semver', function () {
       })
     })
     it('wrong min-max', function () {
-      const res = maxSatisfying(versions, '<=1.2.3 >2.3.4')
+      const res = maxSatisfying(fixtureVersions, '<=1.2.3 >2.3.4')
       log(res)
       assert.deepStrictEqual(res, null)
     })
     it('min-max', function () {
-      const res = maxSatisfying(versions, '>=1.2.3 <2.3.4')
+      const res = maxSatisfying(fixtureVersions, '>=1.2.3 <2.3.4')
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '^',
@@ -162,7 +176,7 @@ describe('#semver', function () {
       })
     })
     it('max-min', function () {
-      const res = maxSatisfying(versions, '<=2.3.4 >1.2.3')
+      const res = maxSatisfying(fixtureVersions, '<=2.3.4 >1.2.3')
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '^',
@@ -174,7 +188,7 @@ describe('#semver', function () {
       })
     })
     it('max-min-alt', function () {
-      const res = maxSatisfying(versions, '>3.4.5 <4.2.0 || >=1.2.3 <2.0.4')
+      const res = maxSatisfying(fixtureVersions, '>3.4.5 <4.2.0 || >=1.2.3 <2.0.4')
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '^',
@@ -186,7 +200,7 @@ describe('#semver', function () {
       })
     })
     it('version not available - select next version', function () {
-      const res = maxSatisfying(versions, '~2.5.0')
+      const res = maxSatisfying(fixtureVersions, '~2.5.0')
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '~',
@@ -198,7 +212,7 @@ describe('#semver', function () {
       })
     })
     it('version not available - out of bounds', function () {
-      const res = maxSatisfying(versions, '~7.5.0')
+      const res = maxSatisfying(fixtureVersions, '~7.5.0')
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '~',
