@@ -55,12 +55,14 @@ const colorVersion = (version, range, wildcard = '', ignore) => {
 const byPackageName = (a, b) => a.package.localeCompare(b.package)
 
 const ttyout =
-  ({ update } = {}) =>
-  ({ results, type = 'max' }) => {
+  ({ update, info } = {}) =>
+  ({ results, type = 'max', name, version }) => {
     const spacer = '  '
     const cr = '\n'
     const max = { pckg: 0, range: 0 }
     const errors = []
+
+    const printDirInfo = info ? spacer + `${name}@${version}` + cr + cr : ''
 
     const filtered = results
       .filter((r) => {
@@ -117,7 +119,7 @@ const ttyout =
           cr
         : spacer + 'All dependencies match the desired package versions...' + cr
 
-      return cr + pckgInfo + errorInfo + updateInfo
+      return cr + printDirInfo + pckgInfo + errorInfo + updateInfo
     }
   }
 

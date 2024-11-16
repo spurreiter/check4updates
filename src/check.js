@@ -78,13 +78,14 @@ const updatePckg =
     if (update) {
       return pckg.write(packages).then(() => ({ results, type }))
     }
-    return { results, type }
+    const { name, version } = pckg.content
+    return { results, type, name, version }
   }
 
 /**
  * @returns {Promise} `{ results: object, type: string }`
  */
-function check({
+async function check({
   dirname,
   update,
   include,
