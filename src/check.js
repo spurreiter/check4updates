@@ -94,11 +94,11 @@ const calcRange =
 
 const updatePckg =
   (update, pckg) =>
-  ({ results, packages, type }) => {
-    if (update) {
-      return pckg.write(packages).then(() => ({ results, type }))
-    }
+  async ({ results, packages, type }) => {
     const { name, version } = pckg.content
+    if (update) {
+      await pckg.write(packages)
+    }
     return { results, type, name, version }
   }
 

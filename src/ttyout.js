@@ -92,7 +92,13 @@ const ttyout =
       .sort(byPackageName)
 
     if (!filtered.length && !errors.length) {
-      return cr + spacer + 'All dependencies match the package versions...' + cr
+      return (
+        cr +
+        printDirInfo +
+        spacer +
+        'All dependencies match the package versions...' +
+        cr
+      )
     } else {
       let needsUpdateCnt = 0
       const pckgInfo = !filtered.length
