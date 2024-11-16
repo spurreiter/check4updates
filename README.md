@@ -1,6 +1,7 @@
 # check4updates
 
 [![npm version][npm-version-badge]][npm-version-badge-link]
+[![CI][ci-badge]][ci-badge-link]
 
 > Check and update package dependencies.
 
@@ -18,6 +19,12 @@ For other similar tools see:
 - `npm outdated`
 - [npm-check][]
 - [npm-check-updates][]
+
+## install 
+
+```sh
+npm install --global check4updates
+```
 
 ## ignore updates in package.json
 
@@ -65,6 +72,7 @@ c4u [options] [package ...]
   --prod                only dependencies
   --dev                 only devDependencies
   --peer                only peerDependencies
+  --info                print package name & version (handy for monorepos)
 
   package               package name to include/ exclude
 
@@ -89,6 +97,15 @@ supported URLs in dependencies:
   https://github.com/npm/cli/archive/v1.0.27.tar.gz
 
   file:test/my-debug-1.0.0.tgz
+
+ignore updates in package.json:
+
+  { ...
+    "c4uIgnore": {
+      "<package-name>": "<allowed-range>[ // optional comment]"
+    }
+  }
+
 ```
 
 ## api
@@ -106,3 +123,5 @@ MIT licensed
 
 [npm-version-badge]: https://badge.fury.io/js/check4updates.svg
 [npm-version-badge-link]: https://www.npmjs.com/package/check4updates
+[ci-badge]: https://github.com/spurreiter/check4updates/actions/workflows/ci.yml/badge.svg?branch=master
+[ci-badge-link]: https://github.com/spurreiter/check4updates/actions/workflows/ci.yml

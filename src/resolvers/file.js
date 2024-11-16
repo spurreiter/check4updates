@@ -1,7 +1,8 @@
-const { promisify } = require('util')
-const fs = require('fs')
+const fsp = require('fs/promises')
 const path = require('path')
 const log = require('debug')('check4updates:resolvers:file')
+
+/** @typedef {import('../types.js').Result} Result */
 
 const mode = 'file'
 
@@ -24,7 +25,7 @@ const test = range => RE_FILE.test(range)
  * @param {string} range - range value - needs to match `file: ... .tgz`
  * @param {object} param2
  * @param {object} param2.dirname - actual dirname of package.json
- * @returns {Promise<Versions>}
+ * @returns {Promise<Result>}
  */
 const versions = (pckg, range, { dirname }) => {
   const _range = range
@@ -35,12 +36,13 @@ const versions = (pckg, range, { dirname }) => {
   const filename = path.resolve(dirname, _range.replace(RE_FILE, '$2$3$4'))
   const _dirname = path.dirname(filename)
 
-  return promisify(fs.readdir)(_dirname)
+  return fsp.readdir(_dirname)
     .then(files => {
       log('files', files)
       const reFile = new RegExp(`^${toFile(pckg)}-` + RE_VERSION.source + RE_EXT.source)
       const versions = files.filter(f => reFile.test(f)).map(f => {
         const a = reFile.exec(f)
+        // @ts-expect-error
         return a[1]
       })
       log('%j', { pckg, versions })

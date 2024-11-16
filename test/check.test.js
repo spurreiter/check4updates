@@ -1,6 +1,6 @@
 const assert = require('assert')
 const { cp, mkdir, test } = require('shelljs')
-const { check } = require('..')
+const { check } = require('../src/index.js')
 
 const log = require('debug')('test:check')
 
@@ -31,6 +31,12 @@ describe('check', function () {
       log(patchV)
 
       assert.deepStrictEqual(patchV, [
+        {
+          final: 'workspace:*',
+          ignore: undefined,
+          package: '@my/package',
+          patch: undefined
+        },
         {
           final: '~2.1.0',
           patch: '2.1.0',
@@ -121,6 +127,11 @@ describe('check', function () {
       log(minorV)
 
       assert.deepStrictEqual(minorV, [
+        {
+          final: 'workspace:*',
+          ignore: undefined,
+          package: '@my/package'
+        },
         { package: 'chalk', final: '~2.4.2', ignore: undefined },
         { package: 'debug', final: '^3.2.7', ignore: undefined },
         { package: 'handlebars', final: '^3.0.8', ignore: undefined },

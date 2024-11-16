@@ -5,7 +5,7 @@ const {
   versions,
   range,
   getSemver
-} = require('../src/resolvers/git')
+} = require('../src/resolvers/git.js')
 
 const log = require('debug')('test:git')
 

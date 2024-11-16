@@ -3,6 +3,8 @@ const { packument } = require('pacote')
 const get = require('lodash.get')
 const log = require('debug')('check4updates:resolvers:npm')
 
+/** @typedef {import('../types.js').Result} Result */
+
 const mode = 'npm'
 
 const prepare = () => {
@@ -19,7 +21,7 @@ const prepare = () => {
 
 /**
  * @param {string} pckg - package name
- * @returns {Promise<Versions>}
+ * @returns {Promise<Result>}
  */
 const versions = (pckg, range, opts) => packument(pckg, opts)
   .then(data => {
