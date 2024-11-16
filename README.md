@@ -1,7 +1,7 @@
 # check4updates
 
-[![CI][ci-badge]][ci-badge-link]
 [![npm version][npm-version-badge]][npm-version-badge-link]
+[![CI][ci-badge]][ci-badge-link]
 
 > Check and update package dependencies.
 
@@ -72,6 +72,7 @@ c4u [options] [package ...]
   --prod                only dependencies
   --dev                 only devDependencies
   --peer                only peerDependencies
+  --info                print package name & version (handy for monorepos)
 
   package               package name to include/ exclude
 
