@@ -26,25 +26,26 @@
   },
   "license": "MIT",
   "author": "spurreiter",
-  "main": "src",
+  "main": "./src/index.js",
+  "types": "./types/index.d.ts",
   "bin": {
     "c4u": "./bin/c4u.js"
   },
-  "directories": {
-    "test": "test"
-  },
   "files": [
     "bin",
-    "src"
+    "src",
+    "types"
   ],
   "scripts": {
-    "all": "npm-run-all clean pretty lint test",
+    "all": "npm-run-all clean pretty lint test types",
+    "ci": "CI=true npm run all",
     "changelog": "npx conventional-changelog -p eslint -i CHANGELOG.md -s -r1 -u",
-    "clean": "rimraf coverage .nyc_output",
+    "clean": "rimraf coverage types",
     "coverage": "c8 -r text npm test",
     "lint": "eslint",
     "pretty": "prettier -w src/*.js -w test/*.js",
-    "test": "mocha"
+    "test": "mocha",
+    "types": "tsc"
   },
   "dependencies": {
     "asyncc-promise": "^1.2.0",
@@ -58,6 +59,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
+    "@types/node": "^22.9.0",
     "c8": "^10.1.2",
     "eslint": "^9.15.0",
     "globals": "^15.12.0",
@@ -65,7 +67,8 @@
     "npm-run-all2": "^7.0.1",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
-    "shelljs": "^0.8.5"
+    "shelljs": "^0.8.5",
+    "typescript": "^5.6.3"
   },
   "c4uIgnore": {
     "chalk": "^4 // version >=5 uses ESM"

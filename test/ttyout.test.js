@@ -1,5 +1,5 @@
 const chalk = require('chalk')
-const { colorVersion, ttyout } = require('../src/ttyout')
+const { colorVersion, ttyout } = require('../src/ttyout.js')
 
 describe('#ttyout', function () {
   describe('colorVersion', function () {

@@ -2,10 +2,20 @@ const fsp = require('fs/promises')
 const { resolve } = require('path')
 const semver = require('semver')
 
+/**
+ * @typedef {{}|Record<string,string>} Packages
+ */
+
 class PckgJson {
+  /**
+   * @param {{
+   *  dirname?: string
+   *  filename?: string
+   * }} param0
+   */
   constructor({ dirname, filename = 'package.json' } = {}) {
     this.dirname = dirname || process.cwd()
-    this.filename = resolve(dirname, filename)
+    this.filename = resolve(this.dirname, filename)
     this.content = undefined
   }
 
@@ -25,6 +35,7 @@ class PckgJson {
    */
   _extract(_content) {
     const packages = {}
+    // @ts-expect-error
     this.fields.forEach((dep) => {
       Object.entries(this.content[dep] || {}).forEach(([pckg, version]) => {
         packages[pckg] = version
@@ -37,6 +48,7 @@ class PckgJson {
    * @private
    */
   _merge(content, packages) {
+    // @ts-expect-error
     this.fields.forEach((dep) => {
       Object.entries(this.content[dep] || {}).forEach(([pckg, _version]) => {
         const nextVersion = packages[pckg]
@@ -79,7 +91,7 @@ class PckgJson {
    *  dev?: boolean
    *  peer?: boolean
    * }} opts
-   * @returns {Promise<Record<string,string>}
+   * @returns {Promise<Packages>}
    */
   read(opts = {}) {
     if (!opts.prod && !opts.dev && !opts.peer) {

@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { versions, range } = require('../src/resolvers/npm')
+const { versions, range } = require('../src/resolvers/npm.js')
 
 const log = require('debug')('test:npm')
 

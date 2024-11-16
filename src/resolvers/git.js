@@ -4,6 +4,8 @@ const { fromUrl } = require('hosted-git-info')
 
 const log = require('debug')('check4updates:resolvers:git')
 
+/** @typedef {import('../types.js').Result} Result */
+
 const mode = 'git'
 
 const RE_VERSION = /([0-9]+(?:\.[0-9]+(?:\.[0-9]+|)|)(?:-[^{}^]*|))/
@@ -56,7 +58,7 @@ const test = range => {
  * get versions from git obtained by range
  * @param {string} pckg - package name
  * @param {string} range - range value - needs to match `file: ... .tgz`
- * @returns {Promise<Versions>}
+ * @returns {Promise<Result>}
  */
 const versions = (pckg, range) => {
   if (!test(range)) return Promise.reject(new Error(`${pckg}: no git url provided `))

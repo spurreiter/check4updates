@@ -2,6 +2,10 @@ const chalk = require('chalk')
 const semver = require('semver')
 const ProgressBar = require('progress')
 
+/**
+ * @typedef {import('./types.js').Result} Versions
+ */
+
 const progressBar = (total) => {
   const bar = new ProgressBar('[:bar] :current/:total :percent', {
     total,
@@ -16,13 +20,18 @@ const progressBar = (total) => {
 const RE_VERSION = /^[~^]?(\d+)\.(\d+)\.(x|\d+)(.*)$/
 const RE_VERSION_X = /^[~^]?(\d+)\.(x)(?:\.(x|\d+)|)?(.*)$/
 
+/**
+ * @param {string} version
+ * @returns {string[]|undefined}
+ */
 const parse = (version) => {
   let simple = RE_VERSION_X.exec(version) || RE_VERSION.exec(version)
-  if (simple) {
-    simple = simple.map((f) => (f === 'x' ? '0' : f))
-    simple.shift()
-  }
-  return simple
+  if (!simple) return
+
+  let _simple = simple.map((f) => (f === 'x' ? '0' : f))
+  _simple.shift()
+
+  return _simple
 }
 
 const colorVersion = (version, range, wildcard = '', ignore) => {
@@ -34,7 +43,7 @@ const colorVersion = (version, range, wildcard = '', ignore) => {
     return chalk.red(wildcard + version)
   }
   if ((r = parse(range))) {
-    const v = parse(version)
+    const v = parse(version) ?? []
     let i = 0
     for (; i < 3; i++) {
       if (v[i] !== r[i]) break
@@ -54,6 +63,10 @@ const colorVersion = (version, range, wildcard = '', ignore) => {
 
 const byPackageName = (a, b) => a.package.localeCompare(b.package)
 
+/**
+ * @param {{update?: boolean, info?: boolean}} param0
+ * @returns {(param0: { results: Versions[], type?: string, name: string, version: string }) => string}
+ */
 const ttyout =
   ({ update, info } = {}) =>
   ({ results, type = 'max', name, version }) => {
@@ -66,6 +79,8 @@ const ttyout =
 
     const filtered = results
       .filter((r) => {
+        const version = r[type]
+        if (!version) return false
         const pass = r.range !== r.wildcard + r[type]
         if (pass) {
           max.pckg = Math.max(max.pckg, r.package.length)

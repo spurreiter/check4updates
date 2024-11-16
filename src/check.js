@@ -1,11 +1,27 @@
 const { eachLimit } = require('asyncc-promise')
 const semver = require('semver')
-const { PckgJson } = require('./PckgJson')
-const { resolverPrepare, resolver, resolverRange } = require('./resolvers')
-const { maxSatisfying } = require('./semver')
-const { incexc } = require('./incexc')
+const { PckgJson } = require('./PckgJson.js')
+const {
+  resolverPrepare,
+  resolver,
+  resolverRange
+} = require('./resolvers/index.js')
+const { maxSatisfying } = require('./semver.js')
+const { incexc } = require('./incexc.js')
 const log = require('debug')('check4updates:check')
 
+/** @typedef {import('progress')} ProgressBar */
+/** @typedef {import('./types.js').Cli} Cli */
+/** @typedef {import('./types.js').Packages} Packages */
+/** @typedef {import('./types.js').NpmOptions} NpmOptions */
+/** @typedef {import('./types.js').Result} Result */
+
+/**
+ * @param {ProgressBar} progressBar
+ * @param {string} dirname
+ * @param {NpmOptions} npmOpts
+ * @returns {(packages: Packages) => Promise<Result[]>}
+ */
 const queryVersions = (progressBar, dirname, npmOpts) => (packages) => {
   return resolverPrepare(npmOpts).then(({ npmOpts }) => {
     log(npmOpts)
@@ -23,6 +39,10 @@ const queryVersions = (progressBar, dirname, npmOpts) => (packages) => {
   })
 }
 
+/**
+ * @param {Result[]} results
+ * @returns
+ */
 const calcVersions = (results) => {
   return results.map((pckg) => {
     log('package "%s"', pckg.package)
@@ -83,26 +103,27 @@ const updatePckg =
   }
 
 /**
+ * @param {Cli} [param0]
  * @returns {Promise} `{ results: object, type: string }`
  */
-async function check({
-  dirname,
-  update,
-  include,
-  exclude,
-  filter,
-  filterInv,
-  prod,
-  dev,
-  peer,
-  patch,
-  minor,
-  major,
-  // latest,
-  max,
-  progressBar
-} = {}) {
-  dirname = dirname || process.cwd()
+async function check(param0) {
+  const {
+    dirname = process.cwd(),
+    update,
+    include,
+    exclude,
+    filter,
+    filterInv,
+    prod,
+    dev,
+    peer,
+    patch,
+    minor,
+    major,
+    // latest,
+    max,
+    progressBar
+  } = param0 || {}
   const pckg = new PckgJson({ dirname })
   const npmOpts = {} // future use
   return pckg

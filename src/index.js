@@ -1,7 +1,7 @@
-const { cli } = require('./cli')
-const { check } = require('./check')
-const resolvers = require('./resolvers')
-const { ttyout } = require('./ttyout')
+const { cli } = require('./cli.js')
+const { check } = require('./check.js')
+const resolvers = require('./resolvers/index.js')
+const { ttyout } = require('./ttyout.js')
 
 module.exports = {
   cli,

@@ -1,5 +1,5 @@
 const { resolve } = require('path')
-const { progressBar, ttyout } = require('./ttyout')
+const { progressBar, ttyout } = require('./ttyout.js')
 
 const radioVersion = (o, field) => {
   ;['max', 'latest', 'major', 'minor', 'patch'].forEach((field) => {
@@ -87,15 +87,14 @@ function help(prgName) {
  *  dev?: boolean
  *  prod?: boolean
  *  update?: boolean
- *  exclude?: boolean
  *  filter?: RegExp
  *  filterInv?: RegExp
  *  info?: boolean
  *  _packages: string[]|[]
  *  include?: string[]
  *  exclude?: string[]
- *  progressBar: ProgressBar
- *  ttyout: ttyout
+ *  progressBar?: progressBar
+ *  ttyout?: ttyout
  * }} Cli
  */
 
@@ -105,6 +104,7 @@ function help(prgName) {
  */
 function cli(argv = process.argv.slice(2)) {
   const o = {
+    /** @type {string[]} */
     _packages: []
   }
 
@@ -119,6 +119,7 @@ function cli(argv = process.argv.slice(2)) {
         break
       }
       case '--version': {
+        // @ts-expect-error
         o.version = require('../package.json').version
         break
       }
@@ -186,7 +187,7 @@ function cli(argv = process.argv.slice(2)) {
         if (startsWithDash(arg)) {
           return error(o, `unknown option "${arg}"`)
         }
-        o._packages.push(arg)
+        if (arg) o._packages.push(arg)
         break
       }
     }

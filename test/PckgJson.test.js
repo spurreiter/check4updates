@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { PckgJson } = require('../src/PckgJson')
+const { PckgJson } = require('../src/PckgJson.js')
 
 const log = () => {} // console.log
 
@@ -21,7 +21,8 @@ describe('#PckgJson', function () {
         mocha: '^5',
         superagent: '^3.0.0',
         mydebug: 'file:../file/debug/mydebug-1.1.0-4.tgz',
-        'hosted-git-info': 'github:npm/hosted-git-info#semver:^2.1.0'
+        'hosted-git-info': 'github:npm/hosted-git-info#semver:^2.1.0',
+        '@my/package': 'workspace:*'
       })
     })
   })
@@ -39,7 +40,8 @@ describe('#PckgJson', function () {
         'lodash.get': '^3.6.9',
         pacote: '^2.1.2',
         semver: '^5.0',
-        'hosted-git-info': 'github:npm/hosted-git-info#semver:^2.1.0'
+        'hosted-git-info': 'github:npm/hosted-git-info#semver:^2.1.0',
+        '@my/package': 'workspace:*'
       })
     })
   })

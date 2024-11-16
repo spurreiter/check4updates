@@ -2,6 +2,8 @@ const fsp = require('fs/promises')
 const path = require('path')
 const log = require('debug')('check4updates:resolvers:file')
 
+/** @typedef {import('../types.js').Result} Result */
+
 const mode = 'file'
 
 const RE_VERSION = /([0-9]+\.[0-9]+\.[0-9]+(?:-.*|))/
@@ -23,7 +25,7 @@ const test = range => RE_FILE.test(range)
  * @param {string} range - range value - needs to match `file: ... .tgz`
  * @param {object} param2
  * @param {object} param2.dirname - actual dirname of package.json
- * @returns {Promise<Versions>}
+ * @returns {Promise<Result>}
  */
 const versions = (pckg, range, { dirname }) => {
   const _range = range
@@ -40,6 +42,7 @@ const versions = (pckg, range, { dirname }) => {
       const reFile = new RegExp(`^${toFile(pckg)}-` + RE_VERSION.source + RE_EXT.source)
       const versions = files.filter(f => reFile.test(f)).map(f => {
         const a = reFile.exec(f)
+        // @ts-expect-error
         return a[1]
       })
       log('%j', { pckg, versions })

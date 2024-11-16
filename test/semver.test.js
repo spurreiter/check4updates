@@ -1,6 +1,6 @@
 const assert = require('assert')
-const { maxSatisfying } = require('../src/semver')
-const versions = require('./fixtures/versions')
+const { maxSatisfying } = require('../src/semver.js')
+const versions = require('./fixtures/versions.js')
 
 const log = require('debug')('test:semver')
 
