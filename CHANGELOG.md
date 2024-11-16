@@ -1,3 +1,36 @@
+## [1.3.3](https://github.com/spurreiter/check4updates/compare/v1.3.2...v1.3.3) (2024-11-16)
+
+
+### chore
+
+* add ci badge ([7300bfd](https://github.com/spurreiter/check4updates/commit/7300bfd8ab6475fefd44235aa0008687bdcf014d))
+* bump dependencies ([68e9efc](https://github.com/spurreiter/check4updates/commit/68e9efc6ee8e51ffe7f07c06ad295cb64476111c))
+* enable github actions ([c955a1e](https://github.com/spurreiter/check4updates/commit/c955a1e9d950534e17d1fae0f1f6238b0be7da98))
+
+### docs
+
+* README ([195983f](https://github.com/spurreiter/check4updates/commit/195983f7107f0e09d625f6a7dfc42214d5199ff4))
+
+### feat
+
+* "workspace:" detection ([ddff3fa](https://github.com/spurreiter/check4updates/commit/ddff3fa9741e3b60f80b9959cdef7ab005ffbf30))
+* cli option --info ([1fe53ca](https://github.com/spurreiter/check4updates/commit/1fe53cafc775dbda35e480911864a92fb447f4bb))
+
+### fix
+
+* add c4uIgnore description to help output ([ea76aac](https://github.com/spurreiter/check4updates/commit/ea76aacff3de0eb1459174b94004001d6349d870))
+* update info ([0eb3ab2](https://github.com/spurreiter/check4updates/commit/0eb3ab259312b868e45e1e81547deafb3b46e777))
+
+### refactor
+
+* fs/promises ([f8a8d3b](https://github.com/spurreiter/check4updates/commit/f8a8d3bb1ecfe8a1ba635fdb9a7efa29fa097d50))
+
+### test
+
+* add test case for express latest ([be0f517](https://github.com/spurreiter/check4updates/commit/be0f517d7e890a382ff9585be622e7f2a89add77))
+
+
+
 ## [1.3.2](https://github.com/spurreiter/check4updates/compare/v1.3.1...v1.3.2) (2024-07-13)
 
 
