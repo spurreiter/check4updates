@@ -17,7 +17,8 @@
     "semver": "^5.0",
     "handlebars": "^3.0.1",
     "hosted-git-info": "github:npm/hosted-git-info#semver:^2.1.0",
-    "@my/package": "workspace:*"
+    "@my/package": "workspace:*",
+    "@my/pnpm-workspace.yaml": "catalog:"
   },
   "devDependencies": {
     "mocha": "^5",

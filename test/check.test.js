@@ -38,6 +38,12 @@ describe('check', function () {
           patch: undefined
         },
         {
+          final: undefined,
+          ignore: true,
+          package: '@my/pnpm-workspace.yaml',
+          patch: undefined
+        },
+        {
           final: '~2.1.0',
           patch: '2.1.0',
           package: 'chalk',
@@ -131,6 +137,11 @@ describe('check', function () {
           final: 'workspace:*',
           ignore: undefined,
           package: '@my/package'
+        },
+        {
+          final: undefined,
+          ignore: true,
+          package: '@my/pnpm-workspace.yaml',
         },
         { package: 'chalk', final: '~2.4.2', ignore: undefined },
         { package: 'debug', final: '^3.2.7', ignore: undefined },

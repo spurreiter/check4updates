@@ -22,7 +22,8 @@ describe('#PckgJson', function () {
         superagent: '^3.0.0',
         mydebug: 'file:../file/debug/mydebug-1.1.0-4.tgz',
         'hosted-git-info': 'github:npm/hosted-git-info#semver:^2.1.0',
-        '@my/package': 'workspace:*'
+        '@my/package': 'workspace:*',
+        '@my/pnpm-workspace.yaml': 'catalog:'
       })
     })
   })
@@ -41,7 +42,8 @@ describe('#PckgJson', function () {
         pacote: '^2.1.2',
         semver: '^5.0',
         'hosted-git-info': 'github:npm/hosted-git-info#semver:^2.1.0',
-        '@my/package': 'workspace:*'
+        '@my/package': 'workspace:*',
+        '@my/pnpm-workspace.yaml': 'catalog:'
       })
     })
   })

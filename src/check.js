@@ -71,6 +71,15 @@ const setIgnoredFlag = ({ results, ignored, type }) => {
   })
 }
 
+const ignorePnpmWorkspaceCatalog = ({ results }) => {
+  results.forEach((res) => {
+    // ignore pnpm catalog: ranges; edit them in pnpm-workspace.yaml
+    if (res.range === 'catalog:') {
+      res.ignore = true
+    }
+  })
+}
+
 const calcRange =
   ({ pckg, patch, minor, major, max }) =>
   (results) => {
@@ -86,6 +95,7 @@ const calcRange =
 
     const ignored = pckg.getIgnored()
     setIgnoredFlag({ results, ignored, type })
+    ignorePnpmWorkspaceCatalog({ results })
 
     const packages = resolverRange(results, type)
     log('packages', packages)
