@@ -1,5 +1,10 @@
-## [1.3.3](https://github.com/spurreiter/check4updates/compare/v1.3.2...v1.3.3) (2024-11-16)
+## 1.4.0 (2025-08-03)
 
+* feat: ignore pnpm workspace catalog: ranges ([be36ce0](https://github.com/spurreiter/check4updates/commit/be36ce0))
+* chore: bump dependencies ([10356b3](https://github.com/spurreiter/check4updates/commit/10356b3))
+
+
+## [1.3.3](https://github.com/spurreiter/check4updates/compare/v1.3.2...v1.3.3) (2024-11-16)
 
 ### chore
 
