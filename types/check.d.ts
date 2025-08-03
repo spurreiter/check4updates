@@ -7,4 +7,4 @@ export type Result = import("./types.js").Result;
  * @param {Cli} [param0]
  * @returns {Promise} `{ results: object, type: string }`
  */
-export function check(param0?: import("./cli.js").Cli | undefined): Promise<any>;
+export function check(param0?: Cli): Promise<any>;

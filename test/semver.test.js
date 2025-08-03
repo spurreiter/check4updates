@@ -20,7 +20,7 @@ describe('#semver', function () {
       })
     })
     it('latest express version', function () {
-      const {versions, range, latest} = fixtureExpress
+      const { versions, range, latest } = fixtureExpress
       // latest is from latest dist-tag
       const res = maxSatisfying(versions, range, latest)
       assert.deepStrictEqual(res, {
@@ -188,7 +188,10 @@ describe('#semver', function () {
       })
     })
     it('max-min-alt', function () {
-      const res = maxSatisfying(fixtureVersions, '>3.4.5 <4.2.0 || >=1.2.3 <2.0.4')
+      const res = maxSatisfying(
+        fixtureVersions,
+        '>3.4.5 <4.2.0 || >=1.2.3 <2.0.4'
+      )
       log(res)
       assert.deepStrictEqual(res, {
         wildcard: '^',

@@ -39,4 +39,4 @@ export type FoundVersions = {
  * @param {string} [latest] - latest package version
  * @returns {FoundVersions|null}
  */
-export function maxSatisfying(versions: string[] | undefined, range: string, latest?: string | undefined): FoundVersions | null;
+export function maxSatisfying(versions: string[] | undefined, range: string, latest?: string): FoundVersions | null;
