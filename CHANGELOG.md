@@ -1,3 +1,9 @@
+## 1.5.0 (2025-09-28)
+
+* feat: update pnpm-workspace catalog entries ([5202dfb](https://github.com/spurreiter/check4updates/commit/5202dfb))
+* chore: bump dependencies ([a67dc10](https://github.com/spurreiter/check4updates/commit/a67dc10))
+
+
 ## 1.4.0 (2025-08-03)
 
 * feat: ignore pnpm workspace catalog: ranges ([be36ce0](https://github.com/spurreiter/check4updates/commit/be36ce0))
