@@ -28,7 +28,6 @@ class PnpmWorkspaceYaml {
     let filename
     for (let maxDepth = 5; maxDepth > 0; maxDepth--) {
       filename = path.join(parts.join(path.sep), this.basename)
-      console.log(filename)
       const stats = await fsp.stat(filename).catch(() => null)
       if (stats?.isFile()) {
         break
