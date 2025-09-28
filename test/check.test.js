@@ -141,7 +141,7 @@ describe('check', function () {
         {
           final: undefined,
           ignore: true,
-          package: '@my/pnpm-workspace.yaml',
+          package: '@my/pnpm-workspace.yaml'
         },
         { package: 'chalk', final: '~2.4.2', ignore: undefined },
         { package: 'debug', final: '^3.2.7', ignore: undefined },
