@@ -12,6 +12,7 @@ describe('#PckgJson', function () {
       log(packages)
       assert.deepStrictEqual(packages, {
         debug: '^3.0.0',
+        c8: 'catalog:',
         chalk: '2.1.x',
         'lodash.get': '^3.6.9',
         handlebars: '^3.0.1',
@@ -55,6 +56,7 @@ describe('#PckgJson', function () {
     return pckg.read({ dev: true }).then((packages) => {
       log(packages)
       assert.deepStrictEqual(packages, {
+        c8: 'catalog:',
         mocha: '^5',
         mydebug: 'file:../file/debug/mydebug-1.1.0-4.tgz',
         shelljs: '~0.8.5'

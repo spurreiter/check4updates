@@ -5,7 +5,6 @@ describe('cli', function () {
   const tests = [
     [['--help'], { help: true }],
     [['-h'], { help: true }],
-    [['-?'], { help: true }],
     [['--version'], { version: require('../package.json').version }],
     [['--dir', './test'], { dirname: __dirname }],
     [['-d', '/dir'], { dirname: '/dir' }],

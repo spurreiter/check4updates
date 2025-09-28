@@ -21,6 +21,7 @@
     "@my/pnpm-workspace.yaml": "catalog:"
   },
   "devDependencies": {
+    "c8": "catalog:",
     "mocha": "^5",
     "shelljs": "~0.8.5",
     "mydebug": "file:../file/debug/mydebug-1.1.0-4.tgz"

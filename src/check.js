@@ -1,6 +1,7 @@
 const { eachLimit } = require('asyncc-promise')
 const semver = require('semver')
 const { PckgJson } = require('./PckgJson.js')
+const { PnpmWorkspaceYaml } = require('./PnpmWorkspaceYaml.js')
 const {
   resolverPrepare,
   resolver,
@@ -132,9 +133,12 @@ async function check(param0) {
     major,
     // latest,
     max,
-    progressBar
+    progressBar,
+    catalog
   } = param0 || {}
-  const pckg = new PckgJson({ dirname })
+  const pckg = catalog
+    ? new PnpmWorkspaceYaml({ dirname })
+    : new PckgJson({ dirname })
   const npmOpts = {} // future use
   return pckg
     .read({ prod, dev, peer })

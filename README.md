@@ -13,6 +13,7 @@ This one supports:
 - local tgz packages
 - tagged git versions on github/ gitlab/ bitbucket (e.g. [uWebSockets.js][])
 - ignore updates using `c4uIgnore` in `package.json`
+- `--catalog` option updates pnpm-workspace.yaml catalog entries
 
 For other similar tools see:
 
@@ -42,7 +43,7 @@ e.g.
 ```json
 {
   "name": "my-package",
-  "dependecies": {
+  "dependencies": {
     "chalk": "^4.0.0"
   },
   "c4uIgnore": {
@@ -56,23 +57,24 @@ e.g.
 ```
 c4u [options] [package ...]
 
-  --help|-h|-?          this help
-  --version             show version
-  --quiet|-q            quiet mode; no console.log
-  --update|-u           update package.json
-  --exclude|-x          exclude packages
-  --filter|-f <regex>   filter packages by regular expression
-  --Filter|-F <regex>   inverse filter packages by regular expression
-  --dir|-d <dirname>    use different dirname instead of cwd
-  --max                 update by max version
-  --latest              update by latest version (default)
-  --major               update by major version
-  --minor               update by minor version
-  --patch               update by patch version
-  --prod                only dependencies
-  --dev                 only devDependencies
-  --peer                only peerDependencies
-  --info                print package name & version (handy for monorepos)
+    -h, --help            this help
+        --version         show version
+    -q, --quiet           quiet mode; no console.log
+    -u, --update          update package.json
+    -x, --exclude         exclude packages
+    -f, --filter <regex>  filter packages by regular expression
+    -F, --Filter <regex>  inverse filter packages by regular expression
+    -d, --dir <dirname>   use different dirname instead of cwd
+        --max             update by max version
+        --latest          update by latest version (default)
+        --major           update by major version
+        --minor           update by minor version
+        --patch           update by patch version
+        --prod            only dependencies
+        --dev             only devDependencies
+        --peer            only peerDependencies
+        --info            print package name & version (handy for monorepos)
+    -c, --catalog         update pnpm-workspace.yaml "catalog:" entries
 
   package               package name to include/ exclude
 

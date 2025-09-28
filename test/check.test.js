@@ -44,6 +44,12 @@ describe('check', function () {
           patch: undefined
         },
         {
+          final: undefined,
+          ignore: true,
+          package: 'c8',
+          patch: undefined
+        },
+        {
           final: '~2.1.0',
           patch: '2.1.0',
           package: 'chalk',
@@ -143,6 +149,7 @@ describe('check', function () {
           ignore: true,
           package: '@my/pnpm-workspace.yaml'
         },
+        { package: 'c8', final: undefined, ignore: true },
         { package: 'chalk', final: '~2.4.2', ignore: undefined },
         { package: 'debug', final: '^3.2.7', ignore: undefined },
         { package: 'handlebars', final: '^3.0.8', ignore: undefined },
@@ -186,25 +193,32 @@ describe('check', function () {
       console.log(majorV)
 
       assert.deepStrictEqual(majorV, [
-        { package: 'chalk', final: '~5.2.0', ignore: undefined },
-        { package: 'debug', final: '^4.3.4', ignore: undefined },
+        { package: '@my/package', final: 'workspace:*', ignore: undefined },
+        {
+          package: '@my/pnpm-workspace.yaml',
+          final: undefined,
+          ignore: true
+        },
+        { package: 'c8', final: undefined, ignore: true },
+        { package: 'chalk', final: '~5.6.2', ignore: undefined },
+        { package: 'debug', final: '^4.4.3', ignore: undefined },
         { package: 'handlebars', final: undefined, ignore: true },
         {
           package: 'hosted-git-info',
-          final: 'github:npm/hosted-git-info#semver:^6.1.1',
+          final: 'github:npm/hosted-git-info#semver:^9.0.0',
           ignore: undefined
         },
         { package: 'lodash.get', final: '^4.4.2', ignore: undefined },
-        { package: 'mocha', final: '^10.2.0', ignore: undefined },
+        { package: 'mocha', final: '^11.7.2', ignore: undefined },
         {
           package: 'mydebug',
           final: 'file:../file/debug/mydebug-1.1.0-rc.3.tgz',
           ignore: undefined
         },
-        { package: 'pacote', final: '^15.1.1', ignore: undefined },
-        { package: 'semver', final: '^7.3.8', ignore: undefined },
+        { package: 'pacote', final: '^21.0.3', ignore: undefined },
+        { package: 'semver', final: '^7.7.2', ignore: undefined },
         { package: 'shelljs', final: undefined, ignore: true },
-        { package: 'superagent', final: '^8.0.9', ignore: undefined }
+        { package: 'superagent', final: '^10.2.3', ignore: undefined }
       ])
     })
   })

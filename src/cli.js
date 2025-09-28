@@ -19,23 +19,24 @@ function help(prgName) {
   console.log(`
   ${prgName} [options] [package ...]
 
-    --help|-h|-?          this help
-    --version             show version
-    --quiet|-q            quiet mode; no console.log
-    --update|-u           update package.json
-    --exclude|-x          exclude packages
-    --filter|-f <regex>   filter packages by regular expression
-    --Filter|-F <regex>   inverse filter packages by regular expression
-    --dir|-d <dirname>    use different dirname instead of cwd
-    --max                 update by max version
-    --latest              update by latest version (default)
-    --major               update by major version
-    --minor               update by minor version
-    --patch               update by patch version
-    --prod                only dependencies
-    --dev                 only devDependencies
-    --peer                only peerDependencies
-    --info                print package name & version (handy for monorepos) 
+    -h, --help            this help
+        --version         show version
+    -q, --quiet           quiet mode; no console.log
+    -u, --update          update package.json
+    -x, --exclude         exclude packages
+    -f, --filter <regex>  filter packages by regular expression
+    -F, --Filter <regex>  inverse filter packages by regular expression
+    -d, --dir <dirname>   use different dirname instead of cwd
+        --max             update by max version
+        --latest          update by latest version (default)
+        --major           update by major version
+        --minor           update by minor version
+        --patch           update by patch version
+        --prod            only dependencies
+        --dev             only devDependencies
+        --peer            only peerDependencies
+        --info            print package name & version (handy for monorepos)
+    -c, --catalog         update pnpm-workspace.yaml "catalog:" entries
 
     package               package name to include/ exclude
 
@@ -90,6 +91,7 @@ function help(prgName) {
  *  filter?: RegExp
  *  filterInv?: RegExp
  *  info?: boolean
+ *  catalog?: boolean
  *  _packages: string[]|[]
  *  include?: string[]
  *  exclude?: string[]
@@ -112,7 +114,6 @@ function cli(argv = process.argv.slice(2)) {
     const arg = argv.shift()
 
     switch (arg) {
-      case '-?':
       case '-h':
       case '--help': {
         o.help = true
@@ -181,6 +182,11 @@ function cli(argv = process.argv.slice(2)) {
       }
       case '--info': {
         o.info = true
+        break
+      }
+      case '-c':
+      case '--catalog': {
+        o.catalog = true
         break
       }
       default: {

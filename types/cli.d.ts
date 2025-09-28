@@ -15,6 +15,7 @@ export type Cli = {
     filter?: RegExp;
     filterInv?: RegExp;
     info?: boolean;
+    catalog?: boolean;
     _packages: string[] | [];
     include?: string[];
     exclude?: string[];
@@ -47,6 +48,7 @@ export type Cli = {
  *  filter?: RegExp
  *  filterInv?: RegExp
  *  info?: boolean
+ *  catalog?: boolean
  *  _packages: string[]|[]
  *  include?: string[]
  *  exclude?: string[]
