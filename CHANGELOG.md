@@ -1,3 +1,10 @@
+## 1.6.0 (2025-10-13)
+
+* feat: add -a, --age to set minimum release age for updates ([13da2c0](https://github.com/spurreiter/check4updates/commit/13da2c0))
+* fix: remove console.log ([95c2efd](https://github.com/spurreiter/check4updates/commit/95c2efd))
+
+
+
 ## 1.5.0 (2025-09-28)
 
 * feat: update pnpm-workspace catalog entries ([5202dfb](https://github.com/spurreiter/check4updates/commit/5202dfb))
