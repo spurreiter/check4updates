@@ -134,7 +134,8 @@ async function check(param0) {
     // latest,
     max,
     progressBar,
-    catalog
+    catalog,
+    minReleaseAge
   } = param0 || {}
   const pckg = catalog
     ? new PnpmWorkspaceYaml({ dirname })
@@ -145,7 +146,7 @@ async function check(param0) {
     .then((packages) =>
       incexc({ packages, include, exclude, filter, filterInv })
     )
-    .then(queryVersions(progressBar, dirname, npmOpts))
+    .then(queryVersions(progressBar, dirname, { ...npmOpts, minReleaseAge }))
     .then(calcVersions)
     .then(calcRange({ pckg, patch, minor, major, max }))
     .then(updatePckg(update, pckg))

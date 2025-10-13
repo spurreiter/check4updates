@@ -75,6 +75,7 @@ c4u [options] [package ...]
         --peer            only peerDependencies
         --info            print package name & version (handy for monorepos)
     -c, --catalog         update pnpm-workspace.yaml "catalog:" entries
+    -a, --age             minimum release age for a package in days
 
   package               package name to include/ exclude
 
@@ -97,7 +98,6 @@ supported URLs in dependencies:
   git://github.com/npm/cli.git#semver:~1.0.27
   github:npm/cli#semver:~1.0.27
   https://github.com/npm/cli/archive/v1.0.27.tar.gz
-
   file:test/my-debug-1.0.0.tgz
 
 ignore updates in package.json:
@@ -105,6 +105,7 @@ ignore updates in package.json:
   { ...
     "c4uIgnore": {
       "<package-name>": "<allowed-range>[ // optional comment]"
+      "semver": "^5.0.0 // keep major version 5"
     }
   }
 

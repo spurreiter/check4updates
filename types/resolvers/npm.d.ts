@@ -2,9 +2,11 @@ export type Result = import("../types.js").Result;
 export function prepare(): Promise<any>;
 /**
  * @param {string} pckg - package name
+ * @param {string} range - semver range
+ * @param {object} opts - options
  * @returns {Promise<Result>}
  */
-export function versions(pckg: string, range: any, opts: any): Promise<Result>;
+export function versions(pckg: string, range: string, opts: object): Promise<Result>;
 /**
  * selected range
  * @param {object} versionO

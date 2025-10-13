@@ -16,6 +16,7 @@ export type Cli = {
     filterInv?: RegExp;
     info?: boolean;
     catalog?: boolean;
+    minReleaseAge?: number;
     _packages: string[] | [];
     include?: string[];
     exclude?: string[];
@@ -49,6 +50,7 @@ export type Cli = {
  *  filterInv?: RegExp
  *  info?: boolean
  *  catalog?: boolean
+ *  minReleaseAge?: number
  *  _packages: string[]|[]
  *  include?: string[]
  *  exclude?: string[]

@@ -8,6 +8,11 @@ const radioVersion = (o, field) => {
   o[field] = true
 }
 
+const toNumber = (str) => {
+  const n = +str
+  return n - n === 0 ? n : undefined
+}
+
 const startsWithDash = (str) => str && str[0] === '-'
 
 const error = (o, msg) => {
@@ -37,6 +42,7 @@ function help(prgName) {
         --peer            only peerDependencies
         --info            print package name & version (handy for monorepos)
     -c, --catalog         update pnpm-workspace.yaml "catalog:" entries
+    -a, --age             minimum release age for a package in days
 
     package               package name to include/ exclude
 
@@ -51,7 +57,7 @@ function help(prgName) {
     ${prgName} --minor --dev
                           show minor version updates in devDependencies
 
-  supported URLs in dependencies:
+  supported URLs in dependencies (examples):
 
     git+ssh://git@github.com:npm/cli#semver:^5.0
     git+https://user@github.com/npm/cli.git#semver:^5.0
@@ -59,14 +65,14 @@ function help(prgName) {
     git://github.com/npm/cli.git#semver:~1.0.27
     github:npm/cli#semver:~1.0.27
     https://github.com/npm/cli/archive/v1.0.27.tar.gz
-
     file:test/my-debug-1.0.0.tgz
 
   ignore updates in package.json:
 
     { ...
       "c4uIgnore": {
-        "<package-name>": "<allowed-range>[ // optional comment]"
+        "<package-name>": "<allowed-range>[ // optional comment]",
+        "semver": "^5.0.0 // keep major version 5"
       }
     }
 
@@ -92,6 +98,7 @@ function help(prgName) {
  *  filterInv?: RegExp
  *  info?: boolean
  *  catalog?: boolean
+ *  minReleaseAge?: number
  *  _packages: string[]|[]
  *  include?: string[]
  *  exclude?: string[]
@@ -187,6 +194,16 @@ function cli(argv = process.argv.slice(2)) {
       case '-c':
       case '--catalog': {
         o.catalog = true
+        break
+      }
+      case '-a':
+      case '--age': {
+        const arg1 = argv.shift()
+        const minReleaseAge = toNumber(arg1)
+        if (!minReleaseAge || startsWithDash(arg1)) {
+          return error(o, `option "${arg}" needs number of days`)
+        }
+        o.minReleaseAge = minReleaseAge
         break
       }
       default: {

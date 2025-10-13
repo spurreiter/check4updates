@@ -174,11 +174,15 @@ describe('check', function () {
   })
 
   // needs constant updates!
-  it.skip('shall get major versions', function () {
+  it('shall get major versions by minReleaseAge', function () {
     this.timeout(5000)
+
+    const minReleaseAge = daysSince(new Date('2025-10-01'))
+
     return check({
       dirname: `${__dirname}/fixtures/tmp`,
-      major: true
+      major: true,
+      minReleaseAge
     }).then(({ type, results }) => {
       log(type, results)
 
@@ -190,7 +194,7 @@ describe('check', function () {
         }))
         .sort((a, b) => a.package.localeCompare(b.package))
 
-      console.log(majorV)
+      // console.log(majorV)
 
       assert.deepStrictEqual(majorV, [
         { package: '@my/package', final: 'workspace:*', ignore: undefined },
@@ -205,11 +209,11 @@ describe('check', function () {
         { package: 'handlebars', final: undefined, ignore: true },
         {
           package: 'hosted-git-info',
-          final: 'github:npm/hosted-git-info#semver:^9.0.0',
+          final: 'github:npm/hosted-git-info#semver:^9.0.2',
           ignore: undefined
         },
         { package: 'lodash.get', final: '^4.4.2', ignore: undefined },
-        { package: 'mocha', final: '^11.7.2', ignore: undefined },
+        { package: 'mocha', final: '^11.7.3', ignore: undefined },
         {
           package: 'mydebug',
           final: 'file:../file/debug/mydebug-1.1.0-rc.3.tgz',
@@ -254,4 +258,43 @@ describe('check', function () {
       ])
     })
   })
+
+  it('shall get filtered packages by minReleaseAge', function () {
+    this.timeout(7000)
+
+    const minReleaseAge = daysSince(new Date('2015-01-01'))
+
+    return check({
+      dirname: `${__dirname}/fixtures/tmp`,
+      minor: true,
+      minReleaseAge,
+      filter: /chalk|^debug/i
+    }).then(({ type, results }) => {
+      log(type, results)
+
+      const minorV = results
+        .map((r) => ({
+          // minor: r.minor,
+          package: r.package,
+          final: r.final
+        }))
+        .sort((a, b) => a.package.localeCompare(b.package))
+
+      log(minorV)
+
+      assert.deepStrictEqual(minorV, [
+        {
+          final: '~0.5.1',
+          package: 'chalk'
+        },
+        {
+          final: '^2.1.1',
+          package: 'debug'
+        }
+      ])
+    })
+  })
 })
+
+const daysSince = (date) =>
+  Math.floor((Date.now() - date.getTime()) / (24 * 60 * 60e3))

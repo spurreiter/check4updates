@@ -61,7 +61,9 @@ describe('cli', function () {
       {
         filterInv: /chalk|debug/i
       }
-    ]
+    ],
+    [['-a', '2'], { minReleaseAge: 2 }],
+    [['--age', '2.7'], { minReleaseAge: 2.7 }]
   ]
   tests.forEach((test) => {
     const [argv, exp] = test
@@ -84,5 +86,9 @@ describe('cli', function () {
   it('shall set error on unknown command', function () {
     const res = cli(['--unknown'])
     assert.strictEqual(res.error, 'unknown option "--unknown"')
+  })
+  it('shall set error on missing number for --age command', function () {
+    const res = cli(['--age', '--max'])
+    assert.strictEqual(res.error, 'option "--age" needs number of days')
   })
 })
