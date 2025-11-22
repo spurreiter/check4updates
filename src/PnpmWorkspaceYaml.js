@@ -1,5 +1,5 @@
-const fsp = require('fs/promises')
-const path = require('path')
+const fsp = require('node:fs/promises')
+const path = require('node:path')
 const semver = require('semver')
 const yaml = require('js-yaml')
 

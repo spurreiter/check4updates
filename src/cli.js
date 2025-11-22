@@ -1,4 +1,4 @@
-const { resolve } = require('path')
+const { resolve } = require('node:path')
 const { progressBar, ttyout } = require('./ttyout.js')
 
 const radioVersion = (o, field) => {

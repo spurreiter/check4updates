@@ -1,11 +1,17 @@
-const { spawn } = require('child_process')
+const { spawn } = require('node:child_process')
+const os = require('node:os')
 
-async function exec (command, args) {
+const spawnOptions = os.platform() === 'win32' ? {
+  shell: true,
+  windowsHide: true
+} : {}
+
+async function exec(command, args) {
   let stdout = ''
   let stderr = ''
 
   return new Promise((resolve, reject) => {
-    const sub = spawn(command, args, { windowsHide: true })
+    const sub = spawn(command, args, spawnOptions)
 
     const handleError = err => {
       if (!err) err = new Error(stderr)

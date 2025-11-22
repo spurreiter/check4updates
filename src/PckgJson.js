@@ -1,5 +1,5 @@
-const fsp = require('fs/promises')
-const { resolve } = require('path')
+const fsp = require('node:fs/promises')
+const { resolve } = require('node:path')
 const semver = require('semver')
 
 /**
