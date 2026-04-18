@@ -216,7 +216,7 @@ describe('check', function () {
         { package: 'mocha', final: '^11.7.3', ignore: undefined },
         {
           package: 'mydebug',
-          final: 'file:../file/debug/mydebug-1.1.0-rc.3.tgz',
+          final: 'file:../file/debug/mydebug-1.0.0.tgz',
           ignore: undefined
         },
         { package: 'pacote', final: '^21.0.3', ignore: undefined },

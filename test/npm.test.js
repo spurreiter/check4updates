@@ -1,7 +1,12 @@
 const assert = require('assert')
-const { versions, range } = require('../src/resolvers/npm.js')
+const path = require('path')
+const fs = require('fs')
+const { versions, range, prepare } = require('../src/resolvers/npm.js')
 
 const log = require('debug')('test:npm')
+
+const fixtureDir = path.join(__dirname, 'fixtures', 'file')
+const npmrcPath = path.join(fixtureDir, '.npmrc')
 
 describe('#npm', function () {
   describe('versions', function () {
@@ -80,6 +85,22 @@ describe('#npm', function () {
             )
           }
         }
+      )
+    })
+
+    it('shall parse min-release-age configuration value from fixture', async function () {
+      const content = fs.readFileSync(npmrcPath, 'utf8')
+      const match = content.match(/min-release-age=(\d+)/)
+      assert.ok(match, 'should find min-release-age configuration')
+      const minAge = parseInt(match[1], 10)
+      assert.strictEqual(minAge, 4, 'min-release-age should be 4 days')
+      assert.ok(!isNaN(minAge), 'parsed value should be a valid number')
+      assert.ok(minAge > 0, 'min-release-age should be greater than 0')
+      const got = await prepare({ cwd: fixtureDir })
+      assert.strictEqual(
+        got.minReleaseAge,
+        4,
+        'prepare should set minReleaseAge option from .npmrc'
       )
     })
   })
