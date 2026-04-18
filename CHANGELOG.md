@@ -1,3 +1,11 @@
+## 1.7.0 (2026-04-18)
+
+* chore: bump dependencies ([5053202](https://github.com/spurreiter/check4updates/commit/5053202))
+* feat: use min-release-age from .npmrc ([726cb20](https://github.com/spurreiter/check4updates/commit/726cb20))
+* feat: use min-release-age from .npmrc ([fb3a91d](https://github.com/spurreiter/check4updates/commit/fb3a91d))
+* test: fix failing git test ([72cfa77](https://github.com/spurreiter/check4updates/commit/72cfa77))
+* fix: fix major version if latest is prerelease ([c46171c](https://github.com/spurreiter/check4updates/commit/c46171c))
+
 ## 1.6.1 (2025-11-22)
 
 - fix: windows compatibility ([0d1098b](https://github.com/spurreiter/check4updates/commit/0d1098b))
