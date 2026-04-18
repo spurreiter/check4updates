@@ -69,7 +69,7 @@ describe('#semver', function () {
         wildcard: '~',
         max: '2.0.0-b',
         latest: '1.0.0',
-        major: '2.0.0-b',
+        major: '1.0.0',
         minor: '2.0.0-b',
         patch: '2.0.0-b'
       })
@@ -221,7 +221,7 @@ describe('#semver', function () {
         wildcard: '~',
         max: '6.1.0-beta',
         latest: '6.0.0',
-        major: '6.1.0-beta',
+        major: '6.0.0',
         minor: '6.1.0-beta',
         patch: '6.1.0-beta'
       })
@@ -288,7 +288,7 @@ describe('#semver', function () {
         wildcard: '^',
         max: '1.0.1-0',
         latest: '1.0.1-0',
-        major: '1.0.1-0',
+        major: '1.0.0',
         minor: '1.0.1-0',
         patch: '1.0.1-0'
       })
@@ -304,6 +304,55 @@ describe('#semver', function () {
         major: '1.0.0',
         minor: '1.0.0',
         patch: '1.0.0'
+      })
+    })
+
+    it('issue with prerelease versions', function () {
+      const versions = [
+        "5.7.0-dev.20240904",
+        "5.6.2",
+        "5.7.0-dev.20240911",
+        "5.7.0-dev.20241008",
+        "5.6.3",
+        "5.7.0-dev.20241009",
+        "5.7.0-beta",
+        "5.7.0-dev.20241010",
+        "5.8.0-dev.20241108",
+        "5.7.1-rc",
+        "5.8.0-dev.20241109",
+        "5.8.0-dev.20250129",
+        "5.8.0-beta",
+        "5.9.0-dev.20250405",
+        "5.9.0-dev.20250724",
+        "5.9.1-rc",
+        "5.9.0-dev.20250725",
+        "5.9.0-dev.20250731",
+        "5.9.2",
+        "6.0.0-dev.20250801",
+        "6.0.0-dev.20250930",
+        "5.9.3",
+        "6.0.0-dev.20251001",
+        "6.0.0-dev.20260211",
+        "6.0.0-beta",
+        "6.0.0-dev.20260212",
+        "6.0.0-dev.20260306",
+        "6.0.1-rc",
+        "6.0.0-dev.20260307",
+        "6.0.0-dev.20260323",
+        "6.0.2",
+        "6.0.0-dev.20260324",
+        "6.0.0-dev.20260401"
+      ]
+
+      const res = maxSatisfying(versions, '^5.9.3', '6.0.0-dev.20260401')
+      log(res)
+      assert.deepStrictEqual(res, {
+        wildcard: '^',
+        max: '6.0.2',
+        latest: '6.0.0-dev.20260401',
+        major: '6.0.2',
+        minor: '5.9.3',
+        patch: '5.9.3'
       })
     })
   })

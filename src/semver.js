@@ -85,13 +85,17 @@ const maxSatisfying = (versions = [], range, latest) => {
 
   const patch = semver.maxSatisfying(versions, `~${_min}`)
   const minor = semver.maxSatisfying(versions, `^${_max}`)
-  const major =
+  let major =
     latest && semver.gt(latest, _max)
       ? semver.maxSatisfying(versions, `<=${latest} >=${_max}`)
       : semver.maxSatisfying(versions, `>=${_max}`)
 
   const latestStable = findLatestStable(sorted) || major
   latest = latest || (semver.satisfies(max, _range) ? max : latestStable)
+
+  if (isPreVersion(major) && !isPreVersion(latestStable)) {
+    major = latestStable
+  }
 
   log('%j', {
     wildcard,
