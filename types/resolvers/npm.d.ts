@@ -1,5 +1,7 @@
 export type Result = import("../types.js").Result;
-export function prepare(): Promise<any>;
+export function prepare(spawnOpts: any): Promise<{
+    strictSSL: boolean;
+}>;
 /**
  * @param {string} pckg - package name
  * @param {string} range - semver range
