@@ -127,7 +127,6 @@ function cli(argv = process.argv.slice(2)) {
         break
       }
       case '--version': {
-        // @ts-expect-error
         o.version = require('../package.json').version
         break
       }
