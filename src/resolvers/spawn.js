@@ -6,12 +6,12 @@ const spawnOptions = os.platform() === 'win32' ? {
   windowsHide: true
 } : {}
 
-async function exec(command, args) {
+async function exec(command, args, opts) {
   let stdout = ''
   let stderr = ''
 
   return new Promise((resolve, reject) => {
-    const sub = spawn(command, args, spawnOptions)
+    const sub = spawn(command, args, { ...spawnOptions, ...opts })
 
     const handleError = err => {
       if (!err) err = new Error(stderr)

@@ -141,12 +141,16 @@ async function check(param0) {
     ? new PnpmWorkspaceYaml({ dirname })
     : new PckgJson({ dirname })
   const npmOpts = {} // future use
+  // Only include minReleaseAge if explicitly provided via CLI
+  if (minReleaseAge !== undefined) {
+    npmOpts.minReleaseAge = minReleaseAge
+  }
   return pckg
     .read({ prod, dev, peer })
     .then((packages) =>
       incexc({ packages, include, exclude, filter, filterInv })
     )
-    .then(queryVersions(progressBar, dirname, { ...npmOpts, minReleaseAge }))
+    .then(queryVersions(progressBar, dirname, npmOpts))
     .then(calcVersions)
     .then(calcRange({ pckg, patch, minor, major, max }))
     .then(updatePckg(update, pckg))
