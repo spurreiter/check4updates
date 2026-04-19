@@ -1,8 +1,7 @@
-const spawn = require('./spawn.js')
-
-const { fromUrl } = require('hosted-git-info')
-
-const log = require('debug')('check4updates:resolvers:git')
+import spawn from './spawn.js'
+import hostedGitInfo from 'hosted-git-info'
+import debug from 'debug'
+const log = debug('check4updates:resolvers:git')
 
 /** @typedef {import('../types.js').Result} Result */
 
@@ -16,7 +15,7 @@ const RE_SEMVER_RANGE = /#semver:([~^]|)([0-9]+(?:\.[0-9]+(?:\.[0-9]+|)|)(?:-[^{
  */
 const hostedUrl = range => {
   let url
-  const hgi = fromUrl(range, { allowOtherHosts: true })
+  const hgi = hostedGitInfo.fromUrl(range, { allowOtherHosts: true })
   if (hgi) {
     if (hgi.default === 'sshurl') {
       // git+ssh://git@github.com/account/repo.git#v6.1.0
@@ -60,7 +59,7 @@ const test = range => {
  * @param {string} range - range value - needs to match `file: ... .tgz`
  * @returns {Promise<Result>}
  */
-const versions = (pckg, range) => {
+const versions = async (pckg, range) => {
   if (!test(range)) return Promise.reject(new Error(`${pckg}: no git url provided `))
 
   const _range = range // store org value
@@ -69,32 +68,34 @@ const versions = (pckg, range) => {
   const svRange = getSemverRange(_range)[0] || '^'
   range = range ? svRange + range : '*'
 
-  return gitRemoteTags(_range)
-    .then(tags => {
-      const _versions = tags.split(/[\r\n]/)
-        .map(t => {
-          const [_0, ref] = t.split(/\s+/) // eslint-disable-line no-unused-vars
-          return getSemver(ref)
-        })
-        .filter(Boolean)
-      const versions = Array.from(new Set(_versions))
-      log('%j', { pckg, versions })
+  try {
+    const tags = await gitRemoteTags(_range)
+    const _versions = tags.split(/[\r\n]/)
+      .map(t => {
+        const [_0, ref] = t.split(/\s+/) // eslint-disable-line no-unused-vars
+        return getSemver(ref)
+      })
+      .filter(Boolean)
+    const versions = Array.from(new Set(_versions))
+    log('%j', { pckg, versions })
 
-      return {
-        mode,
-        package: pckg,
-        _range,
-        range,
-        versions
-      }
-    })
-    .catch(error => ({
+    return {
       mode,
       package: pckg,
       _range,
       range,
-      error
-    }))
+      versions
+    }
+  } catch (error) {
+    const errObj = error instanceof Error ? error : new Error(String(error))
+    return {
+      mode,
+      package: pckg,
+      _range,
+      range,
+      error: errObj
+    }
+  }
 }
 
 /**
@@ -109,10 +110,4 @@ const range = (versionO, type) => {
     : versionO._range
 }
 
-module.exports = {
-  test,
-  versions,
-  range,
-  hostedUrl,
-  getSemver
-}
+export { test, versions, range, hostedUrl, getSemver }

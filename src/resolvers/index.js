@@ -2,38 +2,18 @@
 /** @typedef {import('../types.js').NpmOptions} NpmOptions */
 /** @typedef {import('../types.js').Result} Result */
 
-const {
-  test: fileTest,
-  versions: fileVersions,
-  range: fileRange
-} = require('./file.js')
-
-const {
-  test: gitTest,
-  versions: gitVersions,
-  range: gitRange
-} = require('./git.js')
-
-const {
-  prepare: npmPrepare,
-  versions: npmVersions,
-  range: npmRange
-} = require('./npm.js')
-
-const {
-  test: wsTest,
-  versions: wsVersions,
-  range: wsRange
-} = require('./workspace.js')
+import { test as fileTest, versions as fileVersions, range as fileRange } from './file.js'
+import { test as gitTest, versions as gitVersions, range as gitRange } from './git.js'
+import { prepare as npmPrepare, versions as npmVersions, range as npmRange } from './npm.js'
+import { test as wsTest, versions as wsVersions, range as wsRange } from './workspace.js'
 
 /**
  * @param {NpmOptions} [npmOpts] 
  * @returns 
  */
-const resolverPrepare = (npmOpts = {}) => {
-  return npmPrepare().then((_npmOpts) => ({
-    npmOpts: Object.assign({}, _npmOpts, npmOpts)
-  }))
+const resolverPrepare = async (npmOpts = {}) => {
+  const _npmOpts = await npmPrepare()
+  return { npmOpts: Object.assign({}, _npmOpts, npmOpts) }
 }
 
 /**
@@ -84,8 +64,4 @@ const resolverRange = (foundPckgVersions, type) => {
   return packages
 }
 
-module.exports = {
-  resolverPrepare,
-  resolver,
-  resolverRange
-}
+export { resolverPrepare, resolver, resolverRange }

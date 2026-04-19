@@ -1,4 +1,5 @@
-const log = require('debug')('check4updates:resolvers:workspace')
+import debug from 'debug'
+const log = debug('check4updates:resolvers:workspace')
 
 /** @typedef {import('../types.js').Result} Result */
 
@@ -46,8 +47,4 @@ const range = (versionO, _type) => {
   return versionO._range
 }
 
-module.exports = {
-  test,
-  versions,
-  range
-}
+export { test, versions, range }

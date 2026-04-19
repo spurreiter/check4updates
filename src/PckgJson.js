@@ -1,6 +1,6 @@
-const fsp = require('node:fs/promises')
-const { resolve } = require('node:path')
-const semver = require('semver')
+import fsp from 'node:fs/promises'
+import { resolve } from 'node:path'
+import semver from 'semver'
 
 /**
  * @typedef {{}|Record<string,string>} Packages
@@ -118,6 +118,4 @@ class PckgJson {
   }
 }
 
-module.exports = {
-  PckgJson
-}
+export { PckgJson }

@@ -1,7 +1,7 @@
-const assert = require('assert')
-const { incexc } = require('../src/incexc.js')
-
-const log = require('debug')('test:incexc')
+import assert from 'node:assert'
+import { incexc } from '../src/incexc.js'
+import debug from 'debug'
+const log = debug('test:incexc')
 
 describe('incexc', function () {
   const packages = {

@@ -1,15 +1,12 @@
-const { eachLimit } = require('asyncc-promise')
-const semver = require('semver')
-const { PckgJson } = require('./PckgJson.js')
-const { PnpmWorkspaceYaml } = require('./PnpmWorkspaceYaml.js')
-const {
-  resolverPrepare,
-  resolver,
-  resolverRange
-} = require('./resolvers/index.js')
-const { maxSatisfying } = require('./semver.js')
-const { incexc } = require('./incexc.js')
-const log = require('debug')('check4updates:check')
+import { eachLimit } from 'asyncc-promise'
+import semver from 'semver'
+import { PckgJson } from './PckgJson.js'
+import { PnpmWorkspaceYaml } from './PnpmWorkspaceYaml.js'
+import { resolverPrepare, resolver, resolverRange } from './resolvers/index.js'
+import { maxSatisfying } from './semver.js'
+import { incexc } from './incexc.js'
+import debug from 'debug'
+const log = debug('check4updates:check')
 
 /** @typedef {import('progress')} ProgressBar */
 /** @typedef {import('./types.js').Cli} Cli */
@@ -23,20 +20,18 @@ const log = require('debug')('check4updates:check')
  * @param {NpmOptions} npmOpts
  * @returns {(packages: Packages) => Promise<Result[]>}
  */
-const queryVersions = (progressBar, dirname, npmOpts) => (packages) => {
-  return resolverPrepare(npmOpts).then(({ npmOpts }) => {
-    log(npmOpts)
-    log(packages)
-    const total = Object.keys(packages).length
-    const progress = total && progressBar && progressBar(total)
-    const limit = Math.min(50, total)
+const queryVersions = (progressBar, dirname, npmOpts) => async (packages) => {
+  const { npmOpts: preparedOpts } = await resolverPrepare(npmOpts)
+  log(preparedOpts)
+  log(packages)
+  const total = Object.keys(packages).length
+  const progress = total && progressBar && progressBar(total)
+  const limit = Math.min(50, total)
 
-    return eachLimit(limit, Object.entries(packages), ([pckg, range]) => {
-      return resolver(pckg, range, { dirname, npmOpts }).then((data) => {
-        progress && progress.tick()
-        return data
-      })
-    })
+  return eachLimit(limit, Object.entries(packages), async ([pckg, range]) => {
+    const data = await resolver(pckg, range, { dirname, npmOpts: preparedOpts })
+    progress && progress.tick()
+    return data
   })
 }
 
@@ -145,17 +140,20 @@ async function check(param0) {
   if (minReleaseAge !== undefined) {
     npmOpts.minReleaseAge = minReleaseAge
   }
-  return pckg
-    .read({ prod, dev, peer })
-    .then((packages) =>
-      incexc({ packages, include, exclude, filter, filterInv })
-    )
-    .then(queryVersions(progressBar, dirname, npmOpts))
-    .then(calcVersions)
-    .then(calcRange({ pckg, patch, minor, major, max }))
-    .then(updatePckg(update, pckg))
+
+  const packages = await pckg.read({ prod, dev, peer })
+  const filtered = await incexc({
+    packages,
+    include,
+    exclude,
+    filter,
+    filterInv
+  })
+  const results = await queryVersions(progressBar, dirname, npmOpts)(filtered)
+  const versions = calcVersions(results)
+  const ranged = calcRange({ pckg, patch, minor, major, max })(versions)
+  const updated = await updatePckg(update, pckg)(ranged)
+  return updated
 }
 
-module.exports = {
-  check
-}
+export { check }

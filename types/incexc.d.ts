@@ -1,5 +1,5 @@
-export type Packages = import("./PckgJson").Packages;
-/** @typedef {import('./PckgJson').Packages} Packages */
+export type Packages = import("./PckgJson.js").Packages;
+/** @typedef {import('./PckgJson.js').Packages} Packages */
 /**
  * filter include and excludes
  * @param {object} param1

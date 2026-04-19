@@ -1,5 +1,6 @@
-const semver = require('semver')
-const log = require('debug')('check4updates:semver')
+import semver from 'semver'
+import debug from 'debug'
+const log = debug('check4updates:semver')
 
 const isPreVersion = (version) => /^\d+\.\d+\.\d+-/.test(version)
 
@@ -115,6 +116,4 @@ const maxSatisfying = (versions = [], range, latest) => {
   }
 }
 
-module.exports = {
-  maxSatisfying
-}
+export { maxSatisfying }

@@ -1,5 +1,8 @@
-const assert = require('assert')
-const { PckgJson } = require('../src/PckgJson.js')
+import assert from 'node:assert'
+import { PckgJson } from '../src/PckgJson.js'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const log = () => {} // console.log
 
