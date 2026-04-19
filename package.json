@@ -1,6 +1,6 @@
 {
   "name": "check4updates",
-  "version": "1.7.0",
+  "version": "2.0.0-0",
   "description": "Check and update package dependencies.",
   "keywords": [
     "c4u",
@@ -26,6 +26,7 @@
   },
   "license": "MIT",
   "author": "spurreiter",
+  "type": "module",
   "main": "./src/index.js",
   "types": "./types/index.d.ts",
   "bin": {
@@ -49,7 +50,7 @@
   },
   "dependencies": {
     "asyncc-promise": "^1.2.0",
-    "chalk": "^4.1.2",
+    "chalk": "^5.6.2",
     "debug": "^4.4.3",
     "hosted-git-info": "^9.0.2",
     "js-yaml": "^4.1.1",
@@ -66,12 +67,9 @@
     "globals": "^17.5.0",
     "mocha": "^11.7.5",
     "npm-run-all2": "^8.0.4",
-    "prettier": "^3.8.2",
+    "prettier": "^3.8.3",
     "rimraf": "^6.1.3",
     "shelljs": "^0.10.0",
     "typescript": "^6.0.2"
-  },
-  "c4uIgnore": {
-    "chalk": "^4 // version >=5 uses ESM"
   }
 }

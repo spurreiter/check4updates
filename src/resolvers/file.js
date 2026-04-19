@@ -1,6 +1,7 @@
-const fsp = require('node:fs/promises')
-const path = require('node:path')
-const log = require('debug')('check4updates:resolvers:file')
+import fsp from 'node:fs/promises'
+import path from 'node:path'
+import debug from 'debug'
+const log = debug('check4updates:resolvers:file')
 
 /** @typedef {import('../types.js').Result} Result */
 
@@ -27,40 +28,42 @@ const test = range => RE_FILE.test(range)
  * @param {object} param2.dirname - actual dirname of package.json
  * @returns {Promise<Result>}
  */
-const versions = (pckg, range, { dirname }) => {
+const versions = async (pckg, range, { dirname }) => {
   const _range = range
 
-  if (!test(range)) return Promise.reject(new Error(`${pckg}: no file provided `))
+  if (!test(range)) throw new Error(`${pckg}: no file provided `)
   range = '^' + _range.replace(RE_FILE, '$3')
 
   const filename = path.resolve(dirname, _range.replace(RE_FILE, '$2$3$4'))
   const _dirname = path.dirname(filename)
 
-  return fsp.readdir(_dirname)
-    .then(files => {
-      log('files', files)
-      const reFile = new RegExp(`^${toFile(pckg)}-` + RE_VERSION.source + RE_EXT.source)
-      const versions = files.filter(f => reFile.test(f)).map(f => {
-        const a = reFile.exec(f)
-        // @ts-expect-error
-        return a[1]
-      })
-      log('%j', { pckg, versions })
-      return {
-        mode,
-        package: pckg,
-        _range,
-        range,
-        versions
-      }
+  try {
+    const files = await fsp.readdir(_dirname)
+    log('files', files)
+    const reFile = new RegExp(`^${toFile(pckg)}-` + RE_VERSION.source + RE_EXT.source)
+    const versions = files.filter(f => reFile.test(f)).map(f => {
+      const a = reFile.exec(f)
+      // @ts-expect-error
+      return a[1]
     })
-    .catch(error => ({
+    log('%j', { pckg, versions })
+    return {
       mode,
       package: pckg,
       _range,
       range,
-      error
-    }))
+      versions
+    }
+  } catch (error) {
+    const errObj = error instanceof Error ? error : new Error(String(error))
+    return {
+      mode,
+      package: pckg,
+      _range,
+      range,
+      error: errObj
+    }
+  }
 }
 
 /**
@@ -75,8 +78,4 @@ const range = (versionO, type) => {
     : versionO._range
 }
 
-module.exports = {
-  test,
-  versions,
-  range
-}
+export { test, versions, range }

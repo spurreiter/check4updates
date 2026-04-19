@@ -1,5 +1,8 @@
-const assert = require('assert')
-const { PnpmWorkspaceYaml } = require('../src/PnpmWorkspaceYaml.js')
+import assert from 'node:assert'
+import { PnpmWorkspaceYaml } from '../src/PnpmWorkspaceYaml.js'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const log = () => {} // console.log
 

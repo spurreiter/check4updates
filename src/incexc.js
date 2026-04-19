@@ -1,4 +1,4 @@
-/** @typedef {import('./PckgJson').Packages} Packages */
+/** @typedef {import('./PckgJson.js').Packages} Packages */
 
 /**
  * filter include and excludes
@@ -28,6 +28,4 @@ const incexc = ({
     }, {})
 }
 
-module.exports = {
-  incexc
-}
+export { incexc }

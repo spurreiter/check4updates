@@ -1,6 +1,6 @@
-const chalk = require('chalk')
-const semver = require('semver')
-const ProgressBar = require('progress')
+import chalk from 'chalk'
+import semver from 'semver'
+import ProgressBar from 'progress'
 
 /**
  * @typedef {import('./types.js').Result} Versions
@@ -144,8 +144,4 @@ const ttyout =
     }
   }
 
-module.exports = {
-  progressBar,
-  colorVersion,
-  ttyout
-}
+export { progressBar, colorVersion, ttyout }

@@ -1,5 +1,7 @@
-export type Cli = import("./cli").Cli;
-export type Packages = import("./PckgJson").Packages;
+declare const _default: {};
+export default _default;
+export type Cli = import("./cli.js").Cli;
+export type Packages = import("./PckgJson.js").Packages;
 export type NpmOptions = object;
 export type Result = {
     mode: string;

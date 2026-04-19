@@ -1,13 +1,13 @@
-const assert = require('assert')
-const {
+import assert from 'node:assert'
+import {
   hostedUrl,
   test,
   versions,
   range,
   getSemver
-} = require('../src/resolvers/git.js')
-
-const log = require('debug')('test:git')
+} from '../src/resolvers/git.js'
+import debug from 'debug'
+const log = debug('test:git')
 
 describe('#git', function () {
   const ranges = [

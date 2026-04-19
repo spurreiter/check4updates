@@ -1,5 +1,5 @@
-const { spawn } = require('node:child_process')
-const os = require('node:os')
+import { spawn } from 'node:child_process'
+import os from 'node:os'
 
 const spawnOptions = os.platform() === 'win32' ? {
   shell: true,
@@ -34,4 +34,4 @@ async function exec(command, args, opts) {
   })
 }
 
-module.exports = exec
+export default exec

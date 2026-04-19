@@ -1,9 +1,9 @@
-const assert = require('assert')
-const { maxSatisfying } = require('../src/semver.js')
-const fixtureVersions = require('./fixtures/versions.js')
-const fixtureExpress = require('./fixtures/express-versions.js')
-
-const log = require('debug')('test:semver')
+import assert from 'node:assert'
+import { maxSatisfying } from '../src/semver.js'
+import fixtureVersions from './fixtures/versions.js'
+import fixtureExpress from './fixtures/express-versions.js'
+import debug from 'debug'
+const log = debug('test:semver')
 
 describe('#semver', function () {
   describe('maxSatisfying', function () {

@@ -1,5 +1,9 @@
-const { resolve } = require('node:path')
-const { progressBar, ttyout } = require('./ttyout.js')
+import { resolve } from 'node:path'
+import { progressBar, ttyout } from './ttyout.js'
+import fs from 'node:fs'
+const pkg = JSON.parse(
+  fs.readFileSync(new URL('../package.json', import.meta.url), 'utf8')
+)
 
 const radioVersion = (o, field) => {
   ;['max', 'latest', 'major', 'minor', 'patch'].forEach((field) => {
@@ -127,7 +131,7 @@ function cli(argv = process.argv.slice(2)) {
         break
       }
       case '--version': {
-        o.version = require('../package.json').version
+        o.version = pkg.version
         break
       }
       case '-q':
@@ -233,6 +237,6 @@ function cli(argv = process.argv.slice(2)) {
 
 cli.help = help
 
-module.exports = {
-  cli
-}
+cli.help = help
+
+export { cli }

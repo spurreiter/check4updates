@@ -1,7 +1,7 @@
-const fsp = require('node:fs/promises')
-const path = require('node:path')
-const semver = require('semver')
-const yaml = require('js-yaml')
+import fsp from 'node:fs/promises'
+import path from 'node:path'
+import semver from 'semver'
+import yaml from 'js-yaml'
 
 /**
  * @typedef {{}|Record<string,string>} Packages
@@ -118,6 +118,4 @@ class PnpmWorkspaceYaml {
   }
 }
 
-module.exports = {
-  PnpmWorkspaceYaml
-}
+export { PnpmWorkspaceYaml }

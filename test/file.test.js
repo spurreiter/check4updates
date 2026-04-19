@@ -1,7 +1,11 @@
-const assert = require('assert')
-const { test, versions, range } = require('../src/resolvers/file.js')
+import assert from 'node:assert'
+import { test, versions, range } from '../src/resolvers/file.js'
+import debug from 'debug'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const log = require('debug')('test:file')
+const log = debug('test:file')
 
 describe('#file', function () {
   describe('test', function () {

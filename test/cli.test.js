@@ -1,11 +1,18 @@
-const assert = require('assert')
-const { cli } = require('..')
+import assert from 'node:assert'
+import { cli } from '../src/index.js'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const pkg = JSON.parse(
+  fs.readFileSync(new URL('../package.json', import.meta.url), 'utf8')
+)
 
 describe('cli', function () {
   const tests = [
     [['--help'], { help: true }],
     [['-h'], { help: true }],
-    [['--version'], { version: require('../package.json').version }],
+    [['--version'], { version: pkg.version }],
     [['--dir', './test'], { dirname: __dirname }],
     [['-d', '/dir'], { dirname: '/dir' }],
     [['--quiet'], { quiet: true }],

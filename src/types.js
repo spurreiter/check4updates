@@ -1,8 +1,8 @@
 /**
- * @typedef {import('./cli').Cli} Cli
+ * @typedef {import('./cli.js').Cli} Cli
  */
 /**
- * @typedef {import('./PckgJson').Packages} Packages
+ * @typedef {import('./PckgJson.js').Packages} Packages
  */
 /**
  * @typedef {object} NpmOptions
@@ -26,4 +26,4 @@
  * }} Result
  */
 
-module.exports = {}
+export default {}

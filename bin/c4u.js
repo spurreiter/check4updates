@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { cli, check } = require('../src/index.js')
+import { cli, check } from '../src/index.js'
 
 const prgName = 'c4u'
 

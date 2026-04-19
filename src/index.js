@@ -1,11 +1,6 @@
-const { cli } = require('./cli.js')
-const { check } = require('./check.js')
-const resolvers = require('./resolvers/index.js')
-const { ttyout } = require('./ttyout.js')
+import { cli } from './cli.js'
+import { check } from './check.js'
+import * as resolvers from './resolvers/index.js'
+import { ttyout } from './ttyout.js'
 
-module.exports = {
-  cli,
-  check,
-  ttyout,
-  resolvers
-}
+export { cli, check, ttyout, resolvers }

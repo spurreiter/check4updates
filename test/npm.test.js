@@ -1,9 +1,12 @@
-const assert = require('assert')
-const path = require('path')
-const fs = require('fs')
-const { versions, range, prepare } = require('../src/resolvers/npm.js')
+import assert from 'node:assert'
+import path from 'node:path'
+import fs from 'node:fs'
+import { versions, range, prepare } from '../src/resolvers/npm.js'
+import debug from 'debug'
+import { fileURLToPath } from 'node:url'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const log = require('debug')('test:npm')
+const log = debug('test:npm')
 
 const fixtureDir = path.join(__dirname, 'fixtures', 'file')
 const npmrcPath = path.join(fixtureDir, '.npmrc')

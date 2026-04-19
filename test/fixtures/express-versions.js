@@ -252,7 +252,6 @@ const versions = [
   '5.0.0-alpha.5',
   '4.15.3',
   '4.15.4',
-  '4.15.5',
   '5.0.0-alpha.6',
   '4.16.0',
   '4.16.1',
@@ -284,4 +283,4 @@ const versions = [
 const range = "^4.21.1" 
 const latest = "4.21.1"
 
-module.exports = { versions, range, latest }
+export default { versions, range, latest }

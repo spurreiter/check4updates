@@ -1,8 +1,13 @@
-const assert = require('assert')
-const { cp, mkdir, test } = require('shelljs')
-const { check } = require('../src/index.js')
+import assert from 'node:assert'
+import shell from 'shelljs'
+const { cp, mkdir, test } = shell
+import { check } from '../src/index.js'
+import debug from 'debug'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const log = require('debug')('test:check')
+const log = debug('test:check')
 
 describe('check', function () {
   before(function () {
