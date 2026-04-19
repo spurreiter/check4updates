@@ -1,0 +1,3 @@
+catalog: {}
+c4uIgnore:
+  pkg-b: "^1.0.0"

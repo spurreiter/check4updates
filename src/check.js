@@ -36,8 +36,10 @@ const queryVersions = (progressBar, dirname, npmOpts) => async (packages) => {
 }
 
 /**
+ * @private
  * @param {Result[]} results
- * @returns
+ * @returns {Result[]} results with added "latest", "max", "patch", "minor", "major" properties
+ * and "ignore" flag if applicable
  */
 const calcVersions = (results) => {
   return results.map((pckg) => {
@@ -51,12 +53,41 @@ const calcVersions = (results) => {
   })
 }
 
+/**
+ * @private
+ * @param {{ results: Result[], ignored?: Record<string, string>, type: 'patch'|'minor'|'major'|'max'|'latest' }} param0
+ * @returns {void}
+ */
 const setIgnoredFlag = ({ results, ignored, type }) => {
   if (!ignored) {
     return
   }
-  results.forEach((res) => {
-    const range = ignored[res.package]
+
+  const wildcard = {}
+  // handle updateConfig.ignoreDependencies with wildcard suffix first
+  for (const [ign, range] of Object.entries(ignored)) {
+    if (!ign.endsWith('*')) {
+      continue
+    }
+    const prefix = ign.slice(0, -1)
+    if (!prefix) {
+      continue
+    }
+    wildcard[prefix] = range
+  }
+
+  // handle exact matches
+  for (const res of results) {
+    let range = ignored[res.package]
+    // handle wildcard matches
+    if (!range) {
+      for (const [prefix, wildcardRange] of Object.entries(wildcard)) {
+        if (res.package.startsWith(prefix)) {
+          range = wildcardRange
+          break
+        }
+      }
+    }
     if (range) {
       const selectedVersion = res[type]
       const satisfies = semver.satisfies(selectedVersion, range)
@@ -64,7 +95,7 @@ const setIgnoredFlag = ({ results, ignored, type }) => {
         res.ignore = true
       }
     }
-  })
+  }
 }
 
 const ignorePnpmWorkspaceCatalog = ({ results }) => {
@@ -76,8 +107,13 @@ const ignorePnpmWorkspaceCatalog = ({ results }) => {
   })
 }
 
+/**
+ * @private
+ * @param {{ pckg: PckgJson|PnpmWorkspaceYaml, pnpmWorkspace: PnpmWorkspaceYaml|null, patch?: boolean, minor?: boolean, major?: boolean, max?: boolean }} param0
+ * @returns {(results: Result[]) => { results: Result[], packages: Packages, type: 'patch'|'minor'|'major'|'max'|'latest' }}
+ */
 const calcRange =
-  ({ pckg, patch, minor, major, max }) =>
+  ({ pckg, pnpmWorkspace, patch, minor, major, max }) =>
   (results) => {
     const type = patch
       ? 'patch'
@@ -89,7 +125,15 @@ const calcRange =
             ? 'max'
             : 'latest'
 
-    const ignored = pckg.getIgnored()
+    // start with package-level ignored map or empty object
+    const ignored = pckg.getIgnored() || {}
+    if (pnpmWorkspace) {
+      const pnpmIgnored = pnpmWorkspace.getIgnored() || {}
+      for (let [name, range] of Object.entries(pnpmIgnored)) {
+        // workspace entries add to or override package-level entries
+        ignored[name] = range
+      }
+    }
     setIgnoredFlag({ results, ignored, type })
     ignorePnpmWorkspaceCatalog({ results })
 
@@ -141,6 +185,16 @@ async function check(param0) {
     npmOpts.minReleaseAge = minReleaseAge
   }
 
+  let pnpmWorkspace = null
+  if (!catalog) {
+    try {
+      pnpmWorkspace = new PnpmWorkspaceYaml({ dirname })
+      await pnpmWorkspace.read()
+    } catch {
+      // no pnpm workspace file found
+    }
+  }
+
   const packages = await pckg.read({ prod, dev, peer })
   const filtered = await incexc({
     packages,
@@ -151,9 +205,11 @@ async function check(param0) {
   })
   const results = await queryVersions(progressBar, dirname, npmOpts)(filtered)
   const versions = calcVersions(results)
-  const ranged = calcRange({ pckg, patch, minor, major, max })(versions)
+  const ranged = calcRange({ pckg, pnpmWorkspace, patch, minor, major, max })(
+    versions
+  )
   const updated = await updatePckg(update, pckg)(ranged)
   return updated
 }
 
-export { check }
+export { check, calcRange }

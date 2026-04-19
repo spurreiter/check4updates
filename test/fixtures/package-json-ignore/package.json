@@ -1,0 +1,7 @@
+{
+  "name": "package-json-ignore-root",
+  "version": "1.0.0",
+  "c4uIgnore": {
+    "pkg-ignored": "^1.0.0"
+  }
+}

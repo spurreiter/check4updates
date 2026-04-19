@@ -1,0 +1,5 @@
+catalog:
+  pkg-kept: "^1.0.0"
+updateConfig:
+  ignoreDependencies:
+    - "pkg-ignored@^1.0.0"

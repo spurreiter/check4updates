@@ -72,7 +72,7 @@ const versions = async (pckg, range) => {
     const tags = await gitRemoteTags(_range)
     const _versions = tags.split(/[\r\n]/)
       .map(t => {
-        const [_0, ref] = t.split(/\s+/) // eslint-disable-line no-unused-vars
+        const [_0, ref] = t.split(/\s+/)
         return getSemver(ref)
       })
       .filter(Boolean)

@@ -24,7 +24,11 @@ export class PnpmWorkspaceYaml {
      */
     private _merge;
     /**
-     * get all files under c4uIgnore
+     * get all files under c4uIgnore and updateConfig.ignoreDependencies
+     * Supported formats for updateConfig.ignoreDependencies:
+     * - object: { "pkg": "^1.2.3" }
+     * - array: [ "pkg@^1.2.3", "@scope/*@^2" , "pkg-without-range" ]
+     * For array entries the optional range is parsed by splitting on the last `@`.
      * @returns {Record<string,string>|undefined}
      */
     getIgnored(): Record<string, string> | undefined;

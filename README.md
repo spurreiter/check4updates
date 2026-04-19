@@ -14,6 +14,7 @@ This one supports:
 - tagged git versions on github/ gitlab/ bitbucket (e.g. [uWebSockets.js][])
 - ignore updates using `c4uIgnore` in `package.json`
 - `--catalog` option updates pnpm-workspace.yaml catalog entries
+- respects [`min-release-age=<days>`](https://docs.npmjs.com/cli/v11/using-npm/config#min-release-age) in .npmrc
 
 For other similar tools see:
 
@@ -52,6 +53,10 @@ e.g.
 }
 ```
 
+if [pnpm][] is used, set
+[updateConfig.ignoreDependencies](https://pnpm.io/settings#updateconfigignoredependencies) in
+pnpm-workspace.yaml.
+
 ## cli
 
 ```
@@ -75,8 +80,8 @@ c4u [options] [package ...]
         --peer            only peerDependencies
         --info            print package name & version (handy for monorepos)
     -c, --catalog         update pnpm-workspace.yaml "catalog:" entries
-    -a, --age             minimum release age for a package in days
-
+    -a, --age             minimum release age for a package in days; 
+                          respects min-release-age in .npmrc
   package               package name to include/ exclude
 
 examples:
@@ -90,7 +95,7 @@ examples:
   c4u --minor --dev
                         show minor version updates in devDependencies
 
-supported URLs in dependencies:
+supported URLs in dependencies (examples):
 
   git+ssh://git@github.com:npm/cli#semver:^5.0
   git+https://user@github.com/npm/cli.git#semver:^5.0
@@ -104,7 +109,7 @@ ignore updates in package.json:
 
   { ...
     "c4uIgnore": {
-      "<package-name>": "<allowed-range>[ // optional comment]"
+      "<package-name>": "<allowed-range>[ // optional comment]",
       "semver": "^5.0.0 // keep major version 5"
     }
   }
@@ -123,6 +128,7 @@ MIT licensed
 [npm-check]: https://npmjs.com/package/npm-check
 [npm-check-updates]: https://www.npmjs.com/package/npm-check-updates
 [uWebSockets.js]: https://github.com/uNetworking/uWebSockets.js
+[pnpm]: https://pnpm.io/
 
 [npm-version-badge]: https://badge.fury.io/js/check4updates.svg
 [npm-version-badge-link]: https://www.npmjs.com/package/check4updates

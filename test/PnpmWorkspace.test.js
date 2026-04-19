@@ -76,4 +76,107 @@ describe('#PnpmWorkspaceYaml', function () {
       }
     )
   })
+
+  it('shall parse updateConfig.ignoreDependencies when c4uIgnore is absent (array form)', function () {
+    const pckg = new PnpmWorkspaceYaml({
+      dirname: `${__dirname}/fixtures/test/foo`
+    })
+    pckg.content = {
+      catalog: {
+        chalk: '2.1.x'
+      },
+      updateConfig: {
+        ignoreDependencies: ['chalk@^5 ', 'other@  ~1.2.3 // reason']
+      }
+    }
+    const ignored = pckg.getIgnored()
+    assert.deepStrictEqual(ignored, {
+      chalk: '^5',
+      other: '~1.2.3'
+    })
+  })
+
+  it('c4uIgnore takes precedence over updateConfig.ignoreDependencies (array form)', function () {
+    const pckg = new PnpmWorkspaceYaml({
+      dirname: `${__dirname}/fixtures/test/foo`
+    })
+    pckg.content = {
+      c4uIgnore: {
+        chalk: '^4'
+      },
+      updateConfig: {
+        ignoreDependencies: ['chalk@^1', 'spaces@^3']
+      }
+    }
+    const ignored = pckg.getIgnored()
+    assert.deepStrictEqual(ignored, {
+      chalk: '^4',
+      spaces: '^3'
+    })
+  })
+
+  it('shall throw if updateConfig.ignoreDependencies contains invalid range (array form)', function () {
+    const pckg = new PnpmWorkspaceYaml({
+      dirname: `${__dirname}/fixtures/test`
+    })
+    pckg.content = {
+      updateConfig: {
+        ignoreDependencies: ['throws@not a valid range']
+      }
+    }
+    assert.throws(
+      () => {
+        pckg.getIgnored()
+      },
+      (err) =>
+        err.message ===
+        'updateConfig.ignoreDependencies: package "throws" does not contain a valid range "not a valid range"'
+    )
+  })
+
+  it('shall accept array entries without range and default to *', function () {
+    const pckg = new PnpmWorkspaceYaml({
+      dirname: `${__dirname}/fixtures/test/foo`
+    })
+    pckg.content = {
+      updateConfig: {
+        ignoreDependencies: ['chalk', '@scope/pkg']
+      }
+    }
+    const ignored = pckg.getIgnored()
+    assert.deepStrictEqual(ignored, {
+      chalk: '*',
+      '@scope/pkg': '*'
+    })
+  })
+
+  it('shall parse scoped package with range from array entry', function () {
+    const pckg = new PnpmWorkspaceYaml({
+      dirname: `${__dirname}/fixtures/test/foo`
+    })
+    pckg.content = {
+      updateConfig: {
+        ignoreDependencies: ['@babel/core@^5']
+      }
+    }
+    const ignored = pckg.getIgnored()
+    assert.deepStrictEqual(ignored, {
+      '@babel/core': '^5'
+    })
+  })
+
+  it('shall accept pattern entries in array form', function () {
+    const pckg = new PnpmWorkspaceYaml({
+      dirname: `${__dirname}/fixtures/test/foo`
+    })
+    pckg.content = {
+      updateConfig: {
+        ignoreDependencies: ['@babel/*@^7']
+      }
+    }
+    const ignored = pckg.getIgnored()
+    assert.deepStrictEqual(ignored, {
+      '@babel/*': '^7'
+    })
+  })
 })

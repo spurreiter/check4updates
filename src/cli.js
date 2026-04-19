@@ -46,8 +46,8 @@ function help(prgName) {
         --peer            only peerDependencies
         --info            print package name & version (handy for monorepos)
     -c, --catalog         update pnpm-workspace.yaml "catalog:" entries
-    -a, --age             minimum release age for a package in days
-
+    -a, --age             minimum release age for a package in days; 
+                          respects min-release-age in .npmrc
     package               package name to include/ exclude
 
   examples:

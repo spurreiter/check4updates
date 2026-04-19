@@ -71,28 +71,69 @@ class PnpmWorkspaceYaml {
   }
 
   /**
-   * get all files under c4uIgnore
+   * get all files under c4uIgnore and updateConfig.ignoreDependencies
+   * Supported formats for updateConfig.ignoreDependencies:
+   * - object: { "pkg": "^1.2.3" }
+   * - array: [ "pkg@^1.2.3", "@scope/*@^2" , "pkg-without-range" ]
+   * For array entries the optional range is parsed by splitting on the last `@`.
    * @returns {Record<string,string>|undefined}
    */
   getIgnored() {
-    const c4uIgnore = this.content?.c4uIgnore
-    if (c4uIgnore && typeof c4uIgnore === 'object') {
-      const rangesOnly = Object.entries(c4uIgnore).reduce(
-        (curr, [pckg, rangeComment]) => {
-          const [range] = String(rangeComment).split(/\s*\/\/\s*/)
-          if (semver.validRange(range)) {
-            curr[pckg] = range.trim()
-          } else {
-            throw new Error(
-              `c4uIgnore: package "${pckg}" does not contain a valid range "${range}"`
-            )
-          }
-          return curr
-        },
-        {}
-      )
-      return rangesOnly
+    /** @type {Record<string,string>} */
+    const result = {}
+
+    const add = (sourceName, pckg, range, overwrite) => {
+      if (!range || typeof range !== 'string') range = '*'
+      const [cleanRange] = String(range).split(/\s*\/\/\s*/)
+      if (semver.validRange(cleanRange)) {
+        const trimmed = cleanRange.trim()
+        if (overwrite) {
+          result[pckg] = trimmed
+        } else if (!Object.prototype.hasOwnProperty.call(result, pckg)) {
+          result[pckg] = trimmed
+        }
+      } else {
+        throw new Error(
+          `${sourceName}: package "${pckg}" does not contain a valid range "${cleanRange}"`
+        )
+      }
     }
+
+    const parseEntries = (sourceName, entries, overwrite = false) => {
+      if (!entries) return
+      if (Array.isArray(entries)) {
+        entries.forEach((item) => {
+          const [entryNoComment] = String(item).split(/\s*\/\/\s*/)
+          const str = entryNoComment.trim()
+          if (!str) return
+          const idx = str.lastIndexOf('@')
+          let name, range
+          if (idx > 0) {
+            name = str.slice(0, idx).trim()
+            range = str.slice(idx + 1).trim()
+          } else {
+            name = str
+            range = '*'
+          }
+          add(sourceName, name, range, overwrite)
+        })
+      } else if (typeof entries === 'object') {
+        Object.entries(entries).forEach(([pckg, rangeComment]) => {
+          const [range] = String(rangeComment).split(/\s*\/\/\s*/)
+          add(sourceName, pckg, range, overwrite)
+        })
+      }
+    }
+
+    // Merge order: updateConfig.ignoreDependencies first (fallback), then c4uIgnore (overrides)
+    parseEntries(
+      'updateConfig.ignoreDependencies',
+      this.content?.updateConfig?.ignoreDependencies,
+      false
+    )
+    parseEntries('c4uIgnore', this.content?.c4uIgnore, true)
+
+    return Object.keys(result).length ? result : undefined
   }
 
   /**

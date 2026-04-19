@@ -13,7 +13,7 @@ export default [
     rules: {
       'no-unused-vars': [
         'error',
-        { argsIgnorePattern: '^_' }
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }
       ]
     }
   }
