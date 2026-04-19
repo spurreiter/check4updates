@@ -1,3 +1,8 @@
+## 2.0.0 (2026-04-19)
+
+* feat!: refactor commonjs to esm ([abaaf7c](https://github.com/spurreiter/check4updates/commit/abaaf7c))
+* chore: upgrade to node@24 and npm@latest ([5be5b46](https://github.com/spurreiter/check4updates/commit/5be5b46))
+
 ## 1.7.0 (2026-04-18)
 
 * chore: bump dependencies ([5053202](https://github.com/spurreiter/check4updates/commit/5053202))
